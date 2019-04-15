@@ -6,15 +6,37 @@ import java.lang.*;
 // import java.io.IOException;
 
 public class Agent{
+
+    public static int default_port = 54321;
+
+    public static int args_parser(String[] args){
+        if (args.length == 2){
+            if (args[0].equals("-p") || args[0].equals("-P")){
+                try {
+                    int port = Integer.parseInt(args[1]);
+                    return port;   
+                } catch (Exception e) {
+                    return Agent.default_port;
+                }
+            }
+            
+        }
+        return Agent.default_port;
+    }
     public static void main(String[] args) throws IOException{
         System.out.println("test");
-        receive_message();
+        for (int i = 0; i <args.length; i++){
+            System.out.println("args["+i+"]="+args[i]);
+        }
+        int port = args_parser(args);
+        receive_message(port);
     }
 
-    public static void receive_message() throws IOException{
+    public static void receive_message(int port) throws IOException{
         try {
             Socket socket = new Socket();
-            socket.connect(new InetSocketAddress("127.0.0.1", 54356));
+            System.out.println("port is " +  port);
+            socket.connect(new InetSocketAddress("127.0.0.1", port));
             BufferedReader brReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             OutputStream get_message = socket.getOutputStream();
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(get_message));
@@ -67,6 +89,7 @@ public class Agent{
             //TODO: handle exception
         }
     }
+
 
     public static int get_random_int() {
         Random rd = new Random();

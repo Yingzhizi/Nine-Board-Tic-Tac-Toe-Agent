@@ -8,18 +8,25 @@ import java.lang.*;
 public class Agent{
 
     public static int default_port = 54321;
+    public static String agent_type = "o";
 
     public static int args_parser(String[] args){
-        if (args.length == 2){
-            if (args[0].equals("-p") || args[0].equals("-P")){
+        int i = 0;
+        while (i < args.length){
+            if (args[i].equals("-x") || args[i].equals("-X")){
+                agent_type = "x";
+                i += 1;
+            } else if (args[i].equals("-o") || args[i].equals("-O")){
+                agent_type = "o";
+                i += 1;
+            } else if (args[i].equals("-p") || args[i].equals("-P")){
                 try {
-                    int port = Integer.parseInt(args[1]);
-                    return port;   
+                    int port = Integer.valueOf(args[i+1]);
+                    default_port = port;
                 } catch (Exception e) {
-                    return Agent.default_port;
                 }
+                i += 2;
             }
-            
         }
         return Agent.default_port;
     }
@@ -29,13 +36,13 @@ public class Agent{
             System.out.println("args["+i+"]="+args[i]);
         }
         int port = args_parser(args);
+        System.out.println(port);
         receive_message(port);
     }
 
     public static void receive_message(int port) throws IOException{
         try {
             Socket socket = new Socket();
-            System.out.println("port is " +  port);
             socket.connect(new InetSocketAddress("127.0.0.1", port));
             BufferedReader brReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             OutputStream get_message = socket.getOutputStream();
@@ -64,29 +71,11 @@ public class Agent{
                 }
             }
             
-
-
-            // String next_commands = "";
-            // System.out.println(commands);
-            // bw.write(9);
-            // bw.flush();
-            // while (!next_commands.equals("end")) {
-            //     next_commands = brReader.readLine();
-            //     System.out.println(next_commands);
-            //     bw.write(9);
-            //     if (next_commands != commands){
-            //         System.out.println(next_commands);
-            //         // int random_int = get_random_int();
-            //         // System.out.println(random_int);
-            //         // get_message.println(9);
-            //         // get_message.write(9);
-            //         // get_message.flush();
-            //     }
-                
-            // }
             
         } catch (Exception e) {
             //TODO: handle exception
+        } finally {
+            socket.close();
         }
     }
 

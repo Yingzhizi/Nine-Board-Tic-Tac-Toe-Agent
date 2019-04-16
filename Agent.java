@@ -75,7 +75,7 @@ public class Agent{
         } catch (Exception e) {
             //TODO: handle exception
         } finally {
-            socket.close();
+            //socket.close();
         }
     }
 

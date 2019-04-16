@@ -1,6 +1,29 @@
 /* this is a 3x3 array of single tic-tac-toe board*/
 public class TicTacToeMap {
+    /* TODO: fix this to char[][] boards */
+    /*
+    * should be 11x11 board
+    * empty use '.' to present
+    * player x - 'x'
+    * player o - 'o';
+    * obstacle use '+';
+    * e.g. at the beginning
+    *  ...+...+...
+    *  ...+...+...
+    *  ...+...+...
+    *  +++++++++++
+    *  ...+...+...
+    *  ...+...+...
+    *  ...+...+...
+    *  +++++++++++
+    *  ...+...+...
+    *  ...+...+...
+    *  ...+...+...
+    */
+    /* each agent has has a map about all the action for now */
+    /* */
     private Board[][] boards;
+
     private GameState state;
 
     public TicTacToeMap() {

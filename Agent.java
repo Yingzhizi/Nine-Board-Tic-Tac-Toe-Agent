@@ -7,6 +7,8 @@ import java.lang.*;
 
 public class Agent{
 
+    /* should has a map */
+
     public static int default_port = 54321;
     public static String agent_type = "o";
 

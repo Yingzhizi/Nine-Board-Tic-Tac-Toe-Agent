@@ -30,29 +30,31 @@ public class AgentBoard {
         unitState = GameState.InProgress;
     }
 
+    public void set_val(int row, int col, int val){
+
+    }
+
     public void display_board(){
 
-        for(int row=0; row<11; row++){
-            if ((row != 3 && row !=7)  || row == 0){
-                    for(int i=0; i<3; i++){
-                        for(int k=0;k<3;k++){
-                            System.out.print(board[row/3+i][row % 3][k] + " ");
-                        }
-                        if(i != 2){
-                            System.out.print("* ");
-                        }
-                    }
+        for(int row=0; row<9; row++){ 
+            for(int i=0; i<3; i++){
+                for(int k=0;k<3;k++){
+                    System.out.print(board[row/3+i][row % 3][k] + " ");
+                }
+                if(i != 2){
+                    System.out.print("* ");
+                }
+                
                 System.out.println();
-            }else{
-                for (int i=0; i<11;i++){
+            
+            if (row % 3 == 2){
+                for (int j=0; j<11;j++){
                     System.out.print("* ");
                 }
                 System.out.println();
             }
+            }
         }
-
-
-
     }
     
     public static void main(String[] args) {

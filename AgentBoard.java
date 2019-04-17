@@ -39,20 +39,20 @@ public class AgentBoard {
         for(int row=0; row<9; row++){ 
             for(int i=0; i<3; i++){
                 for(int k=0;k<3;k++){
-                    System.out.print(board[row/3+i][row % 3][k] + " ");
+                    System.out.print(board[row/3*3+i][row % 3][k] + " ");
                 }
                 if(i != 2){
                     System.out.print("* ");
                 }
-                
-                System.out.println();
+            }
+
+            System.out.println();
             
-            if (row % 3 == 2){
+            if (row % 3 == 2 && row != 8){
                 for (int j=0; j<11;j++){
                     System.out.print("* ");
                 }
                 System.out.println();
-            }
             }
         }
     }

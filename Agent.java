@@ -7,6 +7,8 @@ import java.lang.*;
 
 public class Agent{
 
+    /* should has a map */
+
     public static int default_port = 54321;
     public static String agent_type = "o";
 
@@ -79,7 +81,11 @@ public class Agent{
         } catch (Exception e) {
             //TODO: handle exception
         } finally {
+<<<<<<< HEAD
             
+=======
+            //socket.close();
+>>>>>>> 3950d37b089b647ed7389fdb78774dbe7cf127e0
         }
     }
 

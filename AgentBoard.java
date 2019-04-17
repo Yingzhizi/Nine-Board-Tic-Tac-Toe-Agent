@@ -30,8 +30,11 @@ public class AgentBoard {
         unitState = GameState.InProgress;
     }
 
-    public void set_val(int row, int col, int val){
-
+    public void set_val(int num, int num_cell, char val){
+        System.out.println(board.length);
+        System.out.println(board[0].length);
+        System.out.println(num_cell/4 + ""+ num_cell%4);
+        board[num-1][(num_cell-1)/3][(num_cell-1)%3] = val;
     }
 
     public void display_board(){
@@ -58,7 +61,11 @@ public class AgentBoard {
     }
     
     public static void main(String[] args) {
+        System.out.println("Testing begin");
         AgentBoard agent_board = new AgentBoard();
+        agent_board.set_val(5, 3, 'o');
+        agent_board.set_val(3, 9, 'o');
+        agent_board.set_val(7, 1, 'o');
         agent_board.display_board();
     }
 

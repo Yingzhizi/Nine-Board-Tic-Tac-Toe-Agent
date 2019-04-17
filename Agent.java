@@ -30,6 +30,7 @@ public class Agent{
         }
         return Agent.default_port;
     }
+    
     public static void main(String[] args) throws IOException{
         System.out.println("test");
         for (int i = 0; i <args.length; i++){
@@ -59,23 +60,26 @@ public class Agent{
                 commands = brReader.readLine();
                 if (commands.equals("init.")){
 
-                }
-                else if(commands.equals("start(o).")){
+                }else if(commands.equals("start(o).")){
                     
-                }
-                else if(commands.startsWith("second")){
+                }else if(commands.startsWith("second_move")){
                     bw.write(4);
                     System.out.println("write " + 4 + " to the server");
                     bw.flush();
                     bw.write(1);
+                }else if(commands.startsWith("third_move")){
+
+                }else if(commands.startsWith("next_move")){
+
+                }else if(commands.startsWith("last_move")){
+
                 }
             }
-            
             
         } catch (Exception e) {
             //TODO: handle exception
         } finally {
-            socket.close();
+            
         }
     }
 

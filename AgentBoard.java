@@ -11,14 +11,16 @@
  */
 
 public class AgentBoard {
-    private char[][] board;
+    private char[][][] board;
     GameState unitState;
 
     public void init_game(){
-        board = new char[3][3];
-        for(int i=0; i<3; i++){
+        board = new char[9][3][3];
+        for(int i=0; i<9; i++){
             for(int j=0; j<3; j++){
-                board[i][j] = '.';
+                for(int k=0; k<3; k++){
+                    board[i][j][k] = '.';
+                }
             }
         }
     }
@@ -29,12 +31,28 @@ public class AgentBoard {
     }
 
     public void display_board(){
-        for(int i=0; i<3; i++){
-            for(int j=0; j<3; j++){
-                System.out.printf(board[i][j] + " ");
+
+        for(int row=0; row<11; row++){
+            if ((row != 3 && row !=7)  || row == 0){
+                    for(int i=0; i<3; i++){
+                        for(int k=0;k<3;k++){
+                            System.out.print(board[row/3+i][row % 3][k] + " ");
+                        }
+                        if(i != 2){
+                            System.out.print("* ");
+                        }
+                    }
+                System.out.println();
+            }else{
+                for (int i=0; i<11;i++){
+                    System.out.print("* ");
+                }
+                System.out.println();
             }
-            System.out.println();
         }
+
+
+
     }
     
     public static void main(String[] args) {

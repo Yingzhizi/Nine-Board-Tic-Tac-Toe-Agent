@@ -31,9 +31,6 @@ public class AgentBoard {
     }
 
     public void set_val(int num, int num_cell, char val){
-        System.out.println(board.length);
-        System.out.println(board[0].length);
-        System.out.println(num_cell/4 + ""+ num_cell%4);
         board[num-1][(num_cell-1)/3][(num_cell-1)%3] = val;
     }
 

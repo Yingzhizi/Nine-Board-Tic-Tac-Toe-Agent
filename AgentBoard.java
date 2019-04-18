@@ -14,7 +14,13 @@ public class AgentBoard {
     private char[][][] board;
     GameState unitState;
 
-    public void init_game(){
+    public AgentBoard() {
+        init_game();
+        unitState = GameState.InProgress;
+    }
+
+    /* initialize an empty map before the game start */
+    public void init_game() {
         board = new char[9][3][3];
         for(int i=0; i<9; i++){
             for(int j=0; j<3; j++){
@@ -25,29 +31,26 @@ public class AgentBoard {
         }
     }
 
-    public AgentBoard() {
-        init_game();
-        unitState = GameState.InProgress;
-    }
-
-    public void set_val(int num, int num_cell, char val){
+    /* update the map based on the player's action*/
+    public void set_val(int num, int num_cell, char val) {
         board[num-1][(num_cell-1)/3][(num_cell-1)%3] = val;
     }
 
-    public boolean check_player_win(char x){
+    /* check if a specific player win the games or not */
+    public boolean check_player_win(char player){
         for(int i=0; i<9; i++){
             for(int j=0; j<3; j++){
                 // check whether x is win on ROW
-                if(board[i][j][0] == board[i][j][1] && board[i][j][0] == board[i][j][2] && board[i][j][0] == x){
+                if(board[i][j][0] == board[i][j][1] && board[i][j][0] == board[i][j][2] && board[i][j][0] == player){
                     return true;
                 }// check whether x is win on COLUMN
-                else if(board[i][0][j] == board[i][1][j] && board[i][0][j] == board[i][2][j] && board[i][0][j] == x){
+                else if(board[i][0][j] == board[i][1][j] && board[i][0][j] == board[i][2][j] && board[i][0][j] == player){
                     return true;
                 }// check whether x is win on SLOPE
-                else if(board[i][0][0] == board[i][1][1] && board[i][0][0] == board[i][2][2] && board[i][0][0] == x){
+                else if(board[i][0][0] == board[i][1][1] && board[i][0][0] == board[i][2][2] && board[i][0][0] == player){
                     return true;
                 }
-                else if(board[i][0][2] == board[i][1][1] && board[i][0][2] == board[i][2][0] && board[i][0][2] == x){
+                else if(board[i][0][2] == board[i][1][1] && board[i][0][2] == board[i][2][0] && board[i][0][2] == player){
                     return true;
                 }
             }
@@ -55,15 +58,39 @@ public class AgentBoard {
         return false;
     }
 
+    public boolean is_full() {
+
+        for (int num = 0; num < 9; num++) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (board[num][i][j] == '.') {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /* check if game status finish or not*/
     public boolean game_over(){
+        /* player x win the game */
         if (check_player_win('x')){
             unitState = GameState.GameOver;
             return true;
+
+        /* player o win the game */
         }else if(check_player_win('o')){
             unitState = GameState.GameOver;
             return true;
         }
 
+        /* game is tie */
+        else if (is_full()) {
+            unitState = GameState.GameOver;
+            return true;
+        }
         return false;
     }
 
@@ -112,10 +139,19 @@ public class AgentBoard {
         agent_board.set_val(3, 9, 'o');
         agent_board.set_val(7, 1, 'o');
         agent_board.set_val(7, 5, 'o');
-        
+        agent_board.set_val(7, 9, 'o');
         agent_board.display_board();
         System.out.println(agent_board.check_player_win('o'));
         System.out.println(agent_board.game_over());
+
+        /* test function is full */
+        for (int index = 1; index < 10; index++) {
+            for (int i = 1; i < 10; i++) {
+                agent_board.set_val(index, i, 'o');
+            }
+        }
+        agent_board.display_board();
+        System.out.println(agent_board.is_full());
     }
 
 

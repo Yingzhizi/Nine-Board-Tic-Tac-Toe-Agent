@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Inspired by Board.java, Cell.java 
  * Dependency: GameState.java
@@ -10,13 +12,15 @@
  * AgentBoard
  */
 
+
 public class AgentBoard {
     private char[][][] board;
     /* store the heuristic value of the 9 cell */
     private int [] heuristic;
-    private int sum_heuristic;
+    private int sum_heuristic=0;
     
-    private char agent = "o";
+    /* default agent, modify at the beginning */
+    private char agent = 'o';
 
     GameState unitState;
 
@@ -42,8 +46,28 @@ public class AgentBoard {
     public void init_heuristic(){
         heuristic = new int[9];
         for (int i=0; i<9;i++){
-            heuristic = 0;
+            heuristic[i] = 0;
         }
+    }
+
+    /* Judge which position in that cell can move
+    return :- ArrayList 
+    ie:  o x .
+         . x .
+         o o .
+    so can_move return [3, 4, 6, 9]
+    */
+    public ArrayList can_move(int cell_number){
+        ArrayList<Integer> legal_positions = new ArrayList<Integer>();
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if (board[cell_number-1][i][j] == '.'){
+                    legal_positions.add(i*3+j+1);
+                }
+            }
+        }
+
+        return legal_positions;
     }
 
     /* update the map based on the player's action*/
@@ -156,6 +180,9 @@ public class AgentBoard {
         agent_board.set_val(7, 5, 'o');
         agent_board.set_val(7, 9, 'o');
         agent_board.display_board();
+        System.out.println(agent_board.can_move(5));
+        System.out.println(agent_board.can_move(7));
+
         System.out.println(agent_board.check_player_win('o'));
         System.out.println(agent_board.game_over());
 

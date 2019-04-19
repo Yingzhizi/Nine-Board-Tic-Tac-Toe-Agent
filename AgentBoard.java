@@ -97,6 +97,15 @@ public class AgentBoard {
         board[num-1][(num_cell-1)/3][(num_cell-1)%3] = val;
     }
 
+
+    public ArrayList move_win(int cell_number, char player){
+        ArrayList<Integer> win_moves = new ArrayList<Integer>();
+        
+
+
+
+    }
+
     /* check if a specific player win the games or not */
     public boolean check_player_win(char player){
         for(int i=0; i<9; i++){

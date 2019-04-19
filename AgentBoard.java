@@ -15,6 +15,8 @@ public class AgentBoard {
     /* store the heuristic value of the 9 cell */
     private int [] heuristic;
     private int sum_heuristic;
+    
+    private char agent = "o";
 
     GameState unitState;
 

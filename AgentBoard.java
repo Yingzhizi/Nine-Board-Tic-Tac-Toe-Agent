@@ -13,7 +13,9 @@
 public class AgentBoard {
     private char[][][] board;
     /* store the heuristic value of the 9 cell */
-    private Integer [] heuristic;
+    private int [] heuristic;
+    private int sum_heuristic;
+
     GameState unitState;
 
     public AgentBoard() {
@@ -34,8 +36,9 @@ public class AgentBoard {
         }
     }
 
+    /* initialize an empty heuristic array before the game start */
     public void init_heuristic(){
-        heuristic = new Integer[9];
+        heuristic = new int[9];
         for (int i=0; i<9;i++){
             heuristic = 0;
         }

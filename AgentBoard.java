@@ -12,10 +12,13 @@
 
 public class AgentBoard {
     private char[][][] board;
+    /* store the heuristic value of the 9 cell */
+    private Integer [] heuristic;
     GameState unitState;
 
     public AgentBoard() {
         init_game();
+        init_heuristic();
         unitState = GameState.InProgress;
     }
 
@@ -28,6 +31,13 @@ public class AgentBoard {
                     board[i][j][k] = '.';
                 }
             }
+        }
+    }
+
+    public void init_heuristic(){
+        heuristic = new Integer[9];
+        for (int i=0; i<9;i++){
+            heuristic = 0;
         }
     }
 

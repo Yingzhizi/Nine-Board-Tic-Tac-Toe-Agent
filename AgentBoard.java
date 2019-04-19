@@ -21,6 +21,7 @@ public class AgentBoard {
     
     /* default agent, modify at the beginning */
     private char agent = 'o';
+    private char opponent = 'x';
 
     GameState unitState;
 

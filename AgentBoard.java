@@ -50,12 +50,13 @@ public class AgentBoard {
         }
     }
 
-    /* Judge which position in that cell can move
-    return :- ArrayList 
-    ie:  o x .
-         . x .
-         o o .
-    so can_move return [3, 4, 6, 9]
+    /* 
+    *  Judge which position in that cell can move
+    *  return :- ArrayList 
+    *  ie:  o x .
+    *       . x .
+    *       o o .
+    *  so can_move return [3, 4, 6, 9]
     */
     public ArrayList can_move(int cell_number){
         ArrayList<Integer> legal_positions = new ArrayList<Integer>();
@@ -68,6 +69,26 @@ public class AgentBoard {
         }
 
         return legal_positions;
+    }
+
+    /* MAY INVENT LOTS OF METHOD TO CALCULATE HEURISTIC TO DO SOME TEST
+    *  THE FINAL HEURISTIC MAY USE OTHER METHODS
+    *  This is a simple heuristic value calculation method, to calculate 
+    *  whether the opponent is going to win.
+    *  ie('x' is the opponent):
+    *  cell 2:
+    *  . . x   IF this is cell 2, we notice that the position 5 is a  
+    *  . . o   legal position, if we extend this position, but cell 5
+    *  . . .   like this 
+    *
+    *  cell 5:
+    *  . o o   In this cell, the opponent 'x' is about to win, so we 
+    *  . x .   can't move to 5 in cell 2, this cell's heuristic value
+    *  o . x   should be the minimal
+    *
+    */
+    public int oppnent_winning_heuristic(int cell_number){
+
     }
 
     /* update the map based on the player's action*/

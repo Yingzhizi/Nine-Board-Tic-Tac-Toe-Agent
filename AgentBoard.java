@@ -18,6 +18,8 @@ public class AgentBoard {
     /* store the heuristic value of the 9 cell */
     private int [] heuristic;
     private int sum_heuristic=0;
+    /* current player */
+    private char player;
     
     /* default agent, modify at the beginning */
     private char agent = 'o';
@@ -92,6 +94,8 @@ public class AgentBoard {
     public int oppnent_winning_heuristic(int cell_number){
 
     }
+
+
 
     /* update the map based on the player's action*/
     public void set_val(int num, int num_cell, char val) {

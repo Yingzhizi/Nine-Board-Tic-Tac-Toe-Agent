@@ -97,10 +97,13 @@ public class AgentBoard {
         board[num-1][(num_cell-1)/3][(num_cell-1)%3] = val;
     }
 
+    public char get_position_player(int cell_number, int position_number){
+        return board[cell_number-1][(num_cell-1)/3][(num_cell-1)%3];
+    }
 
     public ArrayList move_win(int cell_number, char player){
         ArrayList<Integer> win_moves = new ArrayList<Integer>();
-        
+
 
 
 

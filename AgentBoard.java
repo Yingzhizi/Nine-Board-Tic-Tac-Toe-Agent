@@ -322,11 +322,8 @@ public class AgentBoard implements Cloneable{
         return false;
     }
 
-    // possible position,
-    // same row: (1,2), (1,3), (2,3), (4,5), (4,6), (5,6), (7,8), (7,9), (8,9)
-    // same col: (1,4), (1, 7), (4,7), (2,5),(2,8), (5,8), (3,6),(3,9), (6,9)
-    // same diag: (1,5), (1, 9), (5,9), (3,5), (3, 7), (5, 7)
-    // recursion??????
+    // check the number of row, columns or diagonals with exactly 2 players
+    // then return the value;
     public int evaluateConnectedTwo(int cell, char player) {
         // check row
         int count = 0;

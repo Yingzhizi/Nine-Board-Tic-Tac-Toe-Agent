@@ -454,6 +454,9 @@ public class AgentBoard implements Cloneable{
         System.out.println(agent_board.evaluateHelper(2, 5,'o'));
         System.out.println(agent_board.evaluateHelper(1, 5,'o'));
 
+        CellHeuristic test = new CellHeuristic();
+        int result = test.cellEvaluation(agent_board, 2, 'x');
+        System.out.println("score of board 2 is " + result);
     }
 
 

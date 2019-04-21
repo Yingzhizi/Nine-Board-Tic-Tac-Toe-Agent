@@ -4,11 +4,8 @@
     <list default="true" id="25348e47-b6da-4dec-90a9-c7038bb51829" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AgentBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AgentBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Tic-Tac-ToeAgent/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Tic-Tac-ToeAgent/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Tic-Tac-ToeAgent/Agent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Tic-Tac-ToeAgent/Agent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Tic-Tac-ToeAgent/Player$Pair.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Tic-Tac-ToeAgent/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Tic-Tac-ToeAgent/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Tic-Tac-ToeAgent/TicTacToeMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Tic-Tac-ToeAgent/TicTacToeMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CellHeuristic.java" beforeDir="false" afterPath="$PROJECT_DIR$/CellHeuristic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coordinate.java" beforeDir="false" afterPath="$PROJECT_DIR$/Pair.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,30 +19,12 @@
     <option name="delegatedBuild" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TicTacToeMap.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../ConnectFour/src/ConnectFour.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="36" selection-start-line="36" selection-end-line="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="177">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Agent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+            <state relative-caret-position="-259">
+              <caret line="79" column="21" selection-start-line="79" selection-start-column="21" selection-end-line="79" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -56,7 +35,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-459">
+            <state relative-caret-position="-28">
               <caret line="19" column="18" lean-forward="true" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
             </state>
           </provider>
@@ -65,20 +44,32 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AgentBoard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="107">
-              <caret line="21" column="55" selection-start-line="21" selection-start-column="55" selection-end-line="21" selection-end-column="55" />
+            <state relative-caret-position="418">
+              <caret line="310" column="65" lean-forward="true" selection-start-line="310" selection-start-column="65" selection-end-line="310" selection-end-column="65" />
               <folding>
-                <element signature="e#855#856#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#2603#2604#0" expanded="true" />
+                <element signature="e#2627#2628#0" expanded="true" />
+                <element signature="e#3357#3366#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Coordinate.java">
+        <entry file="file://$PROJECT_DIR$/../ConnectFour/src/ConnectFour.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1845">
+              <caret line="123" column="62" selection-start-line="123" selection-start-column="62" selection-end-line="123" selection-end-column="62" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Pair.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
-              <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+              <caret line="15" column="27" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
               <folding>
                 <element signature="e#203#204#0" expanded="true" />
                 <element signature="e#229#230#0" expanded="true" />
@@ -94,6 +85,33 @@
           <provider selected="true" editor-type-id="text-editor">
             <state>
               <caret column="12" selection-start-column="12" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AgentHeuristic.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="49" lean-forward="true" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CellHeuristic.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="169">
+              <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AgentMove.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="175">
+              <caret line="43" column="19" lean-forward="true" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -117,6 +135,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>preMove</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -124,28 +147,23 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/lib/Pair.java" />
-        <option value="$PROJECT_DIR$/Pair.java" />
         <option value="$PROJECT_DIR$/Coordinate.java" />
         <option value="$PROJECT_DIR$/Board.java" />
         <option value="$PROJECT_DIR$/Player.java" />
-        <option value="$PROJECT_DIR$/Agent.java" />
         <option value="$PROJECT_DIR$/TicTacToeMap.java" />
+        <option value="$PROJECT_DIR$/Agent.java" />
+        <option value="$PROJECT_DIR$/AgentHeuristic.java" />
+        <option value="$PROJECT_DIR$/AgentMove.java" />
+        <option value="$PROJECT_DIR$/Pair.java" />
+        <option value="$PROJECT_DIR$/CellHeuristic.java" />
         <option value="$PROJECT_DIR$/AgentBoard.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/kotlinc.xml" />
-        <option value="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="828" />
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+    <option name="x" value="592" />
+    <option name="width" value="848" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -187,6 +205,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CellHeuristic" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="CellHeuristic" />
+      <module name="Tic-Tac-ToeAgent" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TicTacToeMap" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="TicTacToeMap" />
       <module name="Tic-Tac-ToeAgent" />
@@ -197,6 +222,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.AgentBoard" />
+        <item itemvalue="Application.CellHeuristic" />
         <item itemvalue="Application.TicTacToeMap" />
       </list>
     </recent_temporary>
@@ -211,15 +237,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1555409318171</updated>
-      <workItem from="1555409319470" duration="5730000" />
+      <workItem from="1555409319470" duration="14025000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5730000" />
+    <option name="totallyTimeSpent" value="16695000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="828" extended-state="0" />
+    <frame x="633" y="0" width="807" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Image Layers" />
@@ -229,15 +255,15 @@
       <window_info id="Favorites" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.24964234" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Messages" weight="0.32971507" />
+      <window_info anchor="bottom" id="Messages" sideWeight="0.4993234" weight="0.32891566" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" sideWeight="0.5007153" side_tool="true" visible="true" weight="0.33016303" />
+      <window_info anchor="bottom" id="Event Log" sideWeight="0.5019608" side_tool="true" visible="true" weight="0.29156625" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49928468" visible="true" weight="0.33016303" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49803922" visible="true" weight="0.29156625" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -256,21 +282,29 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/AgentBoard.java</url>
+          <line>287</line>
+          <properties class="AgentBoard" method="main">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.idea/Pair.java.kt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/Pair.java">
+    <entry file="file://$PROJECT_DIR$/.idea/Pair.java.kt" />
+    <entry file="file://$PROJECT_DIR$/lib/Pair.java" />
+    <entry file="file://$PROJECT_DIR$/Paor.java" />
+    <entry file="file://$USER_HOME$/Downloads/ConnectFour/src/ConnectFour.java" />
+    <entry file="file://$PROJECT_DIR$/TicTacToeMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Paor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="17" selection-start-column="17" selection-end-column="17" />
+        <state relative-caret-position="66">
+          <caret line="95" column="28" lean-forward="true" selection-start-line="95" selection-start-column="28" selection-end-line="95" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -281,6 +315,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Agent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-259">
+          <caret line="79" column="21" selection-start-line="79" selection-start-column="21" selection-end-line="79" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/GameState.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -288,48 +332,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/ConnectFour/src/ConnectFour.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5679">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ConnectFour/src/ConnectFour.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="36" selection-start-line="36" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TicTacToeMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-459">
+        <state relative-caret-position="-28">
           <caret line="19" column="18" lean-forward="true" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Agent.java">
+    <entry file="file://$PROJECT_DIR$/AgentHeuristic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="60">
+          <caret line="4" column="49" lean-forward="true" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="49" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Coordinate.java">
+    <entry file="file://$PROJECT_DIR$/AgentMove.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="43" column="19" lean-forward="true" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pair.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
-          <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+          <caret line="15" column="27" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
           <folding>
             <element signature="e#203#204#0" expanded="true" />
             <element signature="e#229#230#0" expanded="true" />
@@ -339,12 +366,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CellHeuristic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ConnectFour/src/ConnectFour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1845">
+          <caret line="123" column="62" selection-start-line="123" selection-start-column="62" selection-end-line="123" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/AgentBoard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="21" column="55" selection-start-line="21" selection-start-column="55" selection-end-line="21" selection-end-column="55" />
+        <state relative-caret-position="418">
+          <caret line="310" column="65" lean-forward="true" selection-start-line="310" selection-start-column="65" selection-end-line="310" selection-end-column="65" />
           <folding>
-            <element signature="e#855#856#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#2603#2604#0" expanded="true" />
+            <element signature="e#2627#2628#0" expanded="true" />
+            <element signature="e#3357#3366#0" expanded="true" />
           </folding>
         </state>
       </provider>

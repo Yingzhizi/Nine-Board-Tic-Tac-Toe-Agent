@@ -13,11 +13,11 @@ public class CellHeuristic {
 
     /* we can treat the whole game has 9 sub games. */
     /* count the score of each sub board */
-    public int cellGrade (AgentBoard board, int cellNumber, char player) {
+    /* Eval(s) = 3X2(s) + X1(s) - (3O2(s) + O1(s)) */
+    public int cellEvaluation (AgentBoard board, int cellNumber, char player) {
         if (player != 'x' || player != 'o') {
             throw new IllegalArgumentException("there is no valid player");
         }
-
         int result;
         /* declare a rule that if for a cell, player win, got 10 grade */
         if (board.cell_check_player_win(cellNumber, player)) {

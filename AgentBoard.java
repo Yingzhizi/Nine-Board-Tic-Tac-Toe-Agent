@@ -217,6 +217,34 @@ public class AgentBoard implements Cloneable{
         return false;
     }
 
+    /* help to write evaulation function check */
+    /* check the possible way that a specific player can win */
+    /* e.g.  x . .
+             . o .
+             . . .
+       for x, there has 2 possible way that x can win, hence return 2 in this example
+    */
+
+    public int evaluateHelper(int connected, int cell, char player) {
+        int score = 0;
+        if (connected == 2) {
+
+        } else if (connected == 1) {
+
+        } else {
+            throw new IllegalArgumentException("please enter valid number of connected you want to check!");
+        }
+        return score;
+    }
+
+    /* check if there has two connected player already, like */
+    /* if there does, return the position of each one */
+    /* e.g.  x x .
+             . o .
+             . . .
+    */
+
+
     // Display the board like this:
     /*
         . . . * . . . * . . . 
@@ -278,6 +306,7 @@ public class AgentBoard implements Cloneable{
         }
         agent_board.display_board();
         System.out.println(agent_board.is_full());
+        System.out.println(agent_board.evaluateHelper(2, 3,'o'));
     }
 
 

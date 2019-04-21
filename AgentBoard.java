@@ -26,7 +26,7 @@ public class AgentBoard implements Cloneable{
         init_heuristic();
         unitState = GameState.InProgress;
     }
-    
+
     @Override
     public Object clone() throws CloneNotSupportedException{
         AgentBoard new_agent_board = (AgentBoard) super.clone();

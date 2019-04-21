@@ -91,13 +91,13 @@ public class AgentBoard {
 
     // TODO reset_val
 
-    public void undo_set_val(int num, int num_cell){
-        board[num-1][(num_cell-1)/3][(num_cell-1)%3] = '.';
+    public void undo_set_val(int num, int position_number){
+        board[num-1][(position_number-1)/3][(position_number-1)%3] = '.';
     }
 
     /* update the map based on the player's action*/
-    public void set_val(int num, int num_cell, char val) {
-        board[num-1][(num_cell-1)/3][(num_cell-1)%3] = val;
+    public void set_val(int num, int position_number, char val) {
+        board[num-1][(position_number-1)/3][(position_number-1)%3] = val;
     }
 
     public char get_position_player(int cell_number, int position_number){

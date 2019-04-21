@@ -101,7 +101,7 @@ public class AgentBoard {
     }
 
     public char get_position_player(int cell_number, int position_number){
-        return board[cell_number-1][(num_cell-1)/3][(num_cell-1)%3];
+        return board[cell_number-1][(position_number-1)/3][(position_number-1)%3];
     }
 
     public ArrayList move_win(int cell_number, char player){

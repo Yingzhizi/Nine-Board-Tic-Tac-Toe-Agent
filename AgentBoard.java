@@ -112,6 +112,7 @@ public class AgentBoard {
 
     }
 
+
     /* check if a specific player win the games or not */
     public boolean check_player_win(char player){
         for(int i=0; i<9; i++){
@@ -131,6 +132,27 @@ public class AgentBoard {
                 }
             }
         }
+        return false;
+    }
+
+    // check in that cell whether player win
+    public boolean cell_check_player_win(int cell, char player){
+        for(int j=0; j<3; j++){
+            // check whether x is win on ROW
+            if(board[cell-1][j][0] == board[cell-1][j][1] && board[cell-1][j][0] == board[cell-1][j][2] && board[cell-1][j][0] == player){
+                return true;
+            }// check whether x is win on COLUMN
+            else if(board[cell-1][0][j] == board[cell-1][1][j] && board[cell-1][0][j] == board[cell-1][2][j] && board[cell-1][0][j] == player){
+                return true;
+            }// check whether x is win on SLOPE
+            else if(board[cell-1][0][0] == board[cell-1][1][1] && board[cell-1][0][0] == board[cell-1][2][2] && board[cell-1][0][0] == player){
+                return true;
+            }
+            else if(board[cell-1][0][2] == board[cell-1][1][1] && board[cell-1][0][2] == board[cell-1][2][0] && board[cell-1][0][2] == player){
+                return true;
+            }
+        }
+    
         return false;
     }
 
@@ -157,7 +179,7 @@ public class AgentBoard {
                 }
             }
         }
-        
+
         return true;
     }
 

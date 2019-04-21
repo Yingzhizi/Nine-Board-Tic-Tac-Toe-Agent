@@ -44,7 +44,7 @@ public class AgentMove {
 
     /* alpha-beta pruning  */
     public int alpha_beta(AgentBoard bd, int cell, char player, int alpha, int beta){
-        if (bd.unitState != GameOver){
+        if (bd.unitState != GameState.GameOver){
             if(bd.cell_check_player_win(cell, agent)){
                 return 10;
             }else if(bd.cell_check_player_win(cell, opponent)){
@@ -102,7 +102,7 @@ public class AgentMove {
 
     public static void main(String[] args) {
         System.out.println("agent move!");
-        AgentMove move = new AgentMove('o');
+        AgentMove move = new AgentMove();
         int alpha = -999999;
         int beta = 999999;
         int cell = 5;

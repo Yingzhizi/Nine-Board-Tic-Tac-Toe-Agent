@@ -228,7 +228,7 @@ public class AgentBoard implements Cloneable{
     public int evaluateHelper(int connected, int cell, char player) {
         int count = 0;
         if (connected == 2) {
-
+            count = evaluateConnectedTwo(cell, player);
         } else if (connected == 1) {
             for (int i = 1; i < 10; i++) {
                 if (get_position_player(cell, i) == player) {
@@ -322,6 +322,66 @@ public class AgentBoard implements Cloneable{
         return false;
     }
 
+    // possible position,
+    // same row: (1,2), (1,3), (2,3), (4,5), (4,6), (5,6), (7,8), (7,9), (8,9)
+    // same col: (1,4), (1, 7), (4,7), (2,5),(2,8), (5,8), (3,6),(3,9), (6,9)
+    // same diag: (1,5), (1, 9), (5,9), (3,5), (3, 7), (5, 7)
+    // recursion??????
+    public int evaluateConnectedTwo(int cell, char player) {
+        // check row
+        int count = 0;
+        for (int row = 0; row < 3; row++) {
+            int rowCount = 0;
+            for (int col = 0; col < 3; col++) {
+                if (board[cell-1][row][col] == player) {
+                    rowCount++;
+                }
+            }
+            if (rowCount == 2) {
+                count += 1;
+            }
+        }
+
+        // check column
+        for (int col = 0; col < 3; col++) {
+            int colCount = 0;
+            for (int row = 0; row < 3; row++) {
+                if (board[cell-1][row][col] == player) {
+                    colCount++;
+                }
+            }
+            if (colCount == 2) {
+                count += 1;
+            }
+        }
+
+        // check diagonal from top left
+        int diaCountL = 0;
+        for (int row = 0; row < 3; row++) {
+            if (board[cell-1][row][row] == player) {
+                System.out.println("LRow is : " + row);
+                diaCountL++;
+            }
+        }
+
+        if (diaCountL == 2) {
+            count += 1;
+        }
+
+        //check diagonal from top right;
+        int diaCountR = 0;
+        for (int row = 2; row >= 0; row--) {
+            if (board[cell-1][row][2-row] == player) {
+                System.out.println("RRow is : " + row);
+                diaCountR++;
+            }
+        }
+        if (diaCountR == 2) {
+            count += 1;
+        }
+        return count;
+
+    }
     /* check if there has two connected player already, like */
     /* if there does, return the position of each one */
     /* e.g.  x x .
@@ -372,11 +432,15 @@ public class AgentBoard implements Cloneable{
         System.out.println("Testing begin");
         AgentBoard agent_board = new AgentBoard();
         agent_board.set_val(5, 3, 'o');
+        agent_board.set_val(2, 1, 'x');
+        agent_board.set_val(2, 2, 'o');
         agent_board.set_val(3, 9, 'o');
         agent_board.set_val(7, 1, 'o');
         agent_board.set_val(7, 5, 'o');
         agent_board.set_val(7, 9, 'o');
         agent_board.set_val(5, 2, 'o');
+        agent_board.set_val(5, 5, 'o');
+        agent_board.set_val(5, 8, 'o');
         agent_board.display_board();
         System.out.println(agent_board.can_move(5));
         System.out.println(agent_board.can_move(7));
@@ -385,7 +449,10 @@ public class AgentBoard implements Cloneable{
         System.out.println(agent_board.game_over());
 
         System.out.println(agent_board.is_full());
-        System.out.println(agent_board.evaluateHelper(1, 7,'o'));
+        System.out.println(agent_board.evaluateHelper(1, 2,'x'));
+        System.out.println(agent_board.evaluateHelper(1, 2,'o'));
+        System.out.println(agent_board.evaluateHelper(2, 5,'o'));
+        System.out.println(agent_board.evaluateHelper(1, 5,'o'));
     }
 
 

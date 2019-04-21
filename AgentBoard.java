@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 
 
-public class AgentBoard {
+public class AgentBoard implements Cloneable{
     private char[][][] board;
     /* store the heuristic value of the 9 cell */
     private int [] heuristic;
@@ -25,6 +25,12 @@ public class AgentBoard {
         init_game();
         init_heuristic();
         unitState = GameState.InProgress;
+    }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        AgentBoard new_agent_board = (AgentBoard) super.clone();
+        return new_agent_board;
     }
 
     /* initialize an empty map before the game start */

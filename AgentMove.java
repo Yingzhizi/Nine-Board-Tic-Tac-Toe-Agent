@@ -32,9 +32,9 @@ public class AgentMove {
 
     public int alpha_beta(AgentBoard bd, int cell, char player, int alpha, int beta){
         if(bd.cell_check_player_win(cell, agent)){
-            return 100;
+            return 10;
         }else if(bd.cell_check_player_win(cell, opponent)){
-            return -100;
+            return -10;
         }else if (bd.cell_is_full(cell)){
             return 0;
         }
@@ -46,7 +46,7 @@ public class AgentMove {
                 // System.out.println();  
                 bd.set_val(cell, (Integer)locations.get(i), opponent);
                 // move_bd.display_board();
-                int score = alpha_beta(bd, (Integer)locations.get(i), player, alpha, beta);
+                int score = alpha_beta(bd, (Integer)locations.get(i), switch_player(), alpha, beta);
                 bd.undo_set_val(cell, (Integer)locations.get(i));
                 if(score < beta){
                     beta = score;
@@ -66,7 +66,7 @@ public class AgentMove {
                 
                 bd.set_val(cell, (Integer)locations.get(i), opponent);
                 bd.display_board();
-                int score = alpha_beta(bd, (Integer)locations.get(i), player, alpha, beta);
+                int score = alpha_beta(bd, (Integer)locations.get(i), switch_player(), alpha, beta);
                 bd.undo_set_val(cell, (Integer)locations.get(i));
 
                 if(score < beta){
@@ -80,7 +80,6 @@ public class AgentMove {
             return alpha;
         }
         // System.out.println();
-        return 0;
 
     }
 

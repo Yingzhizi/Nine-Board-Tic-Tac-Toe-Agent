@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+import java.util.*;
 /**
  * Inspired by Board.java, Cell.java 
  * Dependency: GameState.java
@@ -39,6 +39,14 @@ public class AgentBoard {
         }
     }
 
+    /* clear up the whole tile board */
+    /* reset the count of heuristic and game state */
+    public void clear_up() {
+        sum_heuristic = 0;
+        unitState = GameState.InProgress;
+        init_game();
+    }
+
     /* initialize an empty heuristic array before the game start */
     public void init_heuristic(){
         heuristic = new int[9];
@@ -49,14 +57,15 @@ public class AgentBoard {
 
     /* 
     *  Judge which position in that cell can move
+    *  get all the positions can move for a particular cell
     *  return :- ArrayList 
     *  ie:  o x .
     *       . x .
     *       o o .
     *  so can_move return [3, 4, 6, 9]
     */
-    public ArrayList can_move(int cell_number){
-        ArrayList<Integer> legal_positions = new ArrayList<Integer>();
+    public HashSet can_move(int cell_number){
+        HashSet<Integer> legal_positions = new HashSet<>();
         for(int i=0;i<3;i++){
             for(int j=0;j<3;j++){
                 if (board[cell_number-1][i][j] == '.'){
@@ -90,12 +99,11 @@ public class AgentBoard {
     }
 
     // TODO reset_val
-
     public void undo_set_val(int num, int position_number){
         board[num-1][(position_number-1)/3][(position_number-1)%3] = '.';
     }
 
-    /* update the map based on the player's action*/
+    /* update the map based on the player's action */
     public void set_val(int num, int position_number, char val) {
         board[num-1][(position_number-1)/3][(position_number-1)%3] = val;
     }
@@ -107,8 +115,6 @@ public class AgentBoard {
     public ArrayList move_win(int cell_number, char player){
         ArrayList<Integer> win_moves = new ArrayList<Integer>();
         return win_moves;
-
-
 
     }
 

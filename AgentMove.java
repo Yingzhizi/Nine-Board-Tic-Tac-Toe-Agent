@@ -27,21 +27,21 @@ public class AgentMove {
         }
     }
 
-    public int alpha_beta(char player, int alpha, int beta){
-        if(check_player_win(agent)){
-            return 100;
-        }else if(check_player_win(opponent)){
-            return -100;
-        }else if (is_full()){
-            return 0;
-        }
-
-        if (player == opponent){
-
-        }
-
-
-    }
+//    public int alpha_beta(char player, int alpha, int beta){
+//        if(check_player_win(agent)){
+//            return 100;
+//        }else if(check_player_win(opponent)){
+//            return -100;
+//        }else if (is_full()){
+//            return 0;
+//        }
+//
+//        if (player == opponent){
+//
+//        }
+//
+//
+//    }
 
     public static void main(String[] args) {
         

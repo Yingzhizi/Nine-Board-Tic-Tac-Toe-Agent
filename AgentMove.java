@@ -66,7 +66,9 @@ public class AgentMove {
                 
                 bd.set_val(cell, (Integer)locations.get(i), opponent);
                 bd.display_board();
-                int score = alpha_beta(move_bd, (Integer)locations.get(i), player, alpha, beta);
+                int score = alpha_beta(bd, (Integer)locations.get(i), player, alpha, beta);
+                bd.undo_set_val(cell, (Integer)locations.get(i));
+
                 if(score < beta){
                     alpha = score;
                     if (alpha >= beta){

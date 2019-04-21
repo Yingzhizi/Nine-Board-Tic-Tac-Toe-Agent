@@ -1,96 +1,124 @@
-import java.io.*;
-import java.util.*;
-import java.net.*;
-import java.lang.*;
-// import java.io.BufferedReader;
-// import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Random;
 
-public class Agent{
+public class Agent {
 
-    /* should has a map */
+    static int prevMove = 0;
+    static int[][] boards = new int[10][10];
+    static Random rand = new Random();
+    /* 0 = Empty
+     * 1 = I played here
+     * 2 = They played here
+     * Zero index not used
+     */
+    public static void main(String args[]) throws IOException {
 
-    public static int default_port = 54321;
-    public static String agent_type = "o";
+	if(args.length < 2) {
+	    System.out.println("Usage: java Agent -p (port)");
+	    return;
+	}
+		
+	final String host = "localhost";
+	final int portNumber = Integer.parseInt(args[1]);
 
-    public static int args_parser(String[] args){
-        int i = 0;
-        while (i < args.length){
-            if (args[i].equals("-x") || args[i].equals("-X")){
-                agent_type = "x";
-                i += 1;
-            } else if (args[i].equals("-o") || args[i].equals("-O")){
-                agent_type = "o";
-                i += 1;
-            } else if (args[i].equals("-p") || args[i].equals("-P")){
-                try {
-                    int port = Integer.valueOf(args[i+1]);
-                    default_port = port;
-                } catch (Exception e) {
-                }
-                i += 2;
-            }
-        }
-        return Agent.default_port;
-    }
-    
-    public static void main(String[] args) throws IOException{
-        System.out.println("test");
-        for (int i = 0; i <args.length; i++){
-            System.out.println("args["+i+"]="+args[i]);
-        }
-        int port = args_parser(args);
-        System.out.println(port);
-        receive_message(port);
-    }
+	Socket socket = new Socket(host, portNumber);
+	BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-    public static void receive_message(int port) throws IOException{
-        try {
-            Socket socket = new Socket();
-            socket.connect(new InetSocketAddress("127.0.0.1", port));
-            BufferedReader brReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            OutputStream get_message = socket.getOutputStream();
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(get_message));
-            
+	String line;
 
-            String commands = brReader.readLine();
-            System.out.println(commands.length());
-            for (int i = 0; i < commands.length(); i++){
-                
-            }
-            while(true){
-                System.out.println(commands);
-                commands = brReader.readLine();
-                if (commands.equals("init.")){
+	while (true) {
 
-                }else if(commands.equals("start(o).")){
-                    
-                }else if(commands.startsWith("second_move")){
-                    bw.write(4);
-                    System.out.println("write " + 4 + " to the server");
-                    bw.flush();
-                    bw.write(1);
-                }else if(commands.startsWith("third_move")){
+	    line = br.readLine();
 
-                }else if(commands.startsWith("next_move")){
+	    int move = parse(line);
 
-                }else if(commands.startsWith("last_move")){
+	    if(move == -1) {
+		socket.close();
+		return;
+	    }else if(move == 0){
+		//TODO
+	    }else {
+		out.println(move);
+	    }
 
-                }
-            }
-            
-        } catch (Exception e) {
-            //TODO: handle exception
-        } finally {
-            //socket.close();
-        }
+	}
     }
 
+    public static int parse(String line) {
 
-    public static int get_random_int() {
-        Random rd = new Random();
-        return rd.nextInt(9) + 1;
+	if(line.contains("init")) {
+	    //TODO
+	}else if(line.contains("start")) {
+	    //TODO
+	}else if(line.contains("second_move")) {
+
+	    int argsStart = line.indexOf("(");
+	    int argsEnd = line.indexOf(")");
+
+	    String list = line.substring(argsStart+1, argsEnd);
+	    String[] numbers = list.split(",");
+
+	    place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
+
+	    return makeRandomMove();
+
+	}else if(line.contains("third_move")) {
+
+	    int argsStart = line.indexOf("(");
+	    int argsEnd = line.indexOf(")");
+
+	    String list = line.substring(argsStart+1, argsEnd);	
+	    String[] numbers = list.split(",");
+
+	    place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 1);
+	    place(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]), 2);
+
+	    return makeRandomMove();
+
+	}else if(line.contains("next_move")) {
+			
+	    int argsStart = line.indexOf("(");
+	    int argsEnd = line.indexOf(")");
+
+	    String list = line.substring(argsStart+1, argsEnd);	
+	    place(prevMove, Integer.parseInt(list), 2);
+
+	    return makeRandomMove();
+
+	}else if(line.contains("last_move")) {
+	    //TODO
+	}else if(line.contains("win")) {
+	    //TODO
+	}else if(line.contains("loss")) {
+	    //TODO
+	}else if(line.contains("end")) {
+
+	    return -1;
+	}
+	return 0;
     }
 
+    public static void place(int board, int num, int player) {
 
+	prevMove = num;
+	boards[board][num] = player;
+    }
+
+    public static int makeRandomMove() {
+
+	int n = rand.nextInt(9) + 1;
+
+	while(boards[prevMove][n] != 0) {
+	    n = rand.nextInt(9) + 1;
+	}
+
+	place(prevMove, n, 1);
+	return n;
+    }
 
 }

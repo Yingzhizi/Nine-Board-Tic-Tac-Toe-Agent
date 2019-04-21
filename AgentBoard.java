@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.*;
 /**
@@ -13,7 +14,7 @@ import java.util.*;
  */
 
 
-public class AgentBoard {
+public class AgentBoard implements Cloneable{
     private char[][][] board;
     /* store the heuristic value of the 9 cell */
     private int [] heuristic;
@@ -25,6 +26,12 @@ public class AgentBoard {
         init_game();
         init_heuristic();
         unitState = GameState.InProgress;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        AgentBoard new_agent_board = (AgentBoard) super.clone();
+        return new_agent_board;
     }
 
     /* initialize an empty map before the game start */
@@ -64,8 +71,8 @@ public class AgentBoard {
     *       o o .
     *  so can_move return [3, 4, 6, 9]
     */
-    public HashSet can_move(int cell_number){
-        HashSet<Integer> legal_positions = new HashSet<>();
+    public ArrayList can_move(int cell_number){
+        ArrayList<Integer> legal_positions = new ArrayList<>();
         for(int i=0;i<3;i++){
             for(int j=0;j<3;j++){
                 if (board[cell_number-1][i][j] == '.'){

@@ -19,7 +19,7 @@ public class AgentBoard {
     private int [] heuristic;
     private int sum_heuristic=0;
     /* current player */
-    private char player;
+    private char player = 'o';
     
     /* default agent, modify at the beginning */
     private char agent = 'o';
@@ -29,6 +29,7 @@ public class AgentBoard {
 
     public AgentBoard(char agent_char) {
         if (agent_char == 'x'){
+            player = 'x';
             agent = 'x';
             opponent = 'o';
         }
@@ -99,6 +100,15 @@ public class AgentBoard {
 
     }
 
+    public char switch_player(){
+        if (player == 'x'){
+            player = 'o';
+            return 'o';
+        }else{
+            player = 'x';
+            return 'x';
+        }
+    }
 
     public int alpha_beta(int alpha, int beta){
 

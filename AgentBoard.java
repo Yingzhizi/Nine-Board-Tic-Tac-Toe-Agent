@@ -235,6 +235,12 @@ public class AgentBoard implements Cloneable{
                     if (evaluateRow(cell, i)) {
                         count++;
                     }
+                    if (evaluateCol(cell, i)) {
+                        count++;
+                    }
+                    if (evaluateDiagonal(cell, i)) {
+                        count++;
+                    }
                 }
             }
         } else {
@@ -269,16 +275,47 @@ public class AgentBoard implements Cloneable{
     public boolean evaluateCol(int cell, int position) {
         int row = (position - 1) / 3;
         int col = (position - 1) % 3;
-        if (col == 0) {
-            if (board[cell-1][row][col+1] == board[cell-1][row][col+2] && board[cell-1][row][col+1] == '.') {
+        if (row == 0) {
+            if (board[cell-1][row+1][col] == board[cell-1][row+2][col] && board[cell-1][row+1][col] == '.') {
                 return true;
             }
-        } else if (col == 1) {
-            if (board[cell-1][row][col-1] == board[cell-1][row][col+1] && board[cell-1][row][col+1] == '.') {
+        } else if (row == 1) {
+            if (board[cell-1][row-1][col] == board[cell-1][row+1][col] && board[cell-1][row-1][col] == '.') {
                 return true;
             }
         } else if (col == 2) {
-            if (board[cell-1][row][col-1] == board[cell-1][row][col-2] && board[cell-1][row][col-2] == '.') {
+            if (board[cell-1][row-1][col] == board[cell-1][row-2][col] && board[cell-1][row-1][col] == '.') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /* give the position of the player in a specific cell */
+    /* check if it can occupy the whole row */
+    public boolean evaluateDiagonal(int cell, int position) {
+        int row = (position - 1) / 3;
+        int col = (position - 1) % 3;
+        if (row == 0 && col == 0) {
+            if (board[cell-1][row+1][col+1] == board[cell-1][row+2][col+2] && board[cell-1][row+1][col+1] == '.') {
+                return true;
+            }
+        } else if (row == 0 && col == 2) {
+            if (board[cell - 1][row + 1][col - 1] == board[cell - 1][row + 2][col - 2] && board[cell - 1][row + 1][col - 1] == '.') {
+                return true;
+            }
+        } else if (row == 1 && col == 1) {
+            if (board[cell-1][row-1][col-1] == board[cell-1][row+1][col+1] && board[cell-1][row-1][col-1] == '.') {
+                return true;
+            } else if (board[cell-1][row-1][col+1] == board[cell-1][row+1][col-1] && board[cell-1][row-1][col+1] == '.') {
+                return true;
+            }
+        } else if (row == 2 && col == 0) {
+            if (board[cell-1][row-1][col+1] == board[cell-1][row-2][col+2] && board[cell-1][row-1][col+1] == '.') {
+                return true;
+            }
+        }else if (row == 2 && col == 2) {
+            if (board[cell-1][row-1][col-1] == board[cell-1][row-2][col-2] && board[cell-1][row-1][col-1] == '.') {
                 return true;
             }
         }
@@ -339,6 +376,7 @@ public class AgentBoard implements Cloneable{
         agent_board.set_val(7, 1, 'o');
         agent_board.set_val(7, 5, 'o');
         agent_board.set_val(7, 9, 'o');
+        agent_board.set_val(5, 2, 'o');
         agent_board.display_board();
         System.out.println(agent_board.can_move(5));
         System.out.println(agent_board.can_move(7));
@@ -347,7 +385,7 @@ public class AgentBoard implements Cloneable{
         System.out.println(agent_board.game_over());
 
         System.out.println(agent_board.is_full());
-        System.out.println(agent_board.evaluateHelper(1, 3,'o'));
+        System.out.println(agent_board.evaluateHelper(1, 7,'o'));
     }
 
 

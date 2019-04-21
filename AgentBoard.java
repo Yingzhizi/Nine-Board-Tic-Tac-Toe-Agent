@@ -149,6 +149,18 @@ public class AgentBoard {
         return true;
     }
 
+    public boolean cell_is_full(int cell){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[cell-1][i][j] == '.') {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+
     /* check if game status finish or not*/
     public boolean game_over(){
         /* player x win the game */

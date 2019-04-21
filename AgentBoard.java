@@ -27,7 +27,11 @@ public class AgentBoard {
 
     GameState unitState;
 
-    public AgentBoard() {
+    public AgentBoard(char agent_char) {
+        if (agent_char == 'x'){
+            agent = 'x';
+            opponent = 'o';
+        }
         init_game();
         init_heuristic();
         unitState = GameState.InProgress;
@@ -95,6 +99,10 @@ public class AgentBoard {
 
     }
 
+
+    public int alpha_beta(int alpha, int beta){
+
+    }
 
 
     /* update the map based on the player's action*/

@@ -20,9 +20,9 @@ public class CellHeuristic {
         }
         int result;
         /* declare a rule that if for a cell, player win, got 10 grade */
-        if (board.cell_check_player_win(cellNumber, player)) {
+        if (board.cellCheckPlayerWin(cellNumber, player)) {
             result = 10;
-        } else if (board.cell_check_player_win(cellNumber, opponent(player))) {
+        } else if (board.cellCheckPlayerWin(cellNumber, opponent(player))) {
             result = -10;
         } else {
             result = 0;

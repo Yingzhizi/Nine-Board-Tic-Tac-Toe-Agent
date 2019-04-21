@@ -32,46 +32,118 @@ public class AgentMove {
 
     public int alpha_beta(AgentBoard bd, int cell, char player, int alpha, int beta){
         if(bd.cell_check_player_win(cell, agent)){
-            return 100;
+            return 10;
         }else if(bd.cell_check_player_win(cell, opponent)){
-            return -100;
+            return -10;
         }else if (bd.cell_is_full(cell)){
             return 0;
         }
 
         if (player == opponent){
-
             ArrayList locations = bd.can_move(cell);
             for(int i=0; i<locations.size(); i++){
                 bd.display_board();
-                System.out.println();
-                Object bd_clone;
-                AgentBoard move_bd=null;
-                try {
-                    bd_clone = bd.clone();
-                    move_bd = (AgentBoard) bd_clone;
-                } catch (Exception e) {
-                    // System.out.println(e);
-                }
-                if (move_bd != null){
-                    move_bd.set_val(cell, (Integer)locations.get(i), opponent);
-                    move_bd.display_board();
-                }
-                // int score = alpha_beta(bd, cell, player, alpha, beta);
-
-                System.out.println(locations.get(i));
+                // System.out.println();  
+                bd.set_val(cell, (Integer)locations.get(i), opponent);
+                // move_bd.display_board();
+                int score = alpha_beta(bd, (Integer)locations.get(i), switch_player(), alpha, beta);
+                bd.undo_set_val(cell, (Integer)locations.get(i));
+                if(score < beta){
+                    beta = score;
+                    if (alpha >= beta){
+                        return alpha;
+                    }
+                } 
             }
-
-
-
+            return beta;
 
         }else{
+            ArrayList locations = bd.can_move(cell);
+            for(int i=0; i<locations.size(); i++){
+                bd.display_board();
+                // System.out.println();
+            
+                
+                bd.set_val(cell, (Integer)locations.get(i), opponent);
+                bd.display_board();
+                int score = alpha_beta(bd, (Integer)locations.get(i), switch_player(), alpha, beta);
+                bd.undo_set_val(cell, (Integer)locations.get(i));
 
+                if(score < beta){
+                    alpha = score;
+                    if (alpha >= beta){
+                        return beta;
+                    }
+                } 
+                
+            }
+            return alpha;
         }
-        System.out.println();
-        return 0;
+        // System.out.println();
 
     }
+
+    // public int alpha_beta(AgentBoard bd, int cell, char player, int alpha, int beta){
+    //     if(bd.cell_check_player_win(cell, agent)){
+    //         return 100;
+    //     }else if(bd.cell_check_player_win(cell, opponent)){
+    //         return -100;
+    //     }else if (bd.cell_is_full(cell)){
+    //         return 0;
+    //     }
+
+    //     if (player == opponent){
+
+    //         ArrayList locations = bd.can_move(cell);
+    //         for(int i=0; i<locations.size(); i++){
+    //             bd.display_board();
+    //             System.out.println();
+    //             Object bd_clone;
+    //             AgentBoard move_bd=null;
+    //             try {
+    //                 bd_clone = bd.clone();
+    //                 move_bd = (AgentBoard) bd_clone;
+    //             } catch (Exception e) {
+    //                 // System.out.println(e);
+    //             }
+    //             if (move_bd != null){
+    //                 move_bd.set_val(cell, (Integer)locations.get(i), opponent);
+    //                 move_bd.display_board();
+    //                 int score = alpha_beta(move_bd, (Integer)locations.get(i), player, alpha, beta);
+    //                 if(score < beta){
+    //                     beta = score;
+    //                 } 
+    //             }
+    //         }
+    //         return beta;
+
+    //     }else{
+    //         ArrayList locations = bd.can_move(cell);
+    //         for(int i=0; i<locations.size(); i++){
+    //             bd.display_board();
+    //             System.out.println();
+    //             Object bd_clone;
+    //             AgentBoard move_bd=null;
+    //             try {
+    //                 bd_clone = bd.clone();
+    //                 move_bd = (AgentBoard) bd_clone;
+    //             } catch (Exception e) {
+    //                 // System.out.println(e);
+    //             }
+    //             if (move_bd != null){
+    //                 move_bd.set_val(cell, (Integer)locations.get(i), opponent);
+    //                 move_bd.display_board();
+    //                 int score = alpha_beta(move_bd, (Integer)locations.get(i), player, alpha, beta);
+    //                 if(score < beta){
+    //                     beta = score;
+    //                 } 
+    //             }
+    //         }
+    //     }
+    //     System.out.println();
+    //     return 0;
+
+    // }
 
     public static void main(String[] args) {
         System.out.println("agent move!");

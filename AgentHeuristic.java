@@ -10,7 +10,7 @@
 
 
 public class AgentHeuristic {
- // TODO
+    //TODO
 
     public static void main(String[] args) {
         AgentBoard agent_board = new AgentBoard();

@@ -32,7 +32,7 @@ public class Agent {
 	String line;
 
 	while (true) {
-
+        // start listen from server
 	    line = br.readLine();
 
 	    int move = parse(line);
@@ -51,57 +51,58 @@ public class Agent {
 
     public static int parse(String line) {
 
-	if(line.contains("init")) {
-	    //TODO
-	}else if(line.contains("start")) {
-	    //TODO
-	}else if(line.contains("second_move")) {
-        System.out.println("second move:" + line);
-	    int argsStart = line.indexOf("(");
-	    int argsEnd = line.indexOf(")");
 
-	    String list = line.substring(argsStart+1, argsEnd);
-	    String[] numbers = list.split(",");
+        if(line.contains("init")) {
+            //TODO
+        }else if(line.contains("start")) {
+            //TODO
+        }else if(line.contains("second_move")) {
+            System.out.println("second move:" + line);
+            int argsStart = line.indexOf("(");
+            int argsEnd = line.indexOf(")");
 
-	    place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
+            String list = line.substring(argsStart+1, argsEnd);
+            String[] numbers = list.split(",");
 
-	    return makeRandomMove();
+            place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
 
-	}else if(line.contains("third_move")) {
-        System.out.println("third move:" + line);
-	    int argsStart = line.indexOf("(");
-	    int argsEnd = line.indexOf(")");
+            return makeRandomMove();
 
-	    String list = line.substring(argsStart+1, argsEnd);	
-	    String[] numbers = list.split(",");
+        }else if(line.contains("third_move")) {
+            System.out.println("third move:" + line);
+            int argsStart = line.indexOf("(");
+            int argsEnd = line.indexOf(")");
 
-	    place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 1);
-	    place(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]), 2);
+            String list = line.substring(argsStart+1, argsEnd);
+            String[] numbers = list.split(",");
 
-	    return makeRandomMove();
+            place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 1);
+            place(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]), 2);
 
-	}else if(line.contains("next_move")) {
-			
-	    int argsStart = line.indexOf("(");
-	    int argsEnd = line.indexOf(")");
+            return makeRandomMove();
 
-	    String list = line.substring(argsStart+1, argsEnd);	
-	    place(prevMove, Integer.parseInt(list), 2);
+        }else if(line.contains("next_move")) {
 
-	    return makeRandomMove();
+            int argsStart = line.indexOf("(");
+            int argsEnd = line.indexOf(")");
 
-	}else if(line.contains("last_move")) {
-	    //TODO
-	}else if(line.contains("win")) {
-	    //TODO
-	}else if(line.contains("loss")) {
-	    //TODO
-	}else if(line.contains("end")) {
+            String list = line.substring(argsStart+1, argsEnd);
+            place(prevMove, Integer.parseInt(list), 2);
 
-	    return -1;
-	}
-	return 0;
-    }
+            return makeRandomMove();
+
+        }else if(line.contains("last_move")) {
+            //TODO
+        }else if(line.contains("win")) {
+            //TODO
+        }else if(line.contains("loss")) {
+            //TODO
+        }else if(line.contains("end")) {
+
+            return -1;
+        }
+        return 0;
+        }
 
     public static void place(int board, int num, int player) {
 

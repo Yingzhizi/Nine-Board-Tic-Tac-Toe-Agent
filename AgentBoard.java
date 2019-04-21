@@ -18,21 +18,10 @@ public class AgentBoard {
     /* store the heuristic value of the 9 cell */
     private int [] heuristic;
     private int sum_heuristic=0;
-    /* current player */
-    private char player = 'o';
-    
-    /* default agent, modify at the beginning */
-    private char agent = 'o';
-    private char opponent = 'x';
 
     GameState unitState;
 
-    public AgentBoard(char agent_char) {
-        if (agent_char == 'x'){
-            player = 'x';
-            agent = 'x';
-            opponent = 'o';
-        }
+    public AgentBoard() {
         init_game();
         init_heuristic();
         unitState = GameState.InProgress;
@@ -100,21 +89,8 @@ public class AgentBoard {
 
     }
 
-    public char switch_player(){
-        if (player == 'x'){
-            player = 'o';
-            return 'o';
-        }else{
-            player = 'x';
-            return 'x';
-        }
-    }
-
-    public int alpha_beta(int alpha, int beta){
-
-    }
-
-
+    // TODO reset_val
+    
     /* update the map based on the player's action*/
     public void set_val(int num, int num_cell, char val) {
         board[num-1][(num_cell-1)/3][(num_cell-1)%3] = val;

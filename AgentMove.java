@@ -10,6 +10,9 @@ public class AgentMove {
     private char agent = 'o';
     private char opponent = 'x';
 
+    /* change agent to singleton design pattern
+    *  set global entry for agent
+    */
     private AgentBoard bd = new AgentBoard();
     private static AgentMove singleton_agent = new AgentMove();
     private AgentMove(){}
@@ -17,26 +20,29 @@ public class AgentMove {
         return singleton_agent;
     }
 
+    /*  use at the beginning of game, 
+    after receive second_move or third_move  */
     public void set_agent(char x){
         agent = (x == 'o') ? 'o' : 'x';
         opponent = (x == 'o') ? 'x': 'o';
     }
 
+    /* switch player for alpha-beta's min-max node */
     public char switch_player(){
-        if (player == 'x'){
-            player = 'o';
-            return 'o';
-        }else{
-            player = 'x';
-            return 'x';
-        }
+        player = (player == 'x') ? 'o': 'x';
+        return player;
     }
 
+    /* main function for agent to play the game 
+    *  including:
+    *       decesion making, return integer, winner juding
+    */
     public int play_game(AgentBoard bd, int first_move){
         
         return 0;
     }
 
+    /* alpha-beta pruning  */
     public int alpha_beta(AgentBoard bd, int cell, char player, int alpha, int beta){
         if (bd.unitState != GameOver){
             if(bd.cell_check_player_win(cell, agent)){

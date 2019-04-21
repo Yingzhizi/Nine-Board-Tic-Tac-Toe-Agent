@@ -9,15 +9,12 @@ public class AgentMove {
     /* default agent, modify at the beginning */
     private char agents = 'o';
     private char opponent = 'x';
-    private AgentBoard bd;
-
-    public AgentMove(char agent_char){
-        if (agent_char == 'x'){
-            player = 'x';
-            agents = 'x';
-            opponent = 'o';
-        }
-        bd = new AgentBoard();
+    
+    private AgentBoard bd = new AgentBoard();
+    private static AgentMove singleton_agent = new AgentMove();
+    private AgentMove(){}
+    public static AgentMove get_agent(){
+        return singleton_agent;
     }
 
     public char switch_player(){
@@ -30,13 +27,20 @@ public class AgentMove {
         }
     }
 
+    public int play_game(AgentBoard bd, int first_move){
+        
+        return 0;
+    }
+
     public int alpha_beta(AgentBoard bd, int cell, char player, int alpha, int beta){
-        if(bd.cell_check_player_win(cell, agents)){
-            return 10;
-        }else if(bd.cell_check_player_win(cell, opponent)){
-            return -10;
-        }else if (bd.cell_is_full(cell)){
-            return 0;
+        if (bd.unitState != GameOver){
+            if(bd.cell_check_player_win(cell, agents)){
+                return 10;
+            }else if(bd.cell_check_player_win(cell, opponent)){
+                return -10;
+            }else if (bd.cell_is_full(cell)){
+                return 0;
+            }
         }
 
         bd.display_board();
@@ -59,7 +63,6 @@ public class AgentMove {
                 } 
             }
             return beta;
-
         }else{
             ArrayList locations = bd.can_move(cell);
             for(int i=0; i<locations.size(); i++){

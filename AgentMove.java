@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 /**
  * AgentMove
  */
@@ -39,15 +40,35 @@ public class AgentMove {
         }
 
         if (player == opponent){
-            System.out.println(bd.can_move(cell));
-            locations = bd.can_move(cell);
+
+            ArrayList locations = bd.can_move(cell);
             for(int i=0; i<locations.size(); i++){
-                System.out.println(locations[i]);
+                bd.display_board();
+                System.out.println();
+                Object bd_clone;
+                AgentBoard move_bd=null;
+                try {
+                    bd_clone = bd.clone();
+                    move_bd = (AgentBoard) bd_clone;
+                } catch (Exception e) {
+                    // System.out.println(e);
+                }
+                if (move_bd != null){
+                    move_bd.set_val(cell, (Integer)locations.get(i), opponent);
+                    move_bd.display_board();
+                }
+                // int score = alpha_beta(bd, cell, player, alpha, beta);
+
+                System.out.println(locations.get(i));
             }
+
+
+
+
         }else{
-            System.out.println(bd.can_move(cell));
 
         }
+        System.out.println();
         return 0;
 
     }
@@ -58,7 +79,7 @@ public class AgentMove {
         int alpha = -999999;
         int beta = 999999;
         int cell = 5;
-        move.alpha_beta(move.bd, cell, move.player, alpha, beta);
+        move.alpha_beta(move.bd, cell, 'x', alpha, beta);
     }
 
 }

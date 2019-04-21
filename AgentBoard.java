@@ -86,7 +86,7 @@ public class AgentBoard {
     *
     */
     public int oppnent_winning_heuristic(int cell_number){
-
+        return 0;
     }
 
     // TODO reset_val
@@ -106,7 +106,7 @@ public class AgentBoard {
 
     public ArrayList move_win(int cell_number, char player){
         ArrayList<Integer> win_moves = new ArrayList<Integer>();
-
+        return win_moves;
 
 
 

@@ -18,24 +18,24 @@ public class AgentBoard implements Cloneable{
     private char[][][] board;
     /* store the heuristic value of the 9 cell */
     private int [] heuristic;
-    private int sum_heuristic=0;
+    private int sumHeuristic=0;
 
     GameState unitState;
 
     public AgentBoard() {
-        init_game();
-        init_heuristic();
+        initGame();
+        initHeuristic();
         unitState = GameState.InProgress;
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException{
-        AgentBoard new_agent_board = (AgentBoard) super.clone();
-        return new_agent_board;
+        AgentBoard newAgentBoard = (AgentBoard) super.clone();
+        return newAgentBoard;
     }
 
     /* initialize an empty map before the game start */
-    public void init_game() {
+    public void initGame() {
         board = new char[9][3][3];
         for(int i=0; i<9; i++){
             for(int j=0; j<3; j++){
@@ -48,14 +48,14 @@ public class AgentBoard implements Cloneable{
 
     /* clear up the whole tile board */
     /* reset the count of heuristic and game state */
-    public void clear_up() {
-        sum_heuristic = 0;
+    public void clearUp() {
+        sumHeuristic = 0;
         unitState = GameState.InProgress;
-        init_game();
+        initGame();
     }
 
     /* initialize an empty heuristic array before the game start */
-    public void init_heuristic(){
+    public void initHeuristic(){
         heuristic = new int[9];
         for (int i=0; i<9;i++){
             heuristic[i] = 0;
@@ -69,19 +69,19 @@ public class AgentBoard implements Cloneable{
     *  ie:  o x .
     *       . x .
     *       o o .
-    *  so can_move return [3, 4, 6, 9]
+    *  so canMove return [3, 4, 6, 9]
     */
-    public ArrayList can_move(int cell_number){
-        ArrayList<Integer> legal_positions = new ArrayList<>();
+    public ArrayList canMove(int cellNumber){
+        ArrayList<Integer> legalPositions = new ArrayList<>();
         for(int i=0;i<3;i++){
             for(int j=0;j<3;j++){
-                if (board[cell_number-1][i][j] == '.'){
-                    legal_positions.add(i*3+j+1);
+                if (board[cellNumber-1][i][j] == '.'){
+                    legalPositions.add(i*3+j+1);
                 }
             }
         }
 
-        return legal_positions;
+        return legalPositions;
     }
 
     // 好像不用实现这个 直接写ab剪枝或者minmax
@@ -101,33 +101,33 @@ public class AgentBoard implements Cloneable{
     *  o . x   should be the minimal
     *
     */
-    public int oppnent_winning_heuristic(int cell_number){
+    public int oppnentWinningHeuristic(int cellNumber){
         return 0;
     }
 
-    // TODO reset_val
-    public void undo_set_val(int num, int position_number){
-        board[num-1][(position_number-1)/3][(position_number-1)%3] = '.';
+    // TODO resetVal
+    public void undoSetVal(int num, int positionNumber){
+        board[num-1][(positionNumber-1)/3][(positionNumber-1)%3] = '.';
     }
 
     /* update the map based on the player's action */
-    public void set_val(int num, int position_number, char val) {
-        board[num-1][(position_number-1)/3][(position_number-1)%3] = val;
+    public void setVal(int num, int positionNumber, char val) {
+        board[num-1][(positionNumber-1)/3][(positionNumber-1)%3] = val;
     }
 
-    public char get_position_player(int cell_number, int position_number){
-        return board[cell_number-1][(position_number-1)/3][(position_number-1)%3];
+    public char getPositionPlayer(int cellNumber, int positionNumber){
+        return board[cellNumber-1][(positionNumber-1)/3][(positionNumber-1)%3];
     }
 
-    public ArrayList move_win(int cell_number, char player){
-        ArrayList<Integer> win_moves = new ArrayList<Integer>();
-        return win_moves;
+    public ArrayList moveWin(int cellNumber, char player){
+        ArrayList<Integer> winMoves = new ArrayList<Integer>();
+        return winMoves;
 
     }
 
 
     /* check if a specific player win the games or not */
-    public boolean check_player_win(char player){
+    public boolean checkPlayerWin(char player){
         for(int i=0; i<9; i++){
             for(int j=0; j<3; j++){
                 // check whether x is win on ROW
@@ -149,7 +149,7 @@ public class AgentBoard implements Cloneable{
     }
 
     // check in that cell whether player win
-    public boolean cell_check_player_win(int cell, char player){
+    public boolean cellCheckPlayerWin(int cell, char player){
         for(int j=0; j<3; j++){
             // check whether x is win on ROW
             if(board[cell-1][j][0] == board[cell-1][j][1] && board[cell-1][j][0] == board[cell-1][j][2] && board[cell-1][j][0] == player){
@@ -169,7 +169,7 @@ public class AgentBoard implements Cloneable{
         return false;
     }
 
-    public boolean is_full() {
+    public boolean isFull() {
 
         for (int num = 0; num < 9; num++) {
             for (int i = 0; i < 3; i++) {
@@ -184,7 +184,7 @@ public class AgentBoard implements Cloneable{
         return true;
     }
 
-    public boolean cell_is_full(int cell){
+    public boolean cellIsFull(int cell){
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[cell-1][i][j] == '.') {
@@ -197,20 +197,20 @@ public class AgentBoard implements Cloneable{
     }
 
     /* check if game status finish or not*/
-    public boolean game_over(){
+    public boolean gameOver(){
         /* player x win the game */
-        if (check_player_win('x')){
+        if (checkPlayerWin('x')){
             unitState = GameState.GameOver;
             return true;
 
         /* player o win the game */
-        }else if(check_player_win('o')){
+        }else if(checkPlayerWin('o')){
             unitState = GameState.GameOver;
             return true;
         }
 
         /* game is tie */
-        else if (is_full()) {
+        else if (isFull()) {
             unitState = GameState.GameOver;
             return true;
         }
@@ -231,7 +231,7 @@ public class AgentBoard implements Cloneable{
             count = evaluateConnectedTwo(cell, player);
         } else if (connected == 1) {
             for (int i = 1; i < 10; i++) {
-                if (get_position_player(cell, i) == player) {
+                if (getPositionPlayer(cell, i) == player) {
                     if (evaluateRow(cell, i)) {
                         count++;
                     }
@@ -405,7 +405,7 @@ public class AgentBoard implements Cloneable{
         . . . * . . . * . . . 
     */
 
-    public void display_board(){
+    public void displayBoard(){
 
         for(int row=0; row<9; row++){ 
             for(int i=0; i<3; i++){
@@ -431,28 +431,29 @@ public class AgentBoard implements Cloneable{
     public static void main(String[] args) {
         System.out.println("Testing begin");
         AgentBoard agent_board = new AgentBoard();
-        agent_board.set_val(5, 3, 'o');
-        agent_board.set_val(2, 1, 'x');
-        agent_board.set_val(2, 2, 'o');
-        agent_board.set_val(3, 9, 'o');
-        agent_board.set_val(7, 1, 'o');
-        agent_board.set_val(7, 5, 'o');
-        agent_board.set_val(7, 9, 'o');
-        agent_board.set_val(5, 2, 'o');
-        agent_board.set_val(5, 5, 'o');
-        agent_board.set_val(5, 8, 'o');
-        agent_board.display_board();
-        System.out.println(agent_board.can_move(5));
-        System.out.println(agent_board.can_move(7));
+        agent_board.setVal(5, 3, 'o');
+        agent_board.setVal(2, 1, 'x');
+        agent_board.setVal(2, 2, 'o');
+        agent_board.setVal(3, 9, 'o');
+        agent_board.setVal(7, 1, 'o');
+        agent_board.setVal(7, 5, 'o');
+        agent_board.setVal(7, 9, 'o');
+        agent_board.setVal(5, 2, 'o');
+        agent_board.setVal(5, 5, 'o');
+        agent_board.setVal(5, 8, 'o');
+        agent_board.displayBoard();
+        System.out.println(agent_board.canMove(5));
+        System.out.println(agent_board.canMove(7));
 
-        System.out.println(agent_board.check_player_win('o'));
-        System.out.println(agent_board.game_over());
+        System.out.println(agent_board.checkPlayerWin('o'));
+        System.out.println(agent_board.gameOver());
 
-        System.out.println(agent_board.is_full());
+        System.out.println(agent_board.isFull());
         System.out.println(agent_board.evaluateHelper(1, 2,'x'));
         System.out.println(agent_board.evaluateHelper(1, 2,'o'));
         System.out.println(agent_board.evaluateHelper(2, 5,'o'));
         System.out.println(agent_board.evaluateHelper(1, 5,'o'));
+
     }
 
 

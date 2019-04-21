@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 /**
  * AgentMove
  */
@@ -14,21 +15,21 @@ public class AgentMove {
     *  set global entry for agent
     */
     private AgentBoard bd = new AgentBoard();
-    private static AgentMove singleton_agent = new AgentMove();
+    private static AgentMove singletonAgent = new AgentMove();
     private AgentMove(){}
-    public static AgentMove get_agent(){
-        return singleton_agent;
+    public static AgentMove getAgent(){
+        return singletonAgent;
     }
 
     /*  use at the beginning of game, 
-    after receive second_move or third_move  */
-    public void set_agent(char x){
+    after receive secondMove or thirdMove  */
+    public void setAgent(char x){
         agent = (x == 'o') ? 'o' : 'x';
         opponent = (x == 'o') ? 'x': 'o';
     }
 
     /* switch player for alpha-beta's min-max node */
-    public char switch_player(){
+    public char switchPlayer(){
         player = (player == 'x') ? 'o': 'x';
         return player;
     }
@@ -37,35 +38,35 @@ public class AgentMove {
     *  including:
     *       decesion making, return integer, winner juding
     */
-    public int play_game(AgentBoard bd, int first_move){
+    public int playGame(AgentBoard bd, int firstMove){
         
         return 0;
     }
 
     /* alpha-beta pruning  */
-    public int alpha_beta(AgentBoard bd, int cell, char player, int alpha, int beta){
+    public int alphaBeta(AgentBoard bd, int cell, char player, int alpha, int beta){
         if (bd.unitState != GameState.GameOver){
-            if(bd.cell_check_player_win(cell, agent)){
+            if(bd.cellCheckPlayerWin(cell, agent)){
                 return 10;
-            }else if(bd.cell_check_player_win(cell, opponent)){
+            }else if(bd.cellCheckPlayerWin(cell, opponent)){
                 return -10;
-            }else if (bd.cell_is_full(cell)){
+            }else if (bd.cellIsFull(cell)){
                 return 0;
             }
         }
 
-        bd.display_board();
+        bd.displayBoard();
         System.out.println();
 
         if (player == opponent){
-            ArrayList locations = bd.can_move(cell);
+            ArrayList locations = bd.canMove(cell);
             for(int i=0; i<locations.size(); i++){
-                // bd.display_board();
+                // bd.displayBoard();
                 // System.out.println();  
-                bd.set_val(cell, (Integer)locations.get(i), opponent);
-                // move_bd.display_board();
-                int score = alpha_beta(bd, (Integer)locations.get(i), agent, alpha, beta);
-                bd.undo_set_val(cell, (Integer)locations.get(i));
+                bd.setVal(cell, (Integer)locations.get(i), opponent);
+                // moveBd.displayBoard();
+                int score = alphaBeta(bd, (Integer)locations.get(i), agent, alpha, beta);
+                bd.undoSetVal(cell, (Integer)locations.get(i));
                 if(score < beta){
                     beta = score;
                     if (alpha >= beta){
@@ -75,16 +76,16 @@ public class AgentMove {
             }
             return beta;
         }else{
-            ArrayList locations = bd.can_move(cell);
+            ArrayList locations = bd.canMove(cell);
             for(int i=0; i<locations.size(); i++){
-                bd.display_board();
+                // bd.displayBoard();
                 // System.out.println();
             
                 
-                bd.set_val(cell, (Integer)locations.get(i), agent);
-                // bd.display_board();
-                int score = alpha_beta(bd, (Integer)locations.get(i), opponent, alpha, beta);
-                bd.undo_set_val(cell, (Integer)locations.get(i));
+                bd.setVal(cell, (Integer)locations.get(i), agent);
+                // bd.displayBoard();
+                int score = alphaBeta(bd, (Integer)locations.get(i), opponent, alpha, beta);
+                bd.undoSetVal(cell, (Integer)locations.get(i));
 
                 if(score < beta){
                     alpha = score;
@@ -106,7 +107,7 @@ public class AgentMove {
         int alpha = -999999;
         int beta = 999999;
         int cell = 5;
-        System.out.println(move.alpha_beta(move.bd, cell, 'o', alpha, beta));
+        System.out.println(move.alphaBeta(move.bd, cell, 'o', alpha, beta));
     }
 
 }

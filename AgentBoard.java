@@ -226,17 +226,43 @@ public class AgentBoard implements Cloneable{
     */
 
     public int evaluateHelper(int connected, int cell, char player) {
-        int score = 0;
+        int count = 0;
         if (connected == 2) {
 
         } else if (connected == 1) {
-
+            for (int i = 0; i < 9; i++) {
+                if (get_position_player(cell, i) == player) {
+                    if (evaluateRow(cell, i)) {
+                        count++;
+                    }
+                }
+            }
         } else {
             throw new IllegalArgumentException("please enter valid number of connected you want to check!");
         }
-        return score;
+        return count;
     }
 
+    /* give the position of the player in a specific cell */
+    /* check if it can occupy the whole row */
+    public boolean evaluateRow(int cell, int position) {
+        int row = position / 3;
+        int col = (position - 1) % 3;
+        if (col == 0) {
+            if (board[cell-1][row][col+1] == board[cell-1][row][col+2] && board[cell-1][row][col+1] == '.') {
+                return true;
+            }
+        } else if (col == 1) {
+            if (board[cell-1][row][col-1] == board[cell-1][row][col+1] && board[cell-1][row][col+1] == '.') {
+                return true;
+            }
+        } else if (col == 2) {
+            if (board[cell-1][row][col-1] == board[cell-1][row][col+2] && board[cell-1][row][col-2] == '.') {
+                return true;
+            }
+        }
+        return false;
+    }
     /* check if there has two connected player already, like */
     /* if there does, return the position of each one */
     /* e.g.  x x .
@@ -298,15 +324,9 @@ public class AgentBoard implements Cloneable{
         System.out.println(agent_board.check_player_win('o'));
         System.out.println(agent_board.game_over());
 
-        /* test function is full */
-        for (int index = 1; index < 10; index++) {
-            for (int i = 1; i < 10; i++) {
-                agent_board.set_val(index, i, 'o');
-            }
-        }
-        agent_board.display_board();
         System.out.println(agent_board.is_full());
         System.out.println(agent_board.evaluateHelper(2, 3,'o'));
+        System.out.println(agent_board.evaluateRow(2, 5));
     }
 
 

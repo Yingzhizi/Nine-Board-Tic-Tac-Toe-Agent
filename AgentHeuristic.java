@@ -13,15 +13,15 @@ public class AgentHeuristic {
     //TODO
 
     public static void main(String[] args) {
-        AgentBoard agent_board = new AgentBoard();
-        agent_board.set_val(5, 3, 'o');
-        agent_board.set_val(3, 9, 'o');
-        agent_board.set_val(7, 1, 'o');
-        agent_board.set_val(7, 5, 'o');
+        AgentBoard agentBoard = new AgentBoard();
+        agentBoard.setVal(5, 3, 'o');
+        agentBoard.setVal(3, 9, 'o');
+        agentBoard.setVal(7, 1, 'o');
+        agentBoard.setVal(7, 5, 'o');
         
-        agent_board.display_board();
-        System.out.println(agent_board.check_player_win('o'));
-        System.out.println(agent_board.game_over());
+        agentBoard.displayBoard();
+        System.out.println(agentBoard.checkPlayerWin('o'));
+        System.out.println(agentBoard.gameOver());
     }
     
 }

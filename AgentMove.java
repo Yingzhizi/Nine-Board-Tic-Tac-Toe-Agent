@@ -7,14 +7,19 @@ public class AgentMove {
     private char player = 'o';
 
     /* default agent, modify at the beginning */
-    private char agents = 'o';
+    private char agent = 'o';
     private char opponent = 'x';
-    
+
     private AgentBoard bd = new AgentBoard();
     private static AgentMove singleton_agent = new AgentMove();
     private AgentMove(){}
     public static AgentMove get_agent(){
         return singleton_agent;
+    }
+
+    public void set_agent(char x){
+        agent = (x == 'o') ? 'o' : 'x';
+        opponent = (x == 'o') ? 'x': 'o';
     }
 
     public char switch_player(){
@@ -34,7 +39,7 @@ public class AgentMove {
 
     public int alpha_beta(AgentBoard bd, int cell, char player, int alpha, int beta){
         if (bd.unitState != GameOver){
-            if(bd.cell_check_player_win(cell, agents)){
+            if(bd.cell_check_player_win(cell, agent)){
                 return 10;
             }else if(bd.cell_check_player_win(cell, opponent)){
                 return -10;
@@ -53,7 +58,7 @@ public class AgentMove {
                 // System.out.println();  
                 bd.set_val(cell, (Integer)locations.get(i), opponent);
                 // move_bd.display_board();
-                int score = alpha_beta(bd, (Integer)locations.get(i), agents, alpha, beta);
+                int score = alpha_beta(bd, (Integer)locations.get(i), agent, alpha, beta);
                 bd.undo_set_val(cell, (Integer)locations.get(i));
                 if(score < beta){
                     beta = score;
@@ -70,7 +75,7 @@ public class AgentMove {
                 // System.out.println();
             
                 
-                bd.set_val(cell, (Integer)locations.get(i), agents);
+                bd.set_val(cell, (Integer)locations.get(i), agent);
                 // bd.display_board();
                 int score = alpha_beta(bd, (Integer)locations.get(i), opponent, alpha, beta);
                 bd.undo_set_val(cell, (Integer)locations.get(i));

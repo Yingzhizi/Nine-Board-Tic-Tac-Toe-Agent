@@ -43,7 +43,7 @@ public class Agent {
 	    }else if(move == 0){
 		//TODO
 	    }else {
-		out.println(move);
+        out.println(move);
 	    }
 
 	}
@@ -56,7 +56,7 @@ public class Agent {
 	}else if(line.contains("start")) {
 	    //TODO
 	}else if(line.contains("second_move")) {
-
+        System.out.println("second move:" + line);
 	    int argsStart = line.indexOf("(");
 	    int argsEnd = line.indexOf(")");
 
@@ -68,7 +68,7 @@ public class Agent {
 	    return makeRandomMove();
 
 	}else if(line.contains("third_move")) {
-
+        System.out.println("third move:" + line);
 	    int argsStart = line.indexOf("(");
 	    int argsEnd = line.indexOf(")");
 
@@ -117,7 +117,8 @@ public class Agent {
 	    n = rand.nextInt(9) + 1;
 	}
 
-	place(prevMove, n, 1);
+    place(prevMove, n, 1);
+    System.out.println(n);
 	return n;
     }
 

@@ -37,15 +37,19 @@ public class CellHeuristic {
         return result;
     }
 
-    public static int boardEvaluation(AgentBoard board, int cellNumber, char player) {
+    public static boolean boardEvaluation(AgentBoard board, int cellNumber, char player) {
         if (player != 'x' && player != 'o') {
             throw new IllegalArgumentException("there is no valid player");
         }
         int result;
         char opponent = opponent(player);
-        int o2 = board.evaluateHelper(2, cellNumber, opponent);
+        int connectedTwo = board.evaluateHelper(2, cellNumber, opponent);
         // can't let opponent has chance to win :)
-        return -100*o2;
+        if (connectedTwo != 0) {
+            return true;
+        }
+
+        return false;
     }
 
     // start doing alpha, beta pruning, return the best move.
@@ -91,6 +95,9 @@ public class CellHeuristic {
             }
         }
 
+        /* if the move chosen corresponding to the sub cell that opponent has a chance to win
+        *  cannot take this move */
+
         int alpha = Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
         int[] result = alphaBetaHelper(player, cellNumber, board, alpha, beta, level);
@@ -122,12 +129,20 @@ public class CellHeuristic {
             board.setVal(cellNumber, move, player);
             // if player is 'o', maximizing player
             if (player == 'o') {
+                if (boardEvaluation(board, move, opponent(player))) {
+                    // can't take this move, jump to next one;
+                    continue;
+                }
                 score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
                 if (score > alpha) {
                     alpha = score;
                     indexOfBestMove = move;
                 }
             } else if (player == 'x') {
+                if (boardEvaluation(board, move, opponent(player))) {
+                    // can't take this move, jump to next one;
+                    continue;
+                }
                 score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
                 if (score < beta) {
                     beta = score;

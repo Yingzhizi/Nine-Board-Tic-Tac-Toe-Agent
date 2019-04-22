@@ -27,7 +27,7 @@ public class CellHeuristic {
         int o1 = board.evaluateHelper(1, cellNumber, opponent);
         result = 10 * x2 + x1 - (10 * o2 + o1);
 
-        /* declare a rule that if for a cell, player win, got 10 grade */
+        /* declare a rule that if for a cell, player win, got 100 grade */
         if (board.cellCheckPlayerWin(cellNumber, player)) {
             result += 100;
         } else if (board.cellCheckPlayerWin(cellNumber, opponent(player))) {
@@ -96,7 +96,8 @@ public class CellHeuristic {
         }
 
         /* if the move chosen corresponding to the sub cell that opponent has a chance to win
-        *  cannot take this move */
+        *  cannot take this move
+        * */
 
         int alpha = Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
@@ -130,7 +131,8 @@ public class CellHeuristic {
             // if player is 'o', maximizing player
             if (player == 'o') {
                 if (boardEvaluation(board, move, opponent(player))) {
-                    // can't take this move, jump to next one;
+                    /* if the move chosen corresponding to the sub cell that opponent has a chance to win
+                     *  cannot take this move, jump to next one */
                     continue;
                 }
                 score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];

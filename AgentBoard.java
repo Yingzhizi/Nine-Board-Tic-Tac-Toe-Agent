@@ -357,7 +357,7 @@ public class AgentBoard implements Cloneable{
         int diaCountL = 0;
         for (int row = 0; row < 3; row++) {
             if (board[cell-1][row][row] == player) {
-                System.out.println("LRow is : " + row);
+                //System.out.println("LRow is : " + row);
                 diaCountL++;
             }
         }
@@ -370,7 +370,7 @@ public class AgentBoard implements Cloneable{
         int diaCountR = 0;
         for (int row = 2; row >= 0; row--) {
             if (board[cell-1][row][2-row] == player) {
-                System.out.println("RRow is : " + row);
+                //System.out.println("RRow is : " + row);
                 diaCountR++;
             }
         }
@@ -432,11 +432,11 @@ public class AgentBoard implements Cloneable{
         agent_board.setVal(5, 3, 'o');
         agent_board.setVal(2, 1, 'x');
         agent_board.setVal(2, 2, 'o');
-        agent_board.setVal(3, 9, 'o');
+        agent_board.setVal(3, 1, 'x');
         agent_board.setVal(7, 1, 'o');
         agent_board.setVal(7, 5, 'o');
-        agent_board.setVal(7, 9, 'o');
-        agent_board.setVal(5, 2, 'o');
+        //agent_board.setVal(7, 9, 'o');
+        //agent_board.setVal(5, 2, 'o');
         agent_board.setVal(5, 5, 'o');
         agent_board.setVal(5, 8, 'o');
         agent_board.displayBoard();
@@ -455,6 +455,8 @@ public class AgentBoard implements Cloneable{
         CellHeuristic test = new CellHeuristic();
         int result = test.cellEvaluation(agent_board, 2, 'x');
         System.out.println("score of board 2 is " + result);
+        int bestMove = test.getBestMove('o', 3, agent_board, 2);
+        System.out.println("best move is " + bestMove);
     }
 
 

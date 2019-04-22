@@ -39,6 +39,7 @@ public class CellHeuristic {
 
     // start doing alpha, beta pruning, return the best move.
     // notice, this method only useful to specific cell
+    // TODO: need to add evaluation to check if conduct the best move, opponent has a chance to win.
     public static int getBestMove(char player, int cellNumber, AgentBoard board, int level) {
         int alpha = Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;

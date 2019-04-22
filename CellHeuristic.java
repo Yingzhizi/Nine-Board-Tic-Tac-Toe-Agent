@@ -37,10 +37,60 @@ public class CellHeuristic {
         return result;
     }
 
+    public static int boardEvaluation(AgentBoard board, int cellNumber, char player) {
+        if (player != 'x' && player != 'o') {
+            throw new IllegalArgumentException("there is no valid player");
+        }
+        int result;
+        char opponent = opponent(player);
+        int o2 = board.evaluateHelper(2, cellNumber, opponent);
+        // can't let opponent has chance to win :)
+        return -100*o2;
+    }
+
     // start doing alpha, beta pruning, return the best move.
     // notice, this method only useful to specific cell
     // TODO: need to add evaluation to check if conduct the best move, opponent has a chance to win.
     public static int getBestMove(char player, int cellNumber, AgentBoard board, int level) {
+        /* Rule 1: If I have a winning move, take it.
+           Rule 2: If the opponent has a winning move, block it.
+           Rule 3: If I can create a fork (two winning ways) after this move, do it. - use alpha-beta pruning
+           Rule 4: Do not let the opponent creating a fork after my move. (Opponent may block your winning move and create a fork.)
+           Rule 5: Place in the position such as I may win in the most number of possible ways.
+        */
+
+        /* Rule1, check if I have any winning move */
+        int connectedTwo = board.evaluateConnectedTwo(cellNumber, player);
+        if (connectedTwo != 0) {
+            // take the winning move
+            // get available move for current player
+            ArrayList<Integer> canMoves = board.canMove(cellNumber);
+            for (Integer move : canMoves) {
+                board.setVal(cellNumber, move, player);
+                if (board.checkPlayerWin(player)) {
+                    board.undoSetVal(cellNumber, move);
+                    return move;
+                }
+                board.undoSetVal(cellNumber, move);
+            }
+        }
+
+        /* Rule2, if the opponent has a winning move, block it */
+        int opponentConnectedTwo = board.evaluateConnectedTwo(cellNumber, opponent(player));
+        if (opponentConnectedTwo != 0) {
+            // take the winning move
+            // get available move for current player
+            ArrayList<Integer> canMoves = board.canMove(cellNumber);
+            for (Integer move : canMoves) {
+                board.setVal(cellNumber, move, opponent(player));
+                if (board.checkPlayerWin(opponent(player))) {
+                    board.undoSetVal(cellNumber, move);
+                    return move;
+                }
+                board.undoSetVal(cellNumber, move);
+            }
+        }
+
         int alpha = Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
         int[] result = alphaBetaHelper(player, cellNumber, board, alpha, beta, level);
@@ -54,7 +104,7 @@ public class CellHeuristic {
         int indexOfBestMove = -1;
 
         // find the best move
-        ArrayList<Integer> bestMoves = board.canMove(cellNumber);
+        ArrayList<Integer> canMoves = board.canMove(cellNumber);
 
         // initialize the score;
         int score;
@@ -67,7 +117,7 @@ public class CellHeuristic {
 
         // how I get to know the current turn is who???
         // assume we always player o first
-        for (Integer move : bestMoves) {
+        for (Integer move : canMoves) {
             // try the move for current player
             board.setVal(cellNumber, move, player);
             // if player is 'o', maximizing player

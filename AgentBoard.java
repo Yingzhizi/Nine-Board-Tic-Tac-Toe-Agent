@@ -456,7 +456,27 @@ public class AgentBoard implements Cloneable{
         int result = test.cellEvaluation(agent_board, 2, 'x');
         System.out.println("score of board 2 is " + result);
         int bestMove = test.getBestMove('o', 3, agent_board, 2);
+        agent_board.setVal(3, bestMove, 'o');
         System.out.println("best move is " + bestMove);
+        agent_board.displayBoard();
+        bestMove = test.getBestMove('x', 3, agent_board, 2);
+        System.out.println("best move is " + bestMove);
+        agent_board.setVal(3, bestMove, 'x');
+        agent_board.displayBoard();
+
+        bestMove = test.getBestMove('o', 3, agent_board, 2);
+        System.out.println("best move is " + bestMove);
+        agent_board.setVal(3, bestMove, 'o');
+        agent_board.displayBoard();
+
+        bestMove = test.getBestMove('x', 3, agent_board, 2);
+        System.out.println("best move is " + bestMove);
+        agent_board.setVal(3, bestMove, 'x');
+        agent_board.displayBoard();
+
+        bestMove = test.getBestMove('o', 3, agent_board, 2);
+        System.out.println("best move is " + bestMove);
+
     }
 
 

@@ -37,69 +37,67 @@ public class CellHeuristic {
         return result;
     }
 
+    // start doing alpha, beta pruning, return the best move.
+    // notice, this method only useful to specific cell
     public static int alphaBeta(char player, int cellNumber, AgentBoard board, int level) {
         int alpha = Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
-        alphaBetaHelper(player, cellNumber, board, alpha, beta, level);
+        int[] result = alphaBetaHelper(player, cellNumber, board, alpha, beta, level);
+
+        // return the best move
+        // best move store in index1 of return value;
+        return result[1];
     }
 
-    public static int alphaBetaHelper(char player, int cellNumber, AgentBoard board, int alpha, int beta, int level) {
+    public static int[] alphaBetaHelper(char player, int cellNumber, AgentBoard board, int alpha, int beta, int level) {
+        int indexOfBestMove = -1;
+
+        // find the best move
+        ArrayList<Integer> bestMoves = board.canMove(cellNumber);
+
+        // initialize the score;
+        int score;
+
+        // when game is over or depth reached, evaluate score.
         if (board.gameOver() || level == 0) {
-            return cellEvaluation(board, cellNumber, player);
+            score = cellEvaluation(board, cellNumber, player);
+            return new int[] {score, indexOfBestMove};
         }
 
         // how I get to know the current turn is who???
         // assume we always player o first
-        // TODO: has duplicated???
-        // find the best move
-        ArrayList<Integer> bestMoves = board.canMove(cellNumber);
-        int result = -1;
-        if (player == 'o') {
-            int indexOfBestMove = -1;
-            for (Integer move : bestMoves) {
-                AgentBoard copyBoard = board;
-                copyBoard.setVal(cellNumber, move, player);
-                int score = alphaBetaHelper(player, cellNumber, copyBoard, alpha, beta, level-1);
+        for (Integer move : bestMoves) {
+            // try the move for current player
+            board.setVal(cellNumber, move, player);
+            // if player is 'o', maximizing player
+            if (player == 'o') {
+                score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
                 if (score > alpha) {
                     alpha = score;
                     indexOfBestMove = move;
                 }
-
-                // do the pruning
-                if (alpha >= beta) {
-                    break;
-                }
-            }
-            if (indexOfBestMove != -1) {
-                board.setVal(cellNumber, indexOfBestMove, player);
-            }
-            result = alpha;
-
-        } else if (player == 'x') {
-            int indexOfBestMove = -1;
-            for (Integer move : bestMoves) {
-                // make a copy of the current move
-                AgentBoard copyBoard = board;
-                copyBoard.setVal(cellNumber, move, player);
-                int score = alphaBetaHelper(player, cellNumber, copyBoard, alpha, beta, level-1);
+            } else if (player == 'x') {
+                score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
                 if (score < beta) {
                     beta = score;
                     indexOfBestMove = move;
                 }
-
-                // do the pruning
-                if (alpha >= beta) {
-                    break;
-                }
             }
-            if (indexOfBestMove != -1) {
-                // TODO: somehow return the index of the best move
-                board.setVal(cellNumber, indexOfBestMove, player);
-            }
-            result = beta;
 
+            //undo move
+            board.undoSetVal(cellNumber, move);
+
+            // do the pruning
+            if (alpha >= beta) {
+                break;
+            }
         }
-        return result;
+
+        if (player == 'o') {
+            return new int[] {alpha, indexOfBestMove};
+        }
+
+        return new int[] {beta, indexOfBestMove};
     }
 
     public static void main(String[] args) {

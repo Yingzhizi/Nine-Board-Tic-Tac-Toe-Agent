@@ -130,21 +130,12 @@ public class CellHeuristic {
             board.setVal(cellNumber, move, player);
             // if player is 'o', maximizing player
             if (player == 'o') {
-                if (boardEvaluation(board, move, opponent(player))) {
-                    /* if the move chosen corresponding to the sub cell that opponent has a chance to win
-                     *  cannot take this move, jump to next one */
-                    continue;
-                }
                 score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
                 if (score > alpha) {
                     alpha = score;
                     indexOfBestMove = move;
                 }
             } else if (player == 'x') {
-                if (boardEvaluation(board, move, opponent(player))) {
-                    // can't take this move, jump to next one;
-                    continue;
-                }
                 score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
                 if (score < beta) {
                     beta = score;

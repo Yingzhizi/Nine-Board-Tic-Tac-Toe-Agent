@@ -429,16 +429,16 @@ public class AgentBoard implements Cloneable{
     public static void main(String[] args) {
         System.out.println("Testing begin");
         AgentBoard agent_board = new AgentBoard();
-        agent_board.setVal(5, 3, 'o');
-        agent_board.setVal(2, 1, 'x');
-        agent_board.setVal(2, 2, 'o');
+        //agent_board.setVal(5, 3, 'o');
+        //agent_board.setVal(2, 1, 'x');
+        //agent_board.setVal(2, 2, 'o');
         agent_board.setVal(3, 1, 'x');
-        agent_board.setVal(7, 1, 'o');
-        agent_board.setVal(7, 5, 'o');
+        //agent_board.setVal(7, 1, 'o');
+        //agent_board.setVal(7, 5, 'o');
         //agent_board.setVal(7, 9, 'o');
         //agent_board.setVal(5, 2, 'o');
-        agent_board.setVal(5, 5, 'o');
-        agent_board.setVal(5, 8, 'o');
+        //agent_board.setVal(5, 5, 'o');
+        //agent_board.setVal(5, 8, 'o');
         agent_board.displayBoard();
         System.out.println(agent_board.canMove(5));
         System.out.println(agent_board.canMove(7));
@@ -447,14 +447,15 @@ public class AgentBoard implements Cloneable{
         System.out.println(agent_board.gameOver());
 
         System.out.println(agent_board.isFull());
-        System.out.println(agent_board.evaluateHelper(1, 2,'x'));
-        System.out.println(agent_board.evaluateHelper(1, 2,'o'));
-        System.out.println(agent_board.evaluateHelper(2, 5,'o'));
-        System.out.println(agent_board.evaluateHelper(1, 5,'o'));
+//        System.out.println(agent_board.evaluateHelper(1, 2,'x'));
+//        System.out.println(agent_board.evaluateHelper(1, 2,'o'));
+//        System.out.println(agent_board.evaluateHelper(2, 5,'o'));
+//        System.out.println(agent_board.evaluateHelper(1, 5,'o'));
 
         CellHeuristic test = new CellHeuristic();
-        int result = test.cellEvaluation(agent_board, 2, 'x');
+        int result = test.cellEvaluation(agent_board, 3, 'x');
         System.out.println("score of board 2 is " + result);
+
         int bestMove = test.getBestMove('o', 3, agent_board, 2);
         agent_board.setVal(3, bestMove, 'o');
         System.out.println("best move is " + bestMove);

@@ -70,9 +70,8 @@ public class AgentSubstitute {
             String list = line.substring(argsStart+1, argsEnd);
             String[] numbers = list.split(",");
 
-            place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
-
-            return makeRandomMove();
+            AgentMove agent = AgentMove.getAgent();
+            return agent.playSecondMove(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]));
 
         }else if(line.contains("third_move")) {
             System.out.println("third move:" + line);
@@ -93,9 +92,8 @@ public class AgentSubstitute {
             int argsEnd = line.indexOf(")");
 
             String list = line.substring(argsStart+1, argsEnd);
-            place(prevMove, Integer.parseInt(list), 2);
-
-            return makeRandomMove();
+            AgentMove agent = AgentMove.getAgent();
+            return agent.playNextMove(Integer.parseInt(list));
 
         }else if(line.contains("last_move")) {
             //TODO

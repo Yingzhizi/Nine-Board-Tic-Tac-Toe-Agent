@@ -85,7 +85,6 @@ public class AgentBoard implements Cloneable{
         return legalPositions;
     }
 
-    // 好像不用实现这个 直接写ab剪枝或者minmax
     /* MAY INVENT LOTS OF METHOD TO CALCULATE HEURISTIC TO DO SOME TEST
     *  THE FINAL HEURISTIC MAY USE OTHER METHODS
     *  This is a simple heuristic value calculation method, to calculate 

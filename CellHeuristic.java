@@ -130,6 +130,7 @@ public class CellHeuristic {
         // that means you play 'x' and your first move is 'x' in 5th of the cell 6 randomly set by teacher
         // and the opponent 'o' move is the 7th of the cell 5
         // After that, you receive next_move(5), next_move(6) and you decide which cell it should be set
+        // see http://www.cse.unsw.edu.au/~cs3411/19t1/hw3/
         // assume we always player o first
         for (Integer move : canMoves) {
             // try the move for current player

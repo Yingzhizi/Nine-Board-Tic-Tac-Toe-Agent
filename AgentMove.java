@@ -104,8 +104,8 @@ public class AgentMove {
     public static void main(String[] args) {
         System.out.println("agent move!");
         AgentMove move = new AgentMove();
-        int alpha = -999999;
-        int beta = 999999;
+        int alpha = Integer.MIN_VALUE;
+        int beta = Integer.MAX_VALUE;
         int cell = 5;
         System.out.println(move.alphaBeta(move.bd, cell, 'o', alpha, beta));
     }

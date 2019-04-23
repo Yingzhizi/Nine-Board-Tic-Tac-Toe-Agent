@@ -124,6 +124,12 @@ public class CellHeuristic {
         }
 
         // how I get to know the current turn is who???
+        // In agent.java If you receive second_move(6,5) command
+        // that means you play 'o' and the first move is 'x' in the 5th of the cell 6
+        // And If you receive third_move(6,5,7) command
+        // that means you play 'x' and your first move is 'x' in 5th of the cell 6 randomly set by teacher
+        // and the opponent 'o' move is the 7th of the cell 5
+        // After that, you receive next_move(5), next_move(6) and you decide which cell it should be set
         // assume we always player o first
         for (Integer move : canMoves) {
             // try the move for current player

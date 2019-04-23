@@ -271,7 +271,7 @@ public class AgentBoard implements Cloneable{
     }
 
     /* give the position of the player in a specific cell */
-    /* check if it can occupy the whole row */
+    /* check if it can occupy the whole column */
     public boolean evaluateCol(int cell, int position) {
         int row = (position - 1) / 3;
         int col = (position - 1) % 3;
@@ -292,7 +292,7 @@ public class AgentBoard implements Cloneable{
     }
 
     /* give the position of the player in a specific cell */
-    /* check if it can occupy the whole row */
+    /* check if it can occupy the whole diagonal */
     public boolean evaluateDiagonal(int cell, int position) {
         int row = (position - 1) / 3;
         int col = (position - 1) % 3;

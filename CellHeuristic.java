@@ -172,12 +172,12 @@ public class CellHeuristic {
         return new int[] {beta, indexOfBestMove};
     }
 
-    public static void main(String[] args) {
-        /* test if opponent works :) */
-        CellHeuristic test = new CellHeuristic();
-        char player1 = 'x';
-        System.out.println(test.opponent(player1));
-        char player2 = 'o';
-        System.out.println(test.opponent(player2));
-    }
+//    public static void main(String[] args) {
+//        /* test if opponent works :) */
+//        CellHeuristic test = new CellHeuristic();
+//        char player1 = 'x';
+//        System.out.println(test.opponent(player1));
+//        char player2 = 'o';
+//        System.out.println(test.opponent(player2));
+//    }
 }

@@ -16,7 +16,7 @@ import java.util.*;
 
 
 public class AgentBoard implements Cloneable{
-    private char[][][] board;
+    private static char[][][] board;
     /* store the heuristic value of the 9 cell */
     private int [] heuristic;
     private int sumHeuristic=0;
@@ -464,34 +464,36 @@ public class AgentBoard implements Cloneable{
 //        System.out.println(agent_board.evaluateHelper(1, 5,'o'));
 
         CellHeuristic test = new CellHeuristic();
-
+        agent_board.setCurrentTurn('x');
         int result = test.cellEvaluation(agent_board, 3, 'x');
         System.out.println("score of board 2 is " + result);
 
-        int bestMove = test.getBestMove('o', 3, agent_board, 2);
-        agent_board.setVal(3, bestMove, 'o');
+        agent_board.setCurrentTurn('o');
+        int bestMove = test.getBestMove('o', 1, agent_board, 2);
+        agent_board.setVal(1, bestMove, 'o');
         System.out.println("best move is " + bestMove);
         agent_board.displayBoard();
 
+        agent_board.setCurrentTurn('x');
         bestMove = test.getBestMove('x', 3, agent_board, 2);
         System.out.println("best move is " + bestMove);
         agent_board.setVal(3, bestMove, 'x');
         agent_board.displayBoard();
 
-        bestMove = test.getBestMove('o', 3, agent_board, 2);
-        System.out.println("best move is " + bestMove);
-        agent_board.setVal(3, bestMove, 'o');
-        agent_board.displayBoard();
-
-        bestMove = test.getBestMove('x', 3, agent_board, 2);
-        System.out.println("best move is " + bestMove);
-        agent_board.setVal(3, bestMove, 'x');
-        agent_board.displayBoard();
-
-        bestMove = test.getBestMove('o', 3, agent_board, 2);
-        System.out.println("best move is " + bestMove);
-        agent_board.setVal(3, bestMove, 'o');
-        agent_board.displayBoard();
+//        bestMove = test.getBestMove('o', 3, agent_board, 2);
+//        System.out.println("best move is " + bestMove);
+//        agent_board.setVal(3, bestMove, 'o');
+//        agent_board.displayBoard();
+//
+//        bestMove = test.getBestMove('x', 3, agent_board, 2);
+//        System.out.println("best move is " + bestMove);
+//        agent_board.setVal(3, bestMove, 'x');
+//        agent_board.displayBoard();
+//
+//        bestMove = test.getBestMove('o', 3, agent_board, 2);
+//        System.out.println("best move is " + bestMove);
+//        agent_board.setVal(3, bestMove, 'o');
+//        agent_board.displayBoard();
 
     }
 

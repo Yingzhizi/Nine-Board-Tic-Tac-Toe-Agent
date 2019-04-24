@@ -11,6 +11,8 @@ public class Agent {
     static int prevMove = 0;
     //static int[][] boards = new int[10][10];
     static AgentBoard boards;
+    static char player;
+    static CellHeuristic agentMove;
     static Random rand = new Random();
 
     /* 0 = Empty
@@ -70,6 +72,7 @@ public class Agent {
             String list = line.substring(argsStart+1, argsEnd);
             char type = list.charAt(0);
             boards.setCurrentTurn(type);
+            player = type;
 
         }else if(line.contains("second_move")) {
             System.out.println("second move:" + line);
@@ -79,9 +82,15 @@ public class Agent {
             String list = line.substring(argsStart+1, argsEnd);
             String[] numbers = list.split(",");
 
-            place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
+            char opponent = agentMove.opponent(player);
 
-            return makeRandomMove();
+            // update the agent board
+            boards.setVal(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]), opponent);
+            //place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
+
+            // get best move
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(numbers[1]), boards, 2);
+            return bestMove;
 
         }else if(line.contains("third_move")) {
             System.out.println("third move:" + line);
@@ -91,10 +100,16 @@ public class Agent {
             String list = line.substring(argsStart+1, argsEnd);
             String[] numbers = list.split(",");
 
-            place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 1);
-            place(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]), 2);
+            char opponent = agentMove.opponent(player);
+            // update agent board
+            boards.setVal(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]), player);
+            boards.setVal(Integer.parseInt(numbers[1]), Integer.parseInt(numbers[2]), opponent);
+            //place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 1);
+            //place(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]), 2);
 
-            return makeRandomMove();
+            // get the best move
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(numbers[2]), boards, 2);
+            return bestMove;
 
         }else if(line.contains("next_move")) {
 
@@ -102,9 +117,15 @@ public class Agent {
             int argsEnd = line.indexOf(")");
 
             String list = line.substring(argsStart+1, argsEnd);
-            place(prevMove, Integer.parseInt(list), 2);
 
-            return makeRandomMove();
+            char opponent = agentMove.opponent(player);
+
+            // update the agent board
+            boards.setVal(prevMove, Integer.parseInt(list), opponent);
+
+            // get the best move
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 2);
+            return bestMove;
 
         }else if(line.contains("last_move")) {
             //TODO
@@ -119,23 +140,23 @@ public class Agent {
         return 0;
         }
 
-    public static void place(int board, int num, int player) {
-
-	prevMove = num;
-	boards[board][num] = player;
-    }
-
-    public static int makeRandomMove() {
-
-	int n = rand.nextInt(9) + 1;
-
-	while(boards[prevMove][n] != 0) {
-	    n = rand.nextInt(9) + 1;
-	}
-
-    place(prevMove, n, 1);
-    System.out.println(n);
-	return n;
-    }
+//    public static void place(int board, int num, int player) {
+//
+//	prevMove = num;
+//	boards[board][num] = player;
+//    }
+//
+//    public static int makeRandomMove() {
+//
+//	int n = rand.nextInt(9) + 1;
+//
+//	while(boards[prevMove][n] != 0) {
+//	    n = rand.nextInt(9) + 1;
+//	}
+//
+//    place(prevMove, n, 1);
+//    System.out.println(n);
+//	return n;
+//    }
 
 }

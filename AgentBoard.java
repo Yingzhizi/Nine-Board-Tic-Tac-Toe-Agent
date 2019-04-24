@@ -20,6 +20,7 @@ public class AgentBoard implements Cloneable{
     /* store the heuristic value of the 9 cell */
     private int [] heuristic;
     private int sumHeuristic=0;
+    private char currentTurn;
 
     GameState unitState;
 
@@ -53,6 +54,7 @@ public class AgentBoard implements Cloneable{
         sumHeuristic = 0;
         unitState = GameState.InProgress;
         initGame();
+
     }
 
     /* initialize an empty heuristic array before the game start */
@@ -61,6 +63,16 @@ public class AgentBoard implements Cloneable{
         for (int i=0; i<9;i++){
             heuristic[i] = 0;
         }
+    }
+
+    /* set the current player */
+    public void setCurrentTurn(char player) {
+        currentTurn = player;
+    }
+
+    /* return the current player */
+    public char getCurrentTurn() {
+        return currentTurn;
     }
 
     /* 
@@ -452,6 +464,7 @@ public class AgentBoard implements Cloneable{
 //        System.out.println(agent_board.evaluateHelper(1, 5,'o'));
 
         CellHeuristic test = new CellHeuristic();
+
         int result = test.cellEvaluation(agent_board, 3, 'x');
         System.out.println("score of board 2 is " + result);
 
@@ -459,6 +472,7 @@ public class AgentBoard implements Cloneable{
         agent_board.setVal(3, bestMove, 'o');
         System.out.println("best move is " + bestMove);
         agent_board.displayBoard();
+
         bestMove = test.getBestMove('x', 3, agent_board, 2);
         System.out.println("best move is " + bestMove);
         agent_board.setVal(3, bestMove, 'x');
@@ -476,6 +490,8 @@ public class AgentBoard implements Cloneable{
 
         bestMove = test.getBestMove('o', 3, agent_board, 2);
         System.out.println("best move is " + bestMove);
+        agent_board.setVal(3, bestMove, 'o');
+        agent_board.displayBoard();
 
     }
 

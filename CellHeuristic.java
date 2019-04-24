@@ -123,6 +123,7 @@ public class CellHeuristic {
             return new int[] {score, indexOfBestMove};
         }
 
+        char currPlayer = board.getCurrentTurn();
         // how I get to know the current turn is who???
         // In agent.java If you receive second_move(6,5) command
         // that means you play 'o' and the first move is 'x' in the 5th of the cell 6
@@ -141,13 +142,13 @@ public class CellHeuristic {
                  *  cannot take this move, jump to next one */
                 continue;
             }
-            if (player == 'o') {
+            if (player == currPlayer) {
                 score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
                 if (score > alpha) {
                     alpha = score;
                     indexOfBestMove = move;
                 }
-            } else if (player == 'x') {
+            } else if (player == opponent(currPlayer)) {
                 score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
                 if (score < beta) {
                     beta = score;
@@ -164,7 +165,7 @@ public class CellHeuristic {
             }
         }
 
-        if (player == 'o') {
+        if (player == currPlayer) {
             return new int[] {alpha, indexOfBestMove};
         }
 

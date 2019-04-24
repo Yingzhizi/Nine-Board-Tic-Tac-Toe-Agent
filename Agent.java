@@ -7,9 +7,12 @@ import java.util.Random;
 
 public class Agent {
 
+    // save the cell we need to locate
     static int prevMove = 0;
-    static int[][] boards = new int[10][10];
+    //static int[][] boards = new int[10][10];
+    static AgentBoard boards;
     static Random rand = new Random();
+
     /* 0 = Empty
      * 1 = I played here
      * 2 = They played here
@@ -51,11 +54,23 @@ public class Agent {
 
     public static int parse(String line) {
 
+        // In agent.java If you receive second_move(6,5) command
+        // that means you play 'o' and the first move is 'x' in the 5th of the cell 6
+        // And If you receive third_move(6,5,7) command
+        // that means you play 'x' and your first move is 'x' in 5th of the cell 6 randomly set by teacher
 
         if(line.contains("init")) {
-            //TODO
+            // initialize the agent board
+            boards = new AgentBoard();
+
         }else if(line.contains("start")) {
-            //TODO
+            int argsStart = line.indexOf("(");
+            int argsEnd = line.indexOf(")");
+            // now we get the agent type
+            String list = line.substring(argsStart+1, argsEnd);
+            char type = list.charAt(0);
+            boards.setCurrentTurn(type);
+
         }else if(line.contains("second_move")) {
             System.out.println("second move:" + line);
             int argsStart = line.indexOf("(");

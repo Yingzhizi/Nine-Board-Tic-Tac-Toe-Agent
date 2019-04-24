@@ -13,9 +13,13 @@ import java.util.Random;
 
 public class AgentSubstitute {
 
+    // get the sub-board we need to locate
     static int prevMove = 0;
+
     static int[][] boards = new int[10][10];
+    //static AgentBoard boards;
     static Random rand = new Random();
+
     /* 0 = Empty
      * 1 = I played here
      * 2 = They played here

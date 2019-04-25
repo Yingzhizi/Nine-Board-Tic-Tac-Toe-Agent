@@ -130,6 +130,7 @@ public class Agent {
             boards.setVal(Integer.parseInt(numbers[2]), bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
+            prevMove = bestMove;
             return bestMove;
 
         }else if(line.contains("next_move")) {

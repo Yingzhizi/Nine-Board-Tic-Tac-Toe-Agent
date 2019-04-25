@@ -25,7 +25,7 @@ public class CellHeuristic {
         int x1 = board.evaluateHelper(1, cellNumber, player);
         int o2 = board.evaluateHelper(2, cellNumber, opponent);
         int o1 = board.evaluateHelper(1, cellNumber, opponent);
-        result = 10 * x2 + x1 - (10 * o2 + o1);
+        result = 100 * x2 + 10*x1 - (100 * o2 + 10*o1);
 
         /* declare a rule that if for a cell, player win, got 100 grade */
         if (board.cellCheckPlayerWin(cellNumber, player)) {
@@ -37,19 +37,19 @@ public class CellHeuristic {
         return result;
     }
 
-    public static boolean boardEvaluation(AgentBoard board, int cellNumber, char player) {
+    public static int boardEvaluation(AgentBoard board, int cellNumber, char player) {
         if (player != 'x' && player != 'o') {
             throw new IllegalArgumentException("there is no valid player");
         }
+
         int result;
         char opponent = opponent(player);
         int connectedTwo = board.evaluateHelper(2, cellNumber, opponent);
-        // can't let opponent has chance to win :)
-        if (connectedTwo != 0) {
-            return true;
-        }
+        int connectedOne = board.evaluateHelper(1, cellNumber, opponent);
 
-        return false;
+        result = 1000*connectedTwo + 100*connectedOne;
+        // can't let opponent has chance to win :)
+        return result;
     }
 
     // start doing alpha, beta pruning, return the best move.
@@ -64,7 +64,7 @@ public class CellHeuristic {
         */
 
         /* Rule1, check if I have any winning move */
-        int connectedTwo = board.evaluateConnectedTwo(cellNumber, player);
+        int connectedTwo = board.evaluateHelper(2, cellNumber, player);
         if (connectedTwo != 0) {
             // take the winning move
             // get available move for current player
@@ -79,6 +79,7 @@ public class CellHeuristic {
             }
         }
 
+
         /* Rule2, if the opponent has a winning move, block it */
         int opponentConnectedTwo = board.evaluateConnectedTwo(cellNumber, opponent(player));
         if (opponentConnectedTwo != 0) {
@@ -88,8 +89,10 @@ public class CellHeuristic {
             for (Integer move : canMoves) {
                 board.setVal(cellNumber, move, opponent(player));
                 if (board.checkPlayerWin(opponent(player))) {
-                    board.undoSetVal(cellNumber, move);
-                    return move;
+                    if (board.evaluateConnectedTwo(move, opponent(player)) == 0 && board.evaluateHelper(1, move, opponent(player)) == 0) {
+                        board.undoSetVal(cellNumber, move);
+                        return move;
+                    }
                 }
                 board.undoSetVal(cellNumber, move);
             }
@@ -124,34 +127,22 @@ public class CellHeuristic {
         }
 
         char currPlayer = board.getCurrentTurn();
-        // how I get to know the current turn is who???
-        // In agent.java If you receive second_move(6,5) command
-        // that means you play 'o' and the first move is 'x' in the 5th of the cell 6
-        // And If you receive third_move(6,5,7) command
-        // that means you play 'x' and your first move is 'x' in 5th of the cell 6 randomly set by teacher
-        // and the opponent 'o' move is the 7th of the cell 5
-        // After that, you receive next_move(5), next_move(6) and you decide which cell it should be set
-        // see http://www.cse.unsw.edu.au/~cs3411/19t1/hw3/
-        // assume we always player o first
         for (Integer move : canMoves) {
             // try the move for current player
             board.setVal(cellNumber, move, player);
-            // if player is 'o', maximizing player
-            if (move != cellNumber && boardEvaluation(board, move, opponent(player))) {
-                /* if the move chosen corresponding to the sub cell that opponent has a chance to win
-                 *  cannot take this move, jump to next one */
-                continue;
-            }
+            // if player is the player in current agent, maximizing player
             if (player == currPlayer) {
                 score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
                 if (score > alpha) {
                     alpha = score;
+                    alpha -= boardEvaluation(board, move, player);
                     indexOfBestMove = move;
                 }
             } else if (player == opponent(currPlayer)) {
                 score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
                 if (score < beta) {
                     beta = score;
+                    beta += boardEvaluation(board, move, player);
                     indexOfBestMove = move;
                 }
             }
@@ -171,6 +162,7 @@ public class CellHeuristic {
 
         return new int[] {beta, indexOfBestMove};
     }
+
 
 //    public static void main(String[] args) {
 //        /* test if opponent works :) */

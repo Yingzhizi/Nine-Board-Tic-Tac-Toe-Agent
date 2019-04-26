@@ -12,7 +12,7 @@ public class AgentSubstitute {
     //static int[][] boards = new int[10][10];
     static AgentBoard boards;
     static char player;
-    static CellHeuristic agentMove;
+    static CellHeuClone agentMove;
     static Random rand = new Random();
     static int count = 2;
 
@@ -149,7 +149,7 @@ public class AgentSubstitute {
             prevMove = Integer.parseInt(list);
 
             // get the best move
-            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 10);
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 14);
             boards.setVal(Integer.parseInt(list), bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));

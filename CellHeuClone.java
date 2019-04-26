@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class CellHeuristic {
+public class CellHeuClone {
 
     private static int maxVal;
 

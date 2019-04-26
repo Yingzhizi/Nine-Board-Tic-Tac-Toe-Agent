@@ -133,7 +133,7 @@ public class CellHeuristic {
         // see http://www.cse.unsw.edu.au/~cs3411/19t1/hw3/
         // assume we always player o first
         for (Integer move : canMoves) {
-            // try the move for current player
+            // try the move for current player  
             board.setVal(cellNumber, move, player);
             // if player is 'o', maximizing player
             if (move != cellNumber && boardEvaluation(board, move, opponent(player))) {

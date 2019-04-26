@@ -80,6 +80,7 @@ public class AgentSubstitute {
             int argsEnd = line.indexOf(")");
             // now we get the agent type
             String list = line.substring(argsStart+1, argsEnd);
+            // System.out.println(line);
             char type = list.charAt(0);
             boards.setCurrentTurn(type);
             System.out.println("Player is " + type);

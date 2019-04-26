@@ -1,0 +1,8 @@
+Against random
+agent win: 26, opponent win: 4
+winning rate: 86.67%
+-----------------
+Against looket
+agent win: 0, opponent win: 30
+winning rate: 0.00%
+-----------------

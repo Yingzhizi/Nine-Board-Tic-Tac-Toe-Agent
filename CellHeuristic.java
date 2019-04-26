@@ -25,7 +25,7 @@ public class CellHeuristic {
         int x1 = board.evaluateHelper(1, cellNumber, player);
         int o2 = board.evaluateHelper(2, cellNumber, opponent);
         int o1 = board.evaluateHelper(1, cellNumber, opponent);
-        result = 100 * x2 + 10*x1 - (100 * o2 + 10*o1);
+        result = 10 * x2 + x1 - (10 * o2 + o1);
 
         /* declare a rule that if for a cell, player win, got 100 grade */
         if (board.cellCheckPlayerWin(cellNumber, player)) {
@@ -47,7 +47,7 @@ public class CellHeuristic {
         int connectedTwo = board.evaluateHelper(2, cellNumber, opponent);
         int connectedOne = board.evaluateHelper(1, cellNumber, opponent);
 
-        result = 1000*connectedTwo + 100*connectedOne;
+        result = 10*connectedTwo + 10*connectedOne;
         // can't let opponent has chance to win :)
         return result;
     }
@@ -80,23 +80,23 @@ public class CellHeuristic {
         }
 
 
-        /* Rule2, if the opponent has a winning move, block it */
-        int opponentConnectedTwo = board.evaluateConnectedTwo(cellNumber, opponent(player));
-        if (opponentConnectedTwo != 0) {
-            // take the winning move
-            // get available move for current player
-            ArrayList<Integer> canMoves = board.canMove(cellNumber);
-            for (Integer move : canMoves) {
-                board.setVal(cellNumber, move, opponent(player));
-                if (board.checkPlayerWin(opponent(player))) {
-                    if (board.evaluateConnectedTwo(move, opponent(player)) == 0 && board.evaluateHelper(1, move, opponent(player)) == 0) {
-                        board.undoSetVal(cellNumber, move);
-                        return move;
-                    }
-                }
-                board.undoSetVal(cellNumber, move);
-            }
-        }
+//        /* Rule2, if the opponent has a winning move, block it */
+//        int opponentConnectedTwo = board.evaluateConnectedTwo(cellNumber, opponent(player));
+//        if (opponentConnectedTwo != 0) {
+//            // take the winning move
+//            // get available move for current player
+//            ArrayList<Integer> canMoves = board.canMove(cellNumber);
+//            for (Integer move : canMoves) {
+//                board.setVal(cellNumber, move, opponent(player));
+//                if (board.checkPlayerWin(opponent(player))) {
+//                    if (board.evaluateConnectedTwo(move, opponent(player)) == 0 && board.evaluateHelper(1, move, opponent(player)) == 0) {
+//                        board.undoSetVal(cellNumber, move);
+//                        return move;
+//                    }
+//                }
+//                board.undoSetVal(cellNumber, move);
+//            }
+//        }
 
         /* if the move chosen corresponding to the sub cell that opponent has a chance to win
         *  cannot take this move
@@ -132,17 +132,27 @@ public class CellHeuristic {
             board.setVal(cellNumber, move, player);
             // if player is the player in current agent, maximizing player
             if (player == currPlayer) {
-                score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
+                int connectedTwo = board.evaluateHelper(2, move, opponent(player));
+                if (connectedTwo == 2) {
+                    continue;
+                }
+
+                score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0] - boardEvaluation(board, move, player);
                 if (score > alpha) {
                     alpha = score;
-                    alpha -= boardEvaluation(board, move, player);
+                    //alpha -= boardEvaluation(board, move, player);
                     indexOfBestMove = move;
                 }
             } else if (player == opponent(currPlayer)) {
-                score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0];
+                int connectedTwo = board.evaluateHelper(2, move, player);
+                if (connectedTwo == 2) {
+                    continue;
+                }
+
+                score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0] + boardEvaluation(board, move, opponent(player));
                 if (score < beta) {
                     beta = score;
-                    beta += boardEvaluation(board, move, player);
+                    //beta += boardEvaluation(board, move, player);
                     indexOfBestMove = move;
                 }
             }

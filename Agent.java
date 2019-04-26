@@ -101,11 +101,12 @@ public class Agent {
             //place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
 
             // get best move
-            int bestMove = agentMove.getBestMove(player, prevMove, boards, 5);
+            int bestMove = agentMove.getBestMove(player, prevMove, boards, 10);
             boards.setVal(prevMove, bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
             prevMove = bestMove;
+            count+=2;
             return bestMove;
 
         }else if(line.contains("third_move")) {
@@ -126,11 +127,12 @@ public class Agent {
             //place(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]), 2);
 
             // get the best move
-            int bestMove = agentMove.getBestMove(player, Integer.parseInt(numbers[2]), boards, 5);
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(numbers[2]), boards, 10);
             boards.setVal(Integer.parseInt(numbers[2]), bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
             prevMove = bestMove;
+            count+=2;
             return bestMove;
 
         }else if(line.contains("next_move")) {
@@ -147,11 +149,12 @@ public class Agent {
             prevMove = Integer.parseInt(list);
 
             // get the best move
-            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 5);
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 10);
             boards.setVal(Integer.parseInt(list), bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
             prevMove = bestMove;
+            count+=2;
             return bestMove;
 
         }else if(line.contains("last_move")) {

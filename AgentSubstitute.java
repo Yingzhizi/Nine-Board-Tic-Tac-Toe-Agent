@@ -16,7 +16,7 @@ public class AgentSubstitute {
     static Random rand = new Random();
     static int count = 2;
 
-    public Agent() {
+    public AgentSubstitute() {
         boards = new AgentBoard();
     }
 

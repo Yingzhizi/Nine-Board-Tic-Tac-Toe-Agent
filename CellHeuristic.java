@@ -21,17 +21,17 @@ public class CellHeuristic {
         int result;
         char opponent = opponent(player);
         /* according to the evaluation function, get the score of each cell */
-        int x2 = board.evaluateHelper(2, cellNumber, player);
-        int x1 = board.evaluateHelper(1, cellNumber, player);
-        int o2 = board.evaluateHelper(2, cellNumber, opponent);
-        int o1 = board.evaluateHelper(1, cellNumber, opponent);
-        result = 10 * x2 + x1 - (10 * o2 + o1);
+        int x2 = board.evaluateHelper(2, cellNumber, 'x');
+        int x1 = board.evaluateHelper(1, cellNumber, 'x');
+        int o2 = board.evaluateHelper(2, cellNumber, 'o');
+        int o1 = board.evaluateHelper(1, cellNumber, 'o');
+        result = 100 * 10* x2 + x1 - (100 * o2 + 10* o1);
 
         /* declare a rule that if for a cell, player win, got 100 grade */
-        if (board.cellCheckPlayerWin(cellNumber, player)) {
-            result += 100;
-        } else if (board.cellCheckPlayerWin(cellNumber, opponent(player))) {
-            result -= 100;
+        if (board.cellCheckPlayerWin(cellNumber, 'x')) {
+            result += 1000;
+        } else if (board.cellCheckPlayerWin(cellNumber, 'o')) {
+            result -= 1000;
         }
 
         return result;
@@ -42,12 +42,16 @@ public class CellHeuristic {
             throw new IllegalArgumentException("there is no valid player");
         }
 
-        int result;
+        int result = 0;
         char opponent = opponent(player);
         int connectedTwo = board.evaluateHelper(2, cellNumber, opponent);
         int connectedOne = board.evaluateHelper(1, cellNumber, opponent);
 
-        result = 10*connectedTwo + 10*connectedOne;
+        if (player == 'x') {
+            result = -10000*connectedTwo - 10*connectedOne;
+        } else {
+            result = 10000*connectedTwo + 10*connectedOne;
+        }
         // can't let opponent has chance to win :)
         return result;
     }
@@ -108,6 +112,7 @@ public class CellHeuristic {
 
         // return the best move
         // best move store in index1 of return value;
+        System.out.println("Test best move" + result[1]);
         return result[1];
     }
 
@@ -122,55 +127,52 @@ public class CellHeuristic {
 
         // when game is over or depth reached, evaluate score.
         if (board.gameOver() || level == 0) {
+            //System.out.println("test for index of best move"+ indexOfBestMove);
             score = cellEvaluation(board, cellNumber, player);
             return new int[] {score, indexOfBestMove};
-        }
+        } else {
 
-        char currPlayer = board.getCurrentTurn();
-        for (Integer move : canMoves) {
-            // try the move for current player
-            board.setVal(cellNumber, move, player);
-            // if player is the player in current agent, maximizing player
-            if (player == currPlayer) {
-                int connectedTwo = board.evaluateHelper(2, move, opponent(player));
-                if (connectedTwo == 2) {
-                    continue;
+            //char currPlayer = board.getCurrentTurn();
+            for (Integer move : canMoves) {
+                // try the move for current player
+                board.setVal(cellNumber, move, player);
+                // if player is the player in current agent, maximizing player
+                if (player == 'x') {
+                    //score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0] - boardEvaluation(board, move, player);
+                    char opponent = opponent(player);
+                    score = alphaBetaHelper(opponent, move, board, alpha, beta, level - 1)[0] + boardEvaluation(board, move, player);;
+                    if (score > alpha) {
+                        alpha = score;
+                        //alpha -= boardEvaluation(board, move, player);
+                        indexOfBestMove = move;
+                    }
+                } else if (player == 'o') {
+                    //score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0] + boardEvaluation(board, move, player);
+                    char opponent = opponent(player);
+                    score = alphaBetaHelper(opponent, move, board, alpha, beta, level - 1)[0] + boardEvaluation(board, move, player);
+                    //System.out.println(boardEvaluation(board, move, player));
+                    if (score < beta) {
+                        beta = score;
+                        //beta += boardEvaluation(board, move, player);
+                        indexOfBestMove = move;
+                    }
                 }
 
-                score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0] - boardEvaluation(board, move, player);
-                if (score > alpha) {
-                    alpha = score;
-                    //alpha -= boardEvaluation(board, move, player);
-                    indexOfBestMove = move;
-                }
-            } else if (player == opponent(currPlayer)) {
-                int connectedTwo = board.evaluateHelper(2, move, player);
-                if (connectedTwo == 2) {
-                    continue;
-                }
+                //undo move
+                board.undoSetVal(cellNumber, move);
 
-                score = alphaBetaHelper(player, cellNumber, board, alpha, beta, level-1)[0] + boardEvaluation(board, move, opponent(player));
-                if (score < beta) {
-                    beta = score;
-                    //beta += boardEvaluation(board, move, player);
-                    indexOfBestMove = move;
+                // do the pruning
+                if (alpha >= beta) {
+                    break;
                 }
             }
 
-            //undo move
-            board.undoSetVal(cellNumber, move);
-
-            // do the pruning
-            if (alpha >= beta) {
-                break;
+            if (player == 'x') {
+                return new int[]{alpha, indexOfBestMove};
             }
-        }
 
-        if (player == currPlayer) {
-            return new int[] {alpha, indexOfBestMove};
+            return new int[]{beta, indexOfBestMove};
         }
-
-        return new int[] {beta, indexOfBestMove};
     }
 
 

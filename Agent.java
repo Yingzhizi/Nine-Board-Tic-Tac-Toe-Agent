@@ -101,7 +101,7 @@ public class Agent {
             //place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
 
             // get best move
-            int bestMove = agentMove.getBestMove(player, prevMove, boards, 10);
+            int bestMove = agentMove.getBestMove(player, prevMove, boards, 8);
             boards.setVal(prevMove, bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
@@ -127,7 +127,7 @@ public class Agent {
             //place(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]), 2);
 
             // get the best move
-            int bestMove = agentMove.getBestMove(player, Integer.parseInt(numbers[2]), boards, 10);
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(numbers[2]), boards, 8);
             boards.setVal(Integer.parseInt(numbers[2]), bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
@@ -149,7 +149,7 @@ public class Agent {
             prevMove = Integer.parseInt(list);
 
             // get the best move
-            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 10);
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 8);
             boards.setVal(Integer.parseInt(list), bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));

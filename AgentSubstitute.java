@@ -27,7 +27,7 @@ public class AgentSubstitute {
      */
     public static void main(String args[]) throws IOException {
 
-    Agent newPlayer = new Agent();
+    AgentSubstitute newPlayer = new AgentSubstitute();
 
 	if(args.length < 2) {
 	    System.out.println("Usage: java Agent -p (port)");
@@ -102,7 +102,7 @@ public class AgentSubstitute {
             //place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
 
             // get best move
-            int bestMove = agentMove.getBestMove(player, prevMove, boards, 10);
+            int bestMove = agentMove.getBestMove(player, prevMove, boards, 80);
             boards.setVal(prevMove, bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
@@ -148,14 +148,20 @@ public class AgentSubstitute {
             // update the agent board
             boards.setVal(prevMove, Integer.parseInt(list), opponent);
             prevMove = Integer.parseInt(list);
+            //check performance
+            long startTime = System.currentTimeMillis();
 
             // get the best move
-            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 14);
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 80);
             boards.setVal(Integer.parseInt(list), bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
             prevMove = bestMove;
             count+=2;
+
+            long endTime = System.currentTimeMillis();
+            System.out.println("next_move(" + bestMove + ")" + "runs "+ (endTime-startTime) + " ms");
+
             return bestMove;
 
         }else if(line.contains("last_move")) {

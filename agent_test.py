@@ -90,7 +90,7 @@ for i in range(30):
                 opponent = 'x' if agent == 'o' else 'o'
     kill_process(port)
 
-with open("battle.txt", 'w') as f:
+with open("battle.txt", 'a+') as f:
     f.write("Against random\n")
     f.write(f"agent win: {win_random['agent']}, opponent win: {win_random['opponent']}\n")
     f.write('winning rate: {:.2%}\n'.format(win_random["agent"]/(win_random["opponent"] + win_random["agent"])))

@@ -25,6 +25,17 @@ public class CellHeuristic {
         int x1 = board.evaluateHelper(1, cellNumber, player);
         int o2 = board.evaluateHelper(2, cellNumber, opponent);
         int o1 = board.evaluateHelper(1, cellNumber, opponent);
+        /*
+        感觉这个heuristic 应该改改， 如果一个cell里对面有两个连成一条线， 我方也是两个连成一条线
+        比如此时有1, 2, 3, 5这几个点可以下 但是cell 5如下所示
+        比如  . x x
+             o o .
+             . . .
+        评估可能得到heuristic只有1, 但是此时不能下到cell 5， 因为这已经是对方赢的局面，
+        所以我在另一个把o2的系数调大了 调成了30
+        */
+
+
         result = 10 * x2 + x1 - (10 * o2 + o1);
 
         /* declare a rule that if for a cell, player win, got 100 grade */

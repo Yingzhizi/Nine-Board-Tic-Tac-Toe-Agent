@@ -14,3 +14,12 @@ Against looket
 agent win: 0, opponent win: 30
 winning rate: 0.00%
 -----------------
+level = 80
+Against random
+agent win: 24, opponent win: 6
+winning rate: 80.00%
+-----------------
+Against looket
+agent win: 0, opponent win: 30
+winning rate: 0.00%
+-----------------

@@ -97,6 +97,68 @@ public class AgentBoard implements Cloneable{
         return legalPositions;
     }
 
+    public ArrayList<Integer> CellGetTwo(int cell, char player){
+        ArrayList<Integer> moves = new ArrayList<Integer>();
+        // check whether row get two in one row
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if (j == 0){
+                    if (board[cell-1][i][j] == player && board[cell-1][i][j+1] == board[cell-1][i][j] && board[cell-1][i][j+2] == '.'){
+                        moves.add(i*3 + j + 1 + 2);
+                    }
+                    if (board[cell-1][i][j] == player && board[cell-1][i][j+2] == board[cell-1][i][j] && board[cell-1][i][j+1] == '.'){
+                        moves.add(i*3 + j + 1 + 1);
+                    }
+                }else if(j == 1){
+                    if (board[cell-1][i][j] == player && board[cell-1][i][j+1] == board[cell-1][i][j] && board[cell-1][i][j-1] == '.'){
+                        moves.add(i*3 + j + 1 - 1);
+                    }
+                }
+            }
+        }
+
+        // check whether column get two in one column
+        for(int j=0; j<3;j++){
+            for(int i=0; i<3; i++){
+                if (i == 0){
+                    if (board[cell-1][i][j] == player && board[cell-1][i+1][j] == board[cell-1][i][j] && board[cell-1][i+2][j] == '.'){
+                        moves.add(7 + j);
+                    }
+                    if (board[cell-1][i][j] == player && board[cell-1][i+2][j] == board[cell-1][i][j] && board[cell-1][i+1][j] == '.'){
+                        moves.add(4 + j);
+                    }
+                }else if(i == 1){
+                    if (board[cell-1][i][j] == player && board[cell-1][i+1][j] == board[cell-1][i][j] && board[cell-1][i-1][j] == '.'){
+                        moves.add(1 + j);
+                    }
+                }
+            }
+        }
+
+        // check whether diagonal get two in one diagonal
+
+        if(board[cell-1][1][1] == player && board[cell-1][0][0] == board[cell-1][1][1] && board[cell-1][2][2] == '.'){
+            moves.add(9);
+        }
+        if(board[cell-1][1][1] == player && board[cell-1][2][2] == board[cell-1][1][1] && board[cell-1][0][0] == '.'){
+            moves.add(1);
+        }
+        if(board[cell-1][1][1] == '.' && board[cell-1][2][2] == board[cell-1][0][0] && board[cell-1][0][0] == player){
+            moves.add(5);
+        }
+        if(board[cell-1][1][1] == '.' && board[cell-1][2][0] == board[cell-1][0][2] && board[cell-1][2][0] == player){
+            moves.add(5);
+        }
+        if(board[cell-1][1][1] == player && board[cell-1][0][2] == board[cell-1][1][1] && board[cell-1][2][0] == '.'){
+            moves.add(7);
+        }
+        if(board[cell-1][1][1] == player && board[cell-1][2][0] == board[cell-1][1][1] && board[cell-1][0][2] == '.'){
+            moves.add(3);
+        }
+        
+        return moves;
+    }
+
     /* MAY INVENT LOTS OF METHOD TO CALCULATE HEURISTIC TO DO SOME TEST
     *  THE FINAL HEURISTIC MAY USE OTHER METHODS
     *  This is a simple heuristic value calculation method, to calculate 
@@ -136,7 +198,6 @@ public class AgentBoard implements Cloneable{
         return winMoves;
 
     }
-
 
     /* check if a specific player win the games or not */
     public boolean checkPlayerWin(char player){

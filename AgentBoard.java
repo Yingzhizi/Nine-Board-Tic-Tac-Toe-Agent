@@ -223,7 +223,7 @@ public class AgentBoard implements Cloneable{
                         sumWinLine += 1;
                     }
                     if (j == 1){
-                        if (board[cell-1][i][j] == player && board[cell-1][i+1][j-1] == '.' && board[cell-1][i+2][j+1] == '.'){
+                        if (board[cell-1][i][j] == player && board[cell-1][i+1][j-1] == '.' && board[cell-1][i-1][j+1] == '.'){
                             sumWinLine += 1;
                         }
                         if (board[cell-1][i][j] == player && board[cell-1][i-1][j-1] == '.' && board[cell-1][i+1][j+1] == '.'){
@@ -235,9 +235,6 @@ public class AgentBoard implements Cloneable{
                         sumWinLine += 1;
                     }
                     if (j == 2){
-                        if (board[cell-1][i][j] == player && board[cell-1][i+1][j-1] == '.' && board[cell-1][i+2][j-2] == '.'){
-                            sumWinLine += 1;
-                        }
                         if (board[cell-1][i][j] == player && board[cell-1][i-1][j-1] == '.' && board[cell-1][i-2][j-2] == '.'){
                             sumWinLine += 1;
                         }

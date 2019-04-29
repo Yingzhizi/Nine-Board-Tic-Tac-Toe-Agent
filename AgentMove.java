@@ -71,6 +71,17 @@ public class AgentMove {
         int bestMove = getBestMove(firstMove);
         board.setVal(firstMove, bestMove, agent);
         lastMove = bestMove;
+        board.displayBoard();
+
+        return bestMove;
+    }
+
+    public int playThirdMove(int first, int second, int third){
+        setAgent('x');
+        board.setVal(first, second, agent);
+        board.setVal(second, third, opponent);
+        int bestMove = getBestMove(third);
+        lastMove = bestMove;
 
         return bestMove;
     }
@@ -142,15 +153,21 @@ public class AgentMove {
         
         int alpha = Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
-        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 9);
+        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 11);
 
         return score[1];
 
     }
 
 
-    public int cellEvaluation(int cell, char player){
-        return 0;
+    public int cellHeuristic(int cell, char player){
+        int x2 = board.evaluateHelper(2, cell, agent);
+        int x1 = board.evaluateHelper(1, cell, agent);
+        int o2 = board.evaluateHelper(2, cell, opponent);
+        int o1 = board.evaluateHelper(1, cell, opponent);
+        int result = 100 * x2 + x1 - (200 * o2 +  o1);
+
+        return result;
     }
 
     public ArrayList<Integer> getTwo(int cell, char player){
@@ -175,7 +192,7 @@ public class AgentMove {
         }
 
         if (level == 0 || board.isFull()){
-            return new int[] {0, move};
+            return new int[] {cellHeuristic(cell, agent), cell};
         }
 
         // board.displayBoard();
@@ -193,11 +210,16 @@ public class AgentMove {
                 if(score < beta){
                     move = (Integer)locations.get(i);
                     beta = score;
+                    if (level == 9){
+                        // System.out.println("score: "+ score);
+                    }
                     if (alpha >= beta){
-                        return new int[] {alpha, move};
+                        // return new int[] {alpha, move};
+                        break;
                     }
                 } 
             }
+            // System.out.println("player: " + player + " cell: "+ cell+" alpha: "+ alpha + " beta: "+beta+" level: "+ level);
             return new int[] {beta, move};
         }else{
             ArrayList locations = board.canMove(cell);
@@ -211,15 +233,20 @@ public class AgentMove {
                 int score = alphaBeta(board, (Integer)locations.get(i), opponent, alpha, beta, level-1)[0];
                 board.undoSetVal(cell, (Integer)locations.get(i));
 
-                if(score < beta){
+                if(score > alpha){
                     alpha = score;
                     move = (Integer)locations.get(i);
+                    if (level == 9){
+                        // System.out.println("score: "+ score);
+                    }
                     if (alpha >= beta){
-                        return new int[] {beta, move};
+                        // return new int[] {beta, move};
+                        break;
                     }
                 } 
                 
             }
+            // System.out.println("player: " + player + " cell: "+ cell+" alpha: "+ alpha + " beta: "+beta+" level: "+ level);
             return new int[] {alpha, move};
         }
     }

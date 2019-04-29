@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class AgentMove {
         /* current player */
     private char player = 'o';
-
+    private int count = 0;
     /* default agent, modify at the beginning */
     private char agent = 'o';
     private char opponent = 'x';
@@ -87,15 +87,51 @@ public class AgentMove {
     }
 
     public int playNextMove(int opponentMove){
+        count += 1;
         board.setVal(lastMove, opponentMove, opponent);
         int bestMove = getBestMove(opponentMove);
+        if (!board.isLegal(opponentMove, bestMove)){
+            int substituteMove = findSubstituteMove(opponentMove);
+            board.setVal(opponentMove, substituteMove, agent);
+            lastMove = substituteMove;
+            System.out.println("Total count: " + count);
+            board.displayBoard();
+            return substituteMove;
+        }
         board.setVal(opponentMove, bestMove, agent);
+        if(board.CellGetTwo(bestMove, opponent).size()>0){
+            int substituteMove = findSubstituteMove(opponentMove);
+            board.undoSetVal(opponentMove, bestMove);
+            board.setVal(opponentMove, substituteMove, agent);
+            lastMove = substituteMove;
+            System.out.println("Total count: " + count);
+            board.displayBoard();
+
+            return substituteMove;
+        }
         lastMove = bestMove;
         board.displayBoard();
-
+        System.out.println("Total count: " + count);
         return bestMove;
     }
 
+    public int findSubstituteMove(int opponentMove){ 
+        ArrayList<Integer> substituteMoves = board.canMove(opponentMove);
+        ArrayList<Integer> heuristics = new ArrayList<Integer>();
+        int maxHeuristic = Integer.MIN_VALUE;
+        int maxMove = 0;
+        for(int i = 0; i<substituteMoves.size(); i++){
+            if(cellHeuristic(substituteMoves.get(i)) > maxHeuristic){
+                maxHeuristic = cellHeuristic(substituteMoves.get(i));
+                maxMove = (Integer)substituteMoves.get(i);
+            }
+            heuristics.add(cellHeuristic(substituteMoves.get(i)));
+        } 
+        printArray("heuristic: ", substituteMoves);
+        printArray("values: ", heuristics);
+        
+        return maxMove;
+    }
 
     public int getBestMove(int opponentMove){
 
@@ -107,6 +143,7 @@ public class AgentMove {
             Integer winMove = moves.get(0);
             // board.setVal(opponentMove, winMove, agent);
             // lastMove = winMove;
+            System.out.println("from winMoves");
             return winMove;
         }
         
@@ -123,6 +160,7 @@ public class AgentMove {
                     Integer blockMove = oppoMove;
                     // board.setVal(opponentMove, blockMove, agent);
                     // lastMove = blockMove;
+                    System.out.println("from blockMoves");
                     return blockMove;
                 }
             }
@@ -138,6 +176,7 @@ public class AgentMove {
                 Integer moveFive = 5;
                 // board.setVal(opponentMove, moveFive, agent);
                 // lastMove = moveFive;
+                System.out.println("from cellFiveMoves");
                 return moveFive;
             }
         }
@@ -153,21 +192,48 @@ public class AgentMove {
         
         int alpha = Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
-        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 11);
+        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 8);
 
         return score[1];
 
     }
 
 
-    public int cellHeuristic(int cell, char player){
-        int x2 = board.evaluateHelper(2, cell, agent);
-        int x1 = board.evaluateHelper(1, cell, agent);
-        int o2 = board.evaluateHelper(2, cell, opponent);
-        int o1 = board.evaluateHelper(1, cell, opponent);
-        int result = 100 * x2 + x1 - (200 * o2 +  o1);
 
-        return result;
+
+    public int cellHeuristic(int cell){
+        int sumHeuristic = 0;
+        ArrayList<Integer> oppoTwo = board.CellGetTwo(cell, opponent);
+        if (oppoTwo.size() >0){
+            sumHeuristic -= 300;
+        }
+        ArrayList<Integer> agentTwo = board.CellGetTwo(cell, agent);
+        if (agentTwo.size() >0){
+            sumHeuristic += 100 ;
+            for(Integer move: agentTwo){
+                ArrayList<Integer> nextAgentTwo = board.CellGetTwo(move, agent);
+                if (nextAgentTwo.size() > 0){
+                    sumHeuristic += 100;
+                }
+            }
+        }
+        sumHeuristic -= board.winLine(cell, opponent) * 50;
+
+        int o1 = board.evaluateHelper(1, cell, agent);
+        int x1 = board.evaluateHelper(1, cell, opponent);
+        sumHeuristic += 10 * o1;
+        sumHeuristic -= 10 * x1;
+
+        return sumHeuristic;
+    }
+
+    public int boardHeuristic(){
+        int sumHeuristic = 0;
+        for(int cell=1; cell<10; cell++){
+            sumHeuristic += cellHeuristic(cell);
+        }
+
+        return sumHeuristic;
     }
 
     public ArrayList<Integer> getTwo(int cell, char player){
@@ -182,17 +248,17 @@ public class AgentMove {
     public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level){
 
         int move = 0;
-
-        if (board.cellCheckPlayerWin(cell ,agent)){
-            return new int[] {100, cell};
-        }else if(board.cellCheckPlayerWin(cell, opponent)){
-            return new int[] {-100, cell};
+        if (board.CellGetTwo(cell, opponent).size() > 0){
+            return new int[] {-1000, cell};
+        }else if(board.CellGetTwo(cell, agent).size() > 0){
+            return new int[] {1000, cell};
         }else if(board.cellIsFull(cell)){
             return new int[] {0, cell}; 
         }
 
         if (level == 0 || board.isFull()){
-            return new int[] {cellHeuristic(cell, agent), cell};
+            // return new int[] {cellHeuristic(cell), cell};
+            return new int[] {cellHeuristic(cell), cell};
         }
 
         // board.displayBoard();
@@ -205,7 +271,7 @@ public class AgentMove {
                 // System.out.println();  
                 board.setVal(cell, (Integer)locations.get(i), opponent);
                 // moveBd.displayBoard();
-                int score = alphaBeta(board, (Integer)locations.get(i), agent, alpha, beta, level-1)[0];
+                int score = alphaBeta(board, (Integer)locations.get(i), agent, alpha, beta, level-1)[0] - cellHeuristic((Integer)locations.get(i));
                 board.undoSetVal(cell, (Integer)locations.get(i));
                 if(score < beta){
                     move = (Integer)locations.get(i);
@@ -226,11 +292,9 @@ public class AgentMove {
             for(int i=0; i<locations.size(); i++){
                 // board.displayBoard();
                 // System.out.println();
-            
-                
                 board.setVal(cell, (Integer)locations.get(i), agent);
                 // board.displayBoard();
-                int score = alphaBeta(board, (Integer)locations.get(i), opponent, alpha, beta, level-1)[0];
+                int score = alphaBeta(board, (Integer)locations.get(i), opponent, alpha, beta, level-1)[0] + cellHeuristic((Integer)locations.get(i));
                 board.undoSetVal(cell, (Integer)locations.get(i));
 
                 if(score > alpha){
@@ -246,6 +310,11 @@ public class AgentMove {
                 } 
                 
             }
+            ArrayList<Integer> c = new ArrayList<Integer>();
+            for (int i = 0; i<9; i++){
+                c.add(cellHeuristic(i+1));
+            }
+            // printArray("cell heuristics:", c);
             // System.out.println("player: " + player + " cell: "+ cell+" alpha: "+ alpha + " beta: "+beta+" level: "+ level);
             return new int[] {alpha, move};
         }

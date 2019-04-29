@@ -18,7 +18,7 @@ public class AgentMove {
     /* change agent to singleton design pattern
     *  set global entry for agent
     */
-    private AgentBoard bd = new AgentBoard();
+    private AgentBoard board = new AgentBoard();
     private static AgentMove singletonAgent = new AgentMove();
     private AgentMove(){}
     public static AgentMove getAgent(){
@@ -32,6 +32,12 @@ public class AgentMove {
         opponent = (x == 'o') ? 'x': 'o';
     }
 
+    /* get opponent */
+    public char getOpponent(char player){
+        char oppo = (player == 'o') ? 'x': 'o';
+        return oppo;
+    }
+
     /* switch player for alpha-beta's min-max node */
     public char switchPlayer(){
         player = (player == 'x') ? 'o': 'x';
@@ -43,63 +49,110 @@ public class AgentMove {
     *       decesion making, return integer, winner juding
     */
     public int playSecondMove(int cell, int firstMove){
-        bd.setVal(cell, firstMove, 'x');
+        board.setVal(cell, firstMove, 'x');
         setAgent('o');
-        int alpha = Integer.MIN_VALUE;
-        int beta = Integer.MAX_VALUE;
-        int[] scoreMove = alphaBeta(bd, firstMove, 'o', alpha, beta, 9);
-        bd.setVal(firstMove, scoreMove[1], agent);
-        search_alpha = scoreMove[0];
-        lastMove = scoreMove[1];
+        board.setVal(cell, firstMove, opponent);
+        int bestMove = getBestMove(firstMove);
+        board.setVal(firstMove, bestMove, agent);
+        lastMove = bestMove;
 
-        return scoreMove[1];
+        return bestMove;
     }
 
     public int playNextMove(int opponentMove){
-        bd.setVal(lastMove, opponentMove, opponent);
-        int beta = Integer.MAX_VALUE;
-        int[] scoreMove = alphaBeta(bd, opponentMove, 'o', search_alpha, beta, 9);
-        bd.setVal(opponentMove, scoreMove[1], agent);
-        search_alpha = scoreMove[0];
-        lastMove = scoreMove[1];
+        board.setVal(lastMove, opponentMove, opponent);
+        int bestMove = getBestMove(opponentMove);
+        board.setVal(opponentMove, bestMove, agent);
+        lastMove = bestMove;
 
-        return scoreMove[1];
+        return bestMove;
+    }
+
+
+    public int getBestMove(int opponentMove){
+
+    /* Rule 1: IF can win, then choose the win move  */
+        ArrayList<Integer> moves = board.CellGetTwo(opponentMove, agent);
+        if (moves.size() > 0){
+            Integer winMove = moves.get(0);
+            board.setVal(opponentMove, winMove, agent);
+            lastMove = winMove;
+            return winMove;
+        }
+
+    /* Rule 2: IF opponent has two connected, and the block position don't cause
+        opponent win, then block */
+        ArrayList<Integer> opponentMoves = board.CellGetTwo(opponentMove, opponent);
+        if (opponentMoves.size() > 0){
+            for (Integer oppoMove: opponentMoves){
+                if (board.CellGetTwo(oppoMove, opponent).size() == 0){
+                    Integer blockMove = oppoMove;
+                    board.setVal(opponentMove, blockMove, agent);
+                    lastMove = blockMove;
+                    return blockMove;
+                }
+            }
+        }
+    
+    /* Rule 3: IF Agent can play on the central of the cell, then move to 5 */
+        ArrayList<Integer> cellFiveMoves = board.CellGetTwo(5, opponent);
+        if (opponentMoves.size() == 0){
+            Integer moveFive = 5;
+            board.setVal(opponentMove, moveFive, agent);
+            lastMove = moveFive;
+            return moveFive;
+        }
+        
+        int alpha = Integer.MIN_VALUE;
+        int beta = Integer.MAX_VALUE;
+        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 9);
+
+        return score[1];
+
+    }
+
+
+    public int cellEvaluation(int cell, char player){
+        return 0;
+    }
+
+    public ArrayList<Integer> getTwo(int cell, char player){
+        ArrayList<Integer> moves = board.CellGetTwo(cell, player);
+
+
+
+        return moves;
     }
 
     /* alpha-beta pruning  */
-    public int[] alphaBeta(AgentBoard bd, int cell, char player, int alpha, int beta, int level){
+    public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level){
 
         int move = 0;
 
-        if (bd.unitState != GameState.GameOver){
-            if(bd.cellCheckPlayerWin(cell, agent)){
-                bd.unitState = GameState.GameOver;
-                return new int[] {10, move};
-            }else if(bd.cellCheckPlayerWin(cell, opponent)){
-                bd.unitState = GameState.GameOver;
-                return new int[] {-10, move};
-            }else if (bd.cellIsFull(cell)){
-                bd.unitState = GameState.GameOver;
-                return new int[] {0, move};
-            }
+        if (board.cellCheckPlayerWin(cell ,agent)){
+            return new int[] {100, cell};
+        }else if(board.cellCheckPlayerWin(cell, opponent)){
+            return new int[] {-100, cell};
+        }else if(board.cellIsFull(cell)){
+            return new int[] {0, cell}; 
         }
 
-        if (level == 0 || bd.isFull()){
+        if (level == 0 || board.isFull()){
             return new int[] {0, move};
         }
 
-        // bd.displayBoard();
+        // board.displayBoard();
         // System.out.println();
 
         if (player == opponent){
-            ArrayList locations = bd.canMove(cell);
+            ArrayList locations = board.canMove(cell);
             for(int i=0; i<locations.size(); i++){
-                // bd.displayBoard();
+                // board.displayBoard();
                 // System.out.println();  
-                bd.setVal(cell, (Integer)locations.get(i), opponent);
+                board.setVal(cell, (Integer)locations.get(i), opponent);
                 // moveBd.displayBoard();
-                int score = alphaBeta(bd, (Integer)locations.get(i), agent, alpha, beta, level-1)[0];
-                bd.undoSetVal(cell, (Integer)locations.get(i));
+                int score = alphaBeta(board, (Integer)locations.get(i), agent, alpha, beta, level-1)[0];
+                board.undoSetVal(cell, (Integer)locations.get(i));
                 if(score < beta){
                     move = (Integer)locations.get(i);
                     beta = score;
@@ -110,16 +163,16 @@ public class AgentMove {
             }
             return new int[] {beta, move};
         }else{
-            ArrayList locations = bd.canMove(cell);
+            ArrayList locations = board.canMove(cell);
             for(int i=0; i<locations.size(); i++){
-                // bd.displayBoard();
+                // board.displayBoard();
                 // System.out.println();
             
                 
-                bd.setVal(cell, (Integer)locations.get(i), agent);
-                // bd.displayBoard();
-                int score = alphaBeta(bd, (Integer)locations.get(i), opponent, alpha, beta, level-1)[0];
-                bd.undoSetVal(cell, (Integer)locations.get(i));
+                board.setVal(cell, (Integer)locations.get(i), agent);
+                // board.displayBoard();
+                int score = alphaBeta(board, (Integer)locations.get(i), opponent, alpha, beta, level-1)[0];
+                board.undoSetVal(cell, (Integer)locations.get(i));
 
                 if(score < beta){
                     alpha = score;
@@ -134,16 +187,28 @@ public class AgentMove {
         }
     }
 
+
+    public String checkWinner() {
+        if (board.checkPlayerWin(agent)){
+            return "agent";
+        }else if(board.checkPlayerWin(opponent)){
+            return "opponent";
+        }
+
+        return "draw";
+    }
+
+
     public static void main(String[] args) {
         System.out.println("agent move!");
         AgentMove move = new AgentMove();
         int alpha = Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
         int cell = 5;
-        int[] scoreMove = move.alphaBeta(move.bd, cell, 'o', alpha, beta, 4);
+        int[] scoreMove = move.alphaBeta(move.board, cell, 'o', alpha, beta, 4);
         System.out.println(scoreMove[0]);
         System.out.println(scoreMove[1]);
-        move.bd.displayBoard();
+        move.board.displayBoard();
     }
 
 }

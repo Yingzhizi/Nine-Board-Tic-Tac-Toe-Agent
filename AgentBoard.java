@@ -155,7 +155,7 @@ public class AgentBoard implements Cloneable{
         if(board[cell-1][1][1] == player && board[cell-1][2][0] == board[cell-1][1][1] && board[cell-1][0][2] == '.'){
             moves.add(3);
         }
-        
+
         return moves;
     }
 
@@ -189,8 +189,78 @@ public class AgentBoard implements Cloneable{
         board[num-1][(positionNumber-1)/3][(positionNumber-1)%3] = val;
     }
 
+    public boolean isLegal(int cell, int positionNumber){
+        if (board[cell-1][(positionNumber-1)/3][(positionNumber-1)%3] == '.'){
+            return true;
+        }
+        return false;
+    }
+
     public char getPositionPlayer(int cellNumber, int positionNumber){
         return board[cellNumber-1][(positionNumber-1)/3][(positionNumber-1)%3];
+    }
+
+    public int winLine(int cell, char player){
+        int sumWinLine = 0;
+        for(int i=0; i<3; i++){
+            for(int j=0; j<3; j++){
+                if (i == 0){
+                    if (board[cell-1][i][j] == player && board[cell-1][i+1][j] == '.' && board[cell-1][i+2][j] == '.'){
+                        sumWinLine += 1;
+                    }
+                    if (j == 0){
+                        if (board[cell-1][i][j] == player && board[cell-1][i+1][j+1] == '.' && board[cell-1][i+2][j+2] == '.'){
+                            sumWinLine += 1;
+                        }
+                    }
+                    if (j == 2){
+                        if (board[cell-1][i][j] == player && board[cell-1][i+1][j-1] == '.' && board[cell-1][i+2][j-2] == '.'){
+                            sumWinLine += 1;
+                        }
+                    }
+                }else if(i == 1){
+                    if (board[cell-1][i][j] == player && board[cell-1][i+1][j] == '.' && board[cell-1][i-1][j] == '.'){
+                        sumWinLine += 1;
+                    }
+                    if (j == 1){
+                        if (board[cell-1][i][j] == player && board[cell-1][i+1][j-1] == '.' && board[cell-1][i+2][j+1] == '.'){
+                            sumWinLine += 1;
+                        }
+                        if (board[cell-1][i][j] == player && board[cell-1][i-1][j-1] == '.' && board[cell-1][i+1][j+1] == '.'){
+                            sumWinLine += 1;
+                        }
+                    }
+                }else if(i == 2){
+                    if (board[cell-1][i][j] == player && board[cell-1][i-1][j] == '.' && board[cell-1][i-2][j] == '.'){
+                        sumWinLine += 1;
+                    }
+                    if (j == 2){
+                        if (board[cell-1][i][j] == player && board[cell-1][i+1][j-1] == '.' && board[cell-1][i+2][j-2] == '.'){
+                            sumWinLine += 1;
+                        }
+                        if (board[cell-1][i][j] == player && board[cell-1][i-1][j-1] == '.' && board[cell-1][i-2][j-2] == '.'){
+                            sumWinLine += 1;
+                        }
+                    }
+                }
+
+                if (j == 0){
+                    if (board[cell-1][i][j] == player && board[cell-1][i][j+1] == '.' && board[cell-1][i][j+2] == '.'){
+                        sumWinLine += 1;
+                    }
+                }else if(j == 1){
+                    if (board[cell-1][i][j] == player && board[cell-1][i][j-1] == '.' && board[cell-1][i][j+1] == '.'){
+                        sumWinLine += 1;
+                    }
+                }else if(j == 2){
+                    if (board[cell-1][i][j] == player && board[cell-1][i][j-1] == '.' && board[cell-1][i][j-2] == '.'){
+                        sumWinLine += 1;
+                    }
+                }
+
+            }
+        }
+        return sumWinLine;
     }
 
     public ArrayList moveWin(int cellNumber, char player){
@@ -555,6 +625,12 @@ public class AgentBoard implements Cloneable{
 //        System.out.println("best move is " + bestMove);
 //        agent_board.setVal(3, bestMove, 'o');
 //        agent_board.displayBoard();
+
+
+        
+        
+
+        
 
     }
 

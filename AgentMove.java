@@ -25,6 +25,22 @@ public class AgentMove {
         return singletonAgent;
     }
 
+    public void printArray(String s, ArrayList<Integer> arr){
+        System.out.print(s + " [");
+        for (int i=0; i<arr.size(); i++){
+            System.out.print(arr.get(i) + " ");
+        }
+        System.out.println("]");
+    }
+
+    public void setVal(int cell, int positionNumber, char val){
+        board.setVal(cell, positionNumber, val);
+    }
+
+    public void displayBoard(){
+        board.displayBoard();
+    }
+
     /*  use at the beginning of game, 
     after receive secondMove or thirdMove  */
     public void setAgent(char x){
@@ -64,6 +80,7 @@ public class AgentMove {
         int bestMove = getBestMove(opponentMove);
         board.setVal(opponentMove, bestMove, agent);
         lastMove = bestMove;
+        board.displayBoard();
 
         return bestMove;
     }
@@ -72,36 +89,56 @@ public class AgentMove {
     public int getBestMove(int opponentMove){
 
     /* Rule 1: IF can win, then choose the win move  */
+
         ArrayList<Integer> moves = board.CellGetTwo(opponentMove, agent);
+        printArray("moves:", moves);
         if (moves.size() > 0){
             Integer winMove = moves.get(0);
-            board.setVal(opponentMove, winMove, agent);
-            lastMove = winMove;
+            // board.setVal(opponentMove, winMove, agent);
+            // lastMove = winMove;
             return winMove;
         }
+        
+        
+        
 
     /* Rule 2: IF opponent has two connected, and the block position don't cause
         opponent win, then block */
         ArrayList<Integer> opponentMoves = board.CellGetTwo(opponentMove, opponent);
+        printArray("opponentMoves:", opponentMoves);
         if (opponentMoves.size() > 0){
             for (Integer oppoMove: opponentMoves){
                 if (board.CellGetTwo(oppoMove, opponent).size() == 0){
                     Integer blockMove = oppoMove;
-                    board.setVal(opponentMove, blockMove, agent);
-                    lastMove = blockMove;
+                    // board.setVal(opponentMove, blockMove, agent);
+                    // lastMove = blockMove;
                     return blockMove;
                 }
             }
         }
     
+    
     /* Rule 3: IF Agent can play on the central of the cell, then move to 5 */
         ArrayList<Integer> cellFiveMoves = board.CellGetTwo(5, opponent);
-        if (opponentMoves.size() == 0){
-            Integer moveFive = 5;
-            board.setVal(opponentMove, moveFive, agent);
-            lastMove = moveFive;
-            return moveFive;
+        printArray("cellFiveMoves:", cellFiveMoves);
+        if (cellFiveMoves.size() == 0){
+            ArrayList<Integer> canMoves = board.canMove(opponentMove);
+            if (canMoves.contains(5)){
+                Integer moveFive = 5;
+                // board.setVal(opponentMove, moveFive, agent);
+                // lastMove = moveFive;
+                return moveFive;
+            }
         }
+
+        /* Rule 4: IF in a cell that opponent has two connected, don't move  */
+        // ArrayList<Integer> canMoves = board.canMove(opponentMove);
+        // for(Integer move: canMoves){
+        //     if (board.CellGetTwo(move, opponent).size() == 0){
+        //         return move;
+        //     }
+        // }
+
         
         int alpha = Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
@@ -201,14 +238,12 @@ public class AgentMove {
 
     public static void main(String[] args) {
         System.out.println("agent move!");
-        AgentMove move = new AgentMove();
-        int alpha = Integer.MIN_VALUE;
-        int beta = Integer.MAX_VALUE;
-        int cell = 5;
-        int[] scoreMove = move.alphaBeta(move.board, cell, 'o', alpha, beta, 4);
-        System.out.println(scoreMove[0]);
-        System.out.println(scoreMove[1]);
-        move.board.displayBoard();
+        AgentMove mv = AgentMove.getAgent();
+        
+        mv.setVal(5, 5, 'o');
+        mv.setVal(5, 9, 'o');
+        mv.displayBoard();
+        mv.printArray("move:", mv.board.CellGetTwo(5, 'o'));
     }
 
 }

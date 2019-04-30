@@ -268,16 +268,10 @@ public class AgentMove {
         sumHeuristic += board.winLine(cell, agent) * 1;
 
         /*
-        * diversityMoves heuristic is try to make agent win different positions
-        * in different cells. During the agent play games with lookt, we observed
-        * that the lookt usually have different winning positions in different cells,
-        * for example, x is the opponent, in cell 1, the opponent win position 8,
-        * and in cell 2, it wins position 1
-        * cell 1:        cell 2:
-        *    . x o          . x x
-        *    . x .          . . o
-        *    . . .          . . .
-        * Therefore, this may be a pattern that leads to win.
+        * 
+        *
+        *
+        *
         */
         ArrayList<Integer> diversityMoves = new ArrayList<Integer>();
         for(int i=1; i<10;i++){

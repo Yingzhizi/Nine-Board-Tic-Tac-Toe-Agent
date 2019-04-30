@@ -212,7 +212,7 @@ public class AgentMove {
 
         boolean [][] killerMove = getNewKillerMove();
 
-        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 8, killerMove, lastMove);
+        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 8, killerMove);
 
         return score[1];
 
@@ -365,7 +365,7 @@ public class AgentMove {
     }
 
     /* alpha-beta pruning  */
-    public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level, boolean [][] killerMove, int from){
+    public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level, boolean [][] killerMove){
 
         int move = 0;
 
@@ -380,9 +380,9 @@ public class AgentMove {
 
         if (level == 0 || board.cellIsFull(cell)){
             // return new int[] {boardHeuristic(), cell};
-            // return new int[] {cellHeuristic(cell), cell};
+            return new int[] {cellHeuristic(cell), cell};
             // return new int[] {cellChainHeuristic(cell), cell};
-            return new int[] {chainHeuristic(cell, from)};
+            // return new int[] {chainHeuristic(cell, from)};
         }
 
         boolean[][] newKillerMove = getNewKillerMove();
@@ -403,7 +403,7 @@ public class AgentMove {
                 board.setVal(cell,nextMove, opponent);
                 // moveBd.displayBoard();
                 // int score = alphaBeta(board, nextMove, agent, alpha, beta, level-1, killerMove)[0] - cellHeuristic((Integer)locations.get(i));
-                int score = alphaBeta(board, nextMove, agent, alpha, beta, level-1, newKillerMove, cell)[0];
+                int score = alphaBeta(board, nextMove, agent, alpha, beta, level-1, newKillerMove)[0];
                 board.undoSetVal(cell, nextMove);
                 if(score < beta){
                     move = (Integer)locations.get(i);
@@ -434,7 +434,7 @@ public class AgentMove {
                 board.setVal(cell, nextMove, agent);
                 // board.displayBoard();
                 // int score = alphaBeta(board, nextMove, opponent, alpha, beta, level-1, killerMove)[0]+ cellHeuristic((Integer) locations.get(i));
-                int score = alphaBeta(board, nextMove, opponent, alpha, beta, level-1, newKillerMove, cell)[0];
+                int score = alphaBeta(board, nextMove, opponent, alpha, beta, level-1, newKillerMove)[0];
                 board.undoSetVal(cell, nextMove);
 
                 if(score > alpha){

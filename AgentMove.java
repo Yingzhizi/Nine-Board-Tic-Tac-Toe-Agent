@@ -230,6 +230,12 @@ public class AgentMove {
 
     public int cellHeuristic(int cell){
         int sumHeuristic = 0;
+        /* 
+        * winCell heuristic is that if agent choose this move and lead to this cell,
+        * the remain positions in this cell will lead agent to win. If lots of positions
+        * in this cell when opponent choose to move, the heuristic could become very high.
+        */
+
         ArrayList<Integer> winCell = new ArrayList<Integer>();
         for(int i=1; i<10;i++){
             if(board.CellGetTwo(i, agent).size() > 0){
@@ -241,37 +247,63 @@ public class AgentMove {
                 sumHeuristic += 5;
             }
         }
-
-
+        /* 
+        * oppoTwo heuristic is that if agent take a move that goes to this cell
+        * and in this cell, the opponent already have two connected pieces. That
+        * means this move is a bad move. Thus, the heuristic value should decrease
+        */
         ArrayList<Integer> oppoTwo = board.CellGetTwo(cell, opponent);
         if (oppoTwo.size() >0){
             sumHeuristic -= 10;
         }
 
+        /*
+        * winLine heuristic is that if the opponent has many ways to win,
+        * that is through rows, columns or diagonals. The more win ways the
+        * opponent have, the heuristic value would decrease more. 
+        * This heuristic aim is to let agent to block the opponent in the
+        * early and middle game stage.
+        */
         sumHeuristic -= board.winLine(cell, opponent) * 1;
         sumHeuristic += board.winLine(cell, agent) * 1;
 
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-        // ArrayList<Integer> movedPosition = new ArrayList<Integer>();
-        for(Integer move: board.getPositionsCell(cell, agent)){
-            if (map.get(move) != null){
-                map.put(move, map.get(move)+1);
-            }else{
-                map.put(move, 0);
-            }
-        }
-        for(Integer key:map.keySet()){
-            if(key == cell){
-                sumHeuristic += map.get(key);
-            }
-        }
+        /*
+        * 
+        *
+        *
+        *
+        */
+        // Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        // for(Integer move: board.getPositionsCell(cell, agent)){
+        //     if (map.get(move) != null){
+        //         map.put(move, map.get(move)+1);
+        //     }else{
+        //         map.put(move, 0);
+        //     }
+        // }
+        // for(Integer key:map.keySet()){
+        //     if(key == cell){
+        //         sumHeuristic += map.get(key);
+        //     }
+        // }
 
+        /*
+        * Except the center of the cell, usually the corner moves have
+        * more ways (chances) to win.
+        * This cornerMove heuristic is to guide the agent to choose corner
+        * move which may have more winning chance at the end.
+        */
         int[] cornerMove = {1,3,7,9};
         for(int corner: cornerMove){
             if(board.getPositionPlayer(cell, corner) == agent){
                 sumHeuristic += 2;
             }
         }
+
+        /*
+        * This is the basic move heuristic, that is to guide
+        * agent to move.
+        */
         int o1 = board.evaluateHelper(1, cell, agent);
         int x1 = board.evaluateHelper(1, cell, opponent);
         sumHeuristic += 1 * o1;
@@ -313,13 +345,7 @@ public class AgentMove {
     public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level, boolean [][] killerMove){
 
         int move = 0;
-        // if (board.CellGetTwo(cell, opponent).size() > 0){
-        //     return new int[] {-1000, cell};
-        // }else if(board.CellGetTwo(cell, agent).size() > 0){
-        //     return new int[] {1000, cell};
-        // }else if(board.cellIsFull(cell)){
-        //     return new int[] {0, cell}; 
-        // }
+
         if(board.cellCheckPlayerWin(cell, agent)){
             return new int[] {25, cell};
         }else if(board.cellCheckPlayerWin(cell, opponent)){
@@ -334,9 +360,6 @@ public class AgentMove {
             return new int[] {cellHeuristic(cell), cell};
             // return new int[] {cellChainHeuristic(cell), cell};
         }
-
-        // board.displayBoard();
-        // System.out.println();
 
         boolean[][] newKillerMove = getNewKillerMove();
         if (player == opponent){

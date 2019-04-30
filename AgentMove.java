@@ -123,7 +123,9 @@ public class AgentMove {
             lastMove = bestMove;
             return bestMove;
         }
-        if(board.CellGetTwo(bestMove, opponent).size()>0){
+
+        /* cellGetTwo returns the win moves of the cell  */ 
+        if(board.cellGetTwo(bestMove, opponent).size()>0){
             int substituteMove = findSubstituteMove(opponentMove);
             board.undoSetVal(opponentMove, bestMove);
             System.out.println("Substitute move and board");
@@ -165,7 +167,7 @@ public class AgentMove {
 
     /* Rule 1: IF can win, then choose the win move  */
 
-        ArrayList<Integer> moves = board.CellGetTwo(opponentMove, agent);
+        ArrayList<Integer> moves = board.cellGetTwo(opponentMove, agent);
         printArray("moves:", moves);
         if (moves.size() > 0){
             Integer winMove = moves.get(0);
@@ -178,11 +180,11 @@ public class AgentMove {
 
     /* Rule 2: IF opponent has two connected, and the block position don't cause
         opponent win, then block */
-        ArrayList<Integer> opponentMoves = board.CellGetTwo(opponentMove, opponent);
+        ArrayList<Integer> opponentMoves = board.cellGetTwo(opponentMove, opponent);
         printArray("opponentMoves:", opponentMoves);
         if (opponentMoves.size() > 0){
             for (Integer oppoMove: opponentMoves){
-                if (board.CellGetTwo(oppoMove, opponent).size() == 0){
+                if (board.cellGetTwo(oppoMove, opponent).size() == 0){
                     Integer blockMove = oppoMove;
                     System.out.println("from blockMoves");
                     return blockMove;
@@ -192,7 +194,7 @@ public class AgentMove {
     
     
     /* Rule 3: IF Agent can play on the central of the cell, then move to 5 */
-        ArrayList<Integer> cellFiveMoves = board.CellGetTwo(5, opponent);
+        ArrayList<Integer> cellFiveMoves = board.cellGetTwo(5, opponent);
         printArray("cellFiveMoves:", cellFiveMoves);
         if (cellFiveMoves.size() == 0){
             ArrayList<Integer> canMoves = board.canMove(opponentMove);
@@ -210,7 +212,7 @@ public class AgentMove {
 
         boolean [][] killerMove = getNewKillerMove();
 
-        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 8, killerMove);
+        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 8, killerMove, lastMove);
 
         return score[1];
 
@@ -226,8 +228,6 @@ public class AgentMove {
         return killerMove;
     }
 
-
-
     public int cellHeuristic(int cell){
         int sumHeuristic = 0;
         /* 
@@ -238,7 +238,7 @@ public class AgentMove {
 
         ArrayList<Integer> winCell = new ArrayList<Integer>();
         for(int i=1; i<10;i++){
-            if(board.CellGetTwo(i, agent).size() > 0){
+            if(board.cellGetTwo(i, agent).size() > 0){
                 winCell.add(i);
             }
         }
@@ -252,7 +252,7 @@ public class AgentMove {
         * and in this cell, the opponent already have two connected pieces. That
         * means this move is a bad move. Thus, the heuristic value should decrease
         */
-        ArrayList<Integer> oppoTwo = board.CellGetTwo(cell, opponent);
+        ArrayList<Integer> oppoTwo = board.cellGetTwo(cell, opponent);
         if (oppoTwo.size() >0){
             sumHeuristic -= 10;
         }
@@ -273,6 +273,20 @@ public class AgentMove {
         *
         *
         */
+        ArrayList<Integer> diversityMoves = new ArrayList<Integer>();
+        for(int i=1; i<10;i++){
+            if(cell != i){
+                for(Integer winMove: board.cellGetTwo(i, agent)){
+                    diversityMoves.add(winMove);
+                }
+            }
+        }
+        for(Integer winMove: board.cellGetTwo(cell, agent)){
+            if(!diversityMoves.contains(winMove)){
+                sumHeuristic += 2;
+            }
+        }
+
         // Map<Integer, Integer> map = new HashMap<Integer, Integer>();
         // for(Integer move: board.getPositionsCell(cell, agent)){
         //     if (map.get(move) != null){
@@ -312,6 +326,15 @@ public class AgentMove {
         return sumHeuristic;
     }
 
+
+    public int maxHeuristic(){
+        return 0;
+    }
+
+    public int chainHeuristic(int cellA, int cellB){
+        return 2*cellHeuristic(cellA) + cellHeuristic(cellB);
+    }
+
     public int cellChainHeuristic(int cell){
         int chainHeuristic = 0;
         ArrayList<Integer> canMoves = board.canMove(cell);
@@ -334,7 +357,7 @@ public class AgentMove {
     }
 
     public ArrayList<Integer> getTwo(int cell, char player){
-        ArrayList<Integer> moves = board.CellGetTwo(cell, player);
+        ArrayList<Integer> moves = board.cellGetTwo(cell, player);
 
 
 
@@ -342,14 +365,14 @@ public class AgentMove {
     }
 
     /* alpha-beta pruning  */
-    public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level, boolean [][] killerMove){
+    public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level, boolean [][] killerMove, int from){
 
         int move = 0;
 
         if(board.cellCheckPlayerWin(cell, agent)){
-            return new int[] {25, cell};
+            return new int[] {60, cell};
         }else if(board.cellCheckPlayerWin(cell, opponent)){
-            return new int[] {-25, cell};
+            return new int[] {-60, cell};
         }else if(board.cellIsFull(cell)){
             return new int[] {0, cell}; 
         }
@@ -357,8 +380,9 @@ public class AgentMove {
 
         if (level == 0 || board.cellIsFull(cell)){
             // return new int[] {boardHeuristic(), cell};
-            return new int[] {cellHeuristic(cell), cell};
+            // return new int[] {cellHeuristic(cell), cell};
             // return new int[] {cellChainHeuristic(cell), cell};
+            return new int[] {chainHeuristic(cell, from)};
         }
 
         boolean[][] newKillerMove = getNewKillerMove();
@@ -379,7 +403,7 @@ public class AgentMove {
                 board.setVal(cell,nextMove, opponent);
                 // moveBd.displayBoard();
                 // int score = alphaBeta(board, nextMove, agent, alpha, beta, level-1, killerMove)[0] - cellHeuristic((Integer)locations.get(i));
-                int score = alphaBeta(board, nextMove, agent, alpha, beta, level-1, newKillerMove)[0];
+                int score = alphaBeta(board, nextMove, agent, alpha, beta, level-1, newKillerMove, cell)[0];
                 board.undoSetVal(cell, nextMove);
                 if(score < beta){
                     move = (Integer)locations.get(i);
@@ -410,7 +434,7 @@ public class AgentMove {
                 board.setVal(cell, nextMove, agent);
                 // board.displayBoard();
                 // int score = alphaBeta(board, nextMove, opponent, alpha, beta, level-1, killerMove)[0]+ cellHeuristic((Integer) locations.get(i));
-                int score = alphaBeta(board, nextMove, opponent, alpha, beta, level-1, newKillerMove)[0];
+                int score = alphaBeta(board, nextMove, opponent, alpha, beta, level-1, newKillerMove, cell)[0];
                 board.undoSetVal(cell, nextMove);
 
                 if(score > alpha){
@@ -454,7 +478,7 @@ public class AgentMove {
         mv.setVal(5, 5, 'o');
         mv.setVal(5, 9, 'o');
         mv.displayBoard();
-        mv.printArray("move:", mv.board.CellGetTwo(5, 'o'));
+        mv.printArray("move:", mv.board.cellGetTwo(5, 'o'));
     }
 
 }

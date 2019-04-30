@@ -22,13 +22,15 @@
 *  alpha-beta searching. For example, if the agent have a winning more, then
 *  move it and if the opponent has a winning move and this move wouldn't lead
 *  to an opponent winning board, then this move may be blocked by the agent.
-*  Furthermore, during alpha-beta pruning, if the search level equals to 0,
-*  we use heuristic function to evaluate the board. We invented heuristic 
-*  function and adjust heuristic parameters by analysing the move outcome and
-*  observing the move the lookt made through the final board when Agent playing
-*  against the lookt. The heuristic function is a combination of different 
-*  heuristic functions. e.g. when in the cell opponent has two connected, then
-*  we punish the move to that cell and decrease heuristic value and if the remain 
+*  After alpha-beta searching, if the move is illegal or lead to the opponent
+*  win, the agent will find a substitute move by evaluate the move outcome 
+*  which has the highest heuristic value. Furthermore, during alpha-beta pruning, 
+*  if the search level equals to 0, we use heuristic function to evaluate the board. 
+*  We invented heuristic function and adjust heuristic parameters by analysing the 
+*  move outcome and observing the move the lookt made through the final board when 
+*  Agent playing against the lookt. The heuristic function is a combination of 
+*  different heuristic functions. e.g. when in the cell opponent has two connected, 
+*  then we punish the move to that cell and decrease heuristic value and if the remain
 *  positions of the cell which the move went to could lead the opponent to win,
 *  then we award the move and increase the heuristic value. Moreover, we observed
 *  that the winning positions diversity which means winning positions are different 

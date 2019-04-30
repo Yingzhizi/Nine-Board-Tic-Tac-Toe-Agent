@@ -1,13 +1,13 @@
-/*
-* 
+/*********************************************************************
+*  Agent.java & AgentMove.java & AgentBoard.java
+*  Written for COMP3411/9414/9814 Artificial Intelligence
+*  Authors: Yingzhi Zhou(z5125679)  Qian Chen(z5222755)
+*  How the agent works: 
 *
-*
-*
-*
-*
-*
-*
-*
+*  Firstly, we created a three-dimensional array to store the 9x9 
+*  in the class AgentBoard, and we divided the board into 9 sub-boards.
+*  The sub-board, also named cell by us, has index 1-9 in board[0-8][i][j]
+*  and i is the index for row, j for column. We set every position 
 *
 */
 

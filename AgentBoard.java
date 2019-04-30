@@ -200,6 +200,18 @@ public class AgentBoard implements Cloneable{
         return board[cellNumber-1][(positionNumber-1)/3][(positionNumber-1)%3];
     }
 
+    public ArrayList<Integer> getPositionsCell(int cell, char player){
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        for(int i=0; i<3;i++){
+            for(int j=0; j<3;j++){
+                if (board[cell-1][i][j] == player) {
+                    res.add(i*3+j+1);
+                }
+            }
+        }
+        return res;
+    }
+
     public int winLine(int cell, char player){
         int sumWinLine = 0;
         for(int i=0; i<3; i++){

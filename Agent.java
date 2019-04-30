@@ -1,24 +1,35 @@
+/*
+* 
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*/
+
+
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Random;
+import java.util.ArrayList;
 
 public class Agent {
 
     // save the cell we need to locate
     static int prevMove = 0;
-    //static int[][] boards = new int[10][10];
     static AgentBoard boards;
     static char player;
-    static CellHeuristic agentMove;
-    static Random rand = new Random();
-    static int count = 2;
+    static char opponent;
+    static AgentMove agentMove = AgentMove.getAgent();
 
-    public Agent() {
-        boards = new AgentBoard();
-    }
+    public Agent() {}
 
     /* 0 = Empty
      * 1 = I played here
@@ -27,7 +38,7 @@ public class Agent {
      */
     public static void main(String args[]) throws IOException {
 
-    Agent newPlayer = new Agent();
+    AgentSubstitute newPlayer = new AgentSubstitute();
 
 	if(args.length < 2) {
 	    System.out.println("Usage: java Agent -p (port)");
@@ -73,17 +84,19 @@ public class Agent {
 
         if(line.contains("init")) {
             // initialize the agent board
-            boards = new AgentBoard();
+            
 
         }else if(line.contains("start")) {
             int argsStart = line.indexOf("(");
             int argsEnd = line.indexOf(")");
             // now we get the agent type
             String list = line.substring(argsStart+1, argsEnd);
+            // System.out.println(line);
             char type = list.charAt(0);
-            boards.setCurrentTurn(type);
+            
+            agentMove.setAgent(type);
             System.out.println("Player is " + type);
-            player = type;
+            
 
         }else if(line.contains("second_move")) {
             System.out.println("second move:" + line);
@@ -93,20 +106,9 @@ public class Agent {
             String list = line.substring(argsStart+1, argsEnd);
             String[] numbers = list.split(",");
 
-            char opponent = agentMove.opponent(player);
-
-            // update the agent board
-            prevMove = Integer.parseInt(numbers[1]);
-            boards.setVal(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]), opponent);
-            //place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
-
             // get best move
-            int bestMove = agentMove.getBestMove(player, prevMove, boards, 8);
-            boards.setVal(prevMove, bestMove, player);
-            System.out.println(bestMove);
-            System.out.println(boards.canMove(prevMove));
-            prevMove = bestMove;
-            count+=2;
+            int bestMove = agentMove.playSecondMove(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]));
+            System.out.println("Best move: " + bestMove);
             return bestMove;
 
         }else if(line.contains("third_move")) {
@@ -117,22 +119,7 @@ public class Agent {
             String list = line.substring(argsStart+1, argsEnd);
             String[] numbers = list.split(",");
 
-            char opponent = agentMove.opponent(player);
-            // update agent board
-            prevMove = Integer.parseInt(numbers[1]);
-            boards.setVal(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]), player);
-            prevMove = Integer.parseInt(numbers[2]);
-            boards.setVal(Integer.parseInt(numbers[1]), Integer.parseInt(numbers[2]), opponent);
-            //place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 1);
-            //place(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]), 2);
-
-            // get the best move
-            int bestMove = agentMove.getBestMove(player, Integer.parseInt(numbers[2]), boards, 8);
-            boards.setVal(Integer.parseInt(numbers[2]), bestMove, player);
-            System.out.println(bestMove);
-            System.out.println(boards.canMove(prevMove));
-            prevMove = bestMove;
-            count+=2;
+            int bestMove = agentMove.playThirdMove(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]), Integer.parseInt(numbers[2]));
             return bestMove;
 
         }else if(line.contains("next_move")) {
@@ -142,23 +129,30 @@ public class Agent {
 
             String list = line.substring(argsStart+1, argsEnd);
 
-            char opponent = agentMove.opponent(player);
+            // opponent = agentMove.opponent(player);
 
             // update the agent board
-            boards.setVal(prevMove, Integer.parseInt(list), opponent);
-            prevMove = Integer.parseInt(list);
+            int opponentMove =  Integer.parseInt(list);
+            System.out.println("Real Opponent Move: " + opponentMove);
 
+            long startTime = System.currentTimeMillis();
+
+            System.out.println("Oppo move: " + opponentMove);
             // get the best move
-            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 8);
-            boards.setVal(Integer.parseInt(list), bestMove, player);
-            System.out.println(bestMove);
-            System.out.println(boards.canMove(prevMove));
-            prevMove = bestMove;
-            count+=2;
+            int bestMove = agentMove.playNextMove(opponentMove);
+            System.out.println("Best move: " + bestMove);
+
+            long endTime = System.currentTimeMillis();
+            System.out.println("next_move(" + bestMove + ")" + "runs "+ (endTime-startTime) + " ms");
+            
+
             return bestMove;
 
         }else if(line.contains("last_move")) {
             //TODO
+            if (agentMove.checkWinner() != "draw"){
+                System.out.println("win win win");
+            }
         }else if(line.contains("win")) {
             //TODO
         }else if(line.contains("loss")) {
@@ -169,24 +163,5 @@ public class Agent {
         }
         return 0;
         }
-
-//    public static void place(int board, int num, int player) {
-//
-//	prevMove = num;
-//	boards[board][num] = player;
-//    }
-//
-//    public static int makeRandomMove() {
-//
-//	int n = rand.nextInt(9) + 1;
-//
-//	while(boards[prevMove][n] != 0) {
-//	    n = rand.nextInt(9) + 1;
-//	}
-//
-//    place(prevMove, n, 1);
-//    System.out.println(n);
-//	return n;
-//    }
 
 }

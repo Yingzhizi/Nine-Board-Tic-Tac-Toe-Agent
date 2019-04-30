@@ -97,7 +97,7 @@ public class AgentBoard implements Cloneable{
         return legalPositions;
     }
 
-    public ArrayList<Integer> CellGetTwo(int cell, char player){
+    public ArrayList<Integer> cellGetTwo(int cell, char player){
         ArrayList<Integer> moves = new ArrayList<Integer>();
         // check whether row get two in one row
         for(int i=0;i<3;i++){

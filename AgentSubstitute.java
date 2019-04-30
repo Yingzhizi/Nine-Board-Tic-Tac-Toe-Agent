@@ -12,7 +12,7 @@ public class AgentSubstitute {
     //static int[][] boards = new int[10][10];
     static AgentBoard boards;
     static char player;
-    static CellHeuClone agentMove;
+    static CellHeuristic agentMove;
     static Random rand = new Random();
     static int count = 2;
 
@@ -27,7 +27,7 @@ public class AgentSubstitute {
      */
     public static void main(String args[]) throws IOException {
 
-    AgentSubstitute newPlayer = new AgentSubstitute();
+    Agent newPlayer = new Agent();
 
 	if(args.length < 2) {
 	    System.out.println("Usage: java Agent -p (port)");
@@ -80,7 +80,6 @@ public class AgentSubstitute {
             int argsEnd = line.indexOf(")");
             // now we get the agent type
             String list = line.substring(argsStart+1, argsEnd);
-            // System.out.println(line);
             char type = list.charAt(0);
             boards.setCurrentTurn(type);
             System.out.println("Player is " + type);
@@ -102,7 +101,7 @@ public class AgentSubstitute {
             //place(Integer.parseInt(numbers[0]),Integer.parseInt(numbers[1]), 2);
 
             // get best move
-            int bestMove = agentMove.getBestMove(player, prevMove, boards, 80);
+            int bestMove = agentMove.getBestMove(player, prevMove, boards, 8);
             boards.setVal(prevMove, bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
@@ -128,7 +127,7 @@ public class AgentSubstitute {
             //place(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]), 2);
 
             // get the best move
-            int bestMove = agentMove.getBestMove(player, Integer.parseInt(numbers[2]), boards, 10);
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(numbers[2]), boards, 8);
             boards.setVal(Integer.parseInt(numbers[2]), bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
@@ -148,20 +147,14 @@ public class AgentSubstitute {
             // update the agent board
             boards.setVal(prevMove, Integer.parseInt(list), opponent);
             prevMove = Integer.parseInt(list);
-            //check performance
-            long startTime = System.currentTimeMillis();
 
             // get the best move
-            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 80);
+            int bestMove = agentMove.getBestMove(player, Integer.parseInt(list), boards, 8);
             boards.setVal(Integer.parseInt(list), bestMove, player);
             System.out.println(bestMove);
             System.out.println(boards.canMove(prevMove));
             prevMove = bestMove;
             count+=2;
-
-            long endTime = System.currentTimeMillis();
-            System.out.println("next_move(" + bestMove + ")" + "runs "+ (endTime-startTime) + " ms");
-
             return bestMove;
 
         }else if(line.contains("last_move")) {

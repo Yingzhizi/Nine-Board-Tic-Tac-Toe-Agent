@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.omg.CORBA.INTERNAL;
-
 /**
  * AgentMove
  */
@@ -17,7 +15,6 @@ public class AgentMove {
     private char agent = 'o';
     private char opponent = 'x';
     private int lastMove = 0;
-    // private HashMap<Integer, Integer> killerMove = new HashMap<Integer, Integer>();
     
     /* store alpha value that have been searched */
     private int search_alpha = Integer.MIN_VALUE;
@@ -143,7 +140,9 @@ public class AgentMove {
         System.out.println("Total count: " + count);
         return bestMove;
     }
-
+    /* deals when agent find the move which is illegal or could make opponent win,
+        then call this function to find a substitute move which has the highest
+        heuristic value.  */
     public int findSubstituteMove(int opponentMove){ 
         ArrayList<Integer> substituteMoves = board.canMove(opponentMove);
         ArrayList<Integer> heuristics = new ArrayList<Integer>();
@@ -170,8 +169,6 @@ public class AgentMove {
         printArray("moves:", moves);
         if (moves.size() > 0){
             Integer winMove = moves.get(0);
-            // board.setVal(opponentMove, winMove, agent);
-            // lastMove = winMove;
             System.out.println("from winMoves");
             return winMove;
         }
@@ -187,8 +184,6 @@ public class AgentMove {
             for (Integer oppoMove: opponentMoves){
                 if (board.CellGetTwo(oppoMove, opponent).size() == 0){
                     Integer blockMove = oppoMove;
-                    // board.setVal(opponentMove, blockMove, agent);
-                    // lastMove = blockMove;
                     System.out.println("from blockMoves");
                     return blockMove;
                 }
@@ -209,19 +204,9 @@ public class AgentMove {
                 return moveFive;
             }
         }
-
-        /* Rule 4: IF in a cell that opponent has two connected, don't move  */
-        // ArrayList<Integer> canMoves = board.canMove(opponentMove);
-        // for(Integer move: canMoves){
-        //     if (board.CellGetTwo(move, opponent).size() == 0){
-        //         return move;
-        //     }
-        // }
-
         
         int alpha = Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
-        // HashMap <Integer, Integer> killerMove = new HashMap<Integer, Integer>();
 
         boolean [][] killerMove = getNewKillerMove();
 
@@ -262,16 +247,7 @@ public class AgentMove {
         if (oppoTwo.size() >0){
             sumHeuristic -= 10;
         }
-        // ArrayList<Integer> agentTwo = board.CellGetTwo(cell, agent);
-        // if (agentTwo.size() >0){
-        //     sumHeuristic += 5;
-        //     for(Integer move: agentTwo){
-        //         ArrayList<Integer> nextAgentTwo = board.CellGetTwo(move, agent);
-        //         if (nextAgentTwo.size() > 0){
-        //             sumHeuristic += 1;
-        //         }
-        //     }
-        // }
+
         sumHeuristic -= board.winLine(cell, opponent) * 1;
         sumHeuristic += board.winLine(cell, agent) * 1;
 

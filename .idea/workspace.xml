@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25348e47-b6da-4dec-90a9-c7038bb51829" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AgentBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AgentBoard.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -15,12 +16,12 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="75">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="280">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AgentBoard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="579" column="27" lean-forward="true" selection-start-line="579" selection-start-column="27" selection-end-line="579" selection-end-column="27" />
+            <state relative-caret-position="-2526">
+              <caret line="380" column="28" selection-start-line="380" selection-start-column="28" selection-end-line="380" selection-end-column="28" />
               <folding>
                 <element signature="e#1615#1616#0" expanded="true" />
                 <element signature="e#1651#1652#0" expanded="true" />
@@ -54,7 +55,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AgentSubstitute.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
+            <state relative-caret-position="270">
               <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -75,9 +76,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Agent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="750">
+            <state relative-caret-position="-437">
               <caret line="92" selection-start-line="92" selection-end-line="92" />
               <folding>
+                <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
@@ -96,7 +98,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AgentMove.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="-4506">
               <caret line="140" column="18" selection-start-line="140" selection-start-column="18" selection-end-line="140" selection-end-column="18" />
             </state>
           </provider>
@@ -152,7 +154,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="x" value="592" />
     <option name="width" value="848" />
     <option name="height" value="900" />
@@ -249,15 +251,15 @@
       <updated>1555409318171</updated>
       <workItem from="1555409319470" duration="14025000" />
       <workItem from="1556086539854" duration="56000" />
-      <workItem from="1556637685599" duration="3672000" />
+      <workItem from="1556637685599" duration="4713000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48778000" />
+    <option name="totallyTimeSpent" value="49819000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="630" y="0" width="810" height="900" extended-state="6" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.12804006" />
@@ -389,30 +391,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AgentSubstitute.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AgentHeuristic.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Agent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -423,17 +405,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/AgentSubstitute.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Agent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-437">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/AgentMove.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
+        <state relative-caret-position="-4506">
           <caret line="140" column="18" selection-start-line="140" selection-start-column="18" selection-end-line="140" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AgentBoard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="579" column="27" lean-forward="true" selection-start-line="579" selection-start-column="27" selection-end-line="579" selection-end-column="27" />
+        <state relative-caret-position="-2526">
+          <caret line="380" column="28" selection-start-line="380" selection-start-column="28" selection-end-line="380" selection-end-column="28" />
           <folding>
             <element signature="e#1615#1616#0" expanded="true" />
             <element signature="e#1651#1652#0" expanded="true" />

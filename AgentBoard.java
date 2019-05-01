@@ -10,13 +10,10 @@ public class AgentBoard implements Cloneable{
     private int [] heuristic;
     private int sumHeuristic=0;
     private char currentTurn;
-    /* track the state of the board, in progress or game over */
-    GameState unitState;
 
     public AgentBoard() {
         initGame();
         initHeuristic();
-        unitState = GameState.InProgress;
     }
 
     @Override
@@ -46,7 +43,6 @@ public class AgentBoard implements Cloneable{
      */
     public void clearUp() {
         sumHeuristic = 0;
-        unitState = GameState.InProgress;
         initGame();
 
     }
@@ -374,18 +370,15 @@ public class AgentBoard implements Cloneable{
     public boolean gameOver(){
         /* player x win the game */
         if (checkPlayerWin('x')){
-            unitState = GameState.GameOver;
             return true;
 
         /* player o win the game */
         }else if(checkPlayerWin('o')){
-            unitState = GameState.GameOver;
             return true;
         }
 
         /* game is tie */
         else if (isFull()) {
-            unitState = GameState.GameOver;
             return true;
         }
         return false;

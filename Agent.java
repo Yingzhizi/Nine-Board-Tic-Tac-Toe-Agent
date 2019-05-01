@@ -104,11 +104,10 @@ public class Agent {
             String list = line.substring(argsStart+1, argsEnd);
             char type = list.charAt(0);
             agentMove.setAgent(type);
-            System.out.println("Player is " + type);
+            // System.out.println("Player is " + type);
             
 
         }else if(line.contains("second_move")) {
-            System.out.println("second move:" + line);
             int argsStart = line.indexOf("(");
             int argsEnd = line.indexOf(")");
 
@@ -117,11 +116,10 @@ public class Agent {
 
             // get best move
             int bestMove = agentMove.playSecondMove(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]));
-            System.out.println("Best move: " + bestMove);
+            
             return bestMove;
 
         }else if(line.contains("third_move")) {
-            System.out.println("third move:" + line);
             int argsStart = line.indexOf("(");
             int argsEnd = line.indexOf(")");
 
@@ -142,19 +140,10 @@ public class Agent {
 
             // update the agent board
             int opponentMove =  Integer.parseInt(list);
-            System.out.println("Real Opponent Move: " + opponentMove);
 
-            long startTime = System.currentTimeMillis();
-
-            System.out.println("Oppo move: " + opponentMove);
             // get the best move
             int bestMove = agentMove.playNextMove(opponentMove);
-            System.out.println("Best move: " + bestMove);
-
-            long endTime = System.currentTimeMillis();
-            System.out.println("next_move(" + bestMove + ")" + "runs "+ (endTime-startTime) + " ms");
             
-
             return bestMove;
 
         }else if(line.contains("last_move")) {

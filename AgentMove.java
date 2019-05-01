@@ -165,8 +165,6 @@ public class AgentMove {
             }
             heuristics.add(cellHeuristic(substituteMoves.get(i)));
         } 
-        printArray("heuristic: ", substituteMoves);
-        printArray("values: ", heuristics);
         
         return maxMove;
     }
@@ -176,10 +174,8 @@ public class AgentMove {
     /* Rule 1: IF can win, then choose the win move  */
 
         ArrayList<Integer> moves = board.cellGetTwo(opponentMove, agent);
-        printArray("moves:", moves);
         if (moves.size() > 0){
             Integer winMove = moves.get(0);
-            System.out.println("from winMoves");
             return winMove;
         }
         
@@ -189,12 +185,10 @@ public class AgentMove {
     /* Rule 2: IF opponent has two connected, and the block position don't cause
         opponent win, then block */
         ArrayList<Integer> opponentMoves = board.cellGetTwo(opponentMove, opponent);
-        printArray("opponentMoves:", opponentMoves);
         if (opponentMoves.size() > 0){
             for (Integer oppoMove: opponentMoves){
                 if (board.cellGetTwo(oppoMove, opponent).size() == 0){
                     Integer blockMove = oppoMove;
-                    System.out.println("from blockMoves");
                     return blockMove;
                 }
             }
@@ -204,12 +198,10 @@ public class AgentMove {
     /* Rule 3: IF Agent can play on the central of the cell, then move to 5 */
     /* This might be a prior knowledge since central of the cell have more winning chance*/
         ArrayList<Integer> cellFiveMoves = board.cellGetTwo(5, opponent);
-        printArray("cellFiveMoves:", cellFiveMoves);
         if (cellFiveMoves.size() == 0){
             ArrayList<Integer> canMoves = board.canMove(opponentMove);
             if (canMoves.contains(5)){
                 Integer moveFive = 5;
-                System.out.println("from cellFiveMoves");
                 return moveFive;
             }
         }

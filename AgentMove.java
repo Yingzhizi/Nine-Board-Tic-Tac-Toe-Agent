@@ -1,8 +1,5 @@
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * class AgentMove
@@ -30,7 +27,7 @@ public class AgentMove {
 
     public void printArray(String s, ArrayList<Integer> arr){
         System.out.print(s + " [");
-        for (int i=0; i<arr.size(); i++){
+        for (int i = 0; i < arr.size(); i++){
             System.out.print(arr.get(i) + " ");
         }
         System.out.println("]");
@@ -38,8 +35,8 @@ public class AgentMove {
 
     public void printKillerMove(String s, boolean[][] arr){
         System.out.print(s + " [");
-        for(int i=0; i<arr.length;i++){
-            for (int j=0; j<arr[0].length; j++){
+        for(int i = 0; i < arr.length; i++){
+            for (int j = 0; j < arr[0].length; j++){
                 if(arr[i][j] == true){
                     System.out.print(i + " <- " + j + " ");
                 } 
@@ -77,7 +74,7 @@ public class AgentMove {
 
     /* main function for agent to play the game 
     *  including:
-    *       decesion making, return integer, winner juding
+    *  decision making, return integer, winner judging
     */
     public int playSecondMove(int cell, int firstMove){
         board.setVal(cell, firstMove, 'x');
@@ -86,7 +83,6 @@ public class AgentMove {
         int bestMove = getBestMove(firstMove);
         board.setVal(firstMove, bestMove, agent);
         lastMove = bestMove;
-
         return bestMove;
     }
 
@@ -158,7 +154,7 @@ public class AgentMove {
         ArrayList<Integer> heuristics = new ArrayList<Integer>();
         int maxHeuristic = Integer.MIN_VALUE;
         int maxMove = 0;
-        for(int i = 0; i<substituteMoves.size(); i++){
+        for(int i = 0; i < substituteMoves.size(); i++){
             if(cellHeuristic(substituteMoves.get(i)) > maxHeuristic){
                 maxHeuristic = cellHeuristic(substituteMoves.get(i));
                 maxMove = (Integer)substituteMoves.get(i);
@@ -171,16 +167,13 @@ public class AgentMove {
 
     public int getBestMove(int opponentMove){
 
-    /* Rule 1: IF can win, then choose the win move  */
+        /* Rule 1: IF can win, then choose the win move  */
 
         ArrayList<Integer> moves = board.cellGetTwo(opponentMove, agent);
         if (moves.size() > 0){
             Integer winMove = moves.get(0);
             return winMove;
         }
-        
-        
-        
 
     /* Rule 2: IF opponent has two connected, and the block position don't cause
         opponent win, then block */
@@ -194,9 +187,8 @@ public class AgentMove {
             }
         }
     
-    
-    /* Rule 3: IF Agent can play on the central of the cell, then move to 5 */
-    /* This might be a prior knowledge since central of the cell have more winning chance*/
+        /* Rule 3: IF Agent can play on the central of the cell, then move to 5 */
+        /* This might be a prior knowledge since central of the cell have more winning chance*/
         ArrayList<Integer> cellFiveMoves = board.cellGetTwo(5, opponent);
         if (cellFiveMoves.size() == 0){
             ArrayList<Integer> canMoves = board.canMove(opponentMove);
@@ -224,8 +216,8 @@ public class AgentMove {
     */
     public boolean[][] getNewKillerMove(){
         boolean [][] killerMove = new boolean[10][10];
-        for(int i=0; i<10; i++){
-            for(int j=0; j<10; j++){
+        for(int i = 0; i < 10; i++){
+            for(int j = 0; j < 10; j++){
                 killerMove[i][j] = false;
             }
         }
@@ -241,7 +233,7 @@ public class AgentMove {
         */
 
         ArrayList<Integer> winCell = new ArrayList<Integer>();
-        for(int i=1; i<10;i++){
+        for(int i = 1; i < 10; i++){
             if(board.cellGetTwo(i, agent).size() > 0){
                 winCell.add(i);
             }
@@ -284,7 +276,7 @@ public class AgentMove {
         * Therefore, this may be a pattern that leads to win.
         */
         ArrayList<Integer> diversityMoves = new ArrayList<Integer>();
-        for(int i=1; i<10;i++){
+        for(int i = 1; i < 10; i++){
             if(cell != i){
                 for(Integer winMove: board.cellGetTwo(i, agent)){
                     diversityMoves.add(winMove);
@@ -328,7 +320,7 @@ public class AgentMove {
      */
     public int boardHeuristic(){
         int sumHeuristic = 0;
-        for(int cell=1; cell<10; cell++){
+        for(int cell = 1; cell < 10; cell++){
             sumHeuristic += cellHeuristic(cell);
         }
 
@@ -381,7 +373,7 @@ public class AgentMove {
         if (player == opponent){
             ArrayList locations = board.canMove(cell);
             int swapLoc = 0;
-            for(int i=0; i<locations.size();i++){
+            for(int i = 0; i < locations.size(); i++){
                 /**
                  * change the canMove arraylist to make sure traverse killer move first
                  */
@@ -391,7 +383,7 @@ public class AgentMove {
                 }
             }
 
-            for(int i=0; i<locations.size(); i++){
+            for(int i = 0; i < locations.size(); i++){
                 int nextMove = (Integer)locations.get(i);
                 board.setVal(cell,nextMove, opponent);
                 int score = alphaBeta(board, nextMove, agent, alpha, beta, level-1, newKillerMove, cell)[0];
@@ -412,14 +404,14 @@ public class AgentMove {
         }else{
             ArrayList locations = board.canMove(cell);
             int swapLoc = 0;
-            for(int i=0; i<locations.size();i++){
+            for(int i = 0; i < locations.size(); i++){
                 if(killerMove[(Integer)locations.get(i)][cell] == true){
                     Collections.swap(locations, swapLoc, i);
                     swapLoc += 1;
                 }
             }
 
-            for(int i=0; i<locations.size(); i++){
+            for(int i = 0; i < locations.size(); i++){
                 int nextMove = (Integer)locations.get(i);
                 board.setVal(cell, nextMove, agent);
                 int score = alphaBeta(board, nextMove, opponent, alpha, beta, level-1, newKillerMove, cell)[0];

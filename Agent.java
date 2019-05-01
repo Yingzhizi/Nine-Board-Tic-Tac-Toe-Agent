@@ -15,9 +15,9 @@
 *  
 *  Basically, the agent's reaction towards the opponent move is to get the
 *  move through searching the game tree by alpha-beta pruning algorithm, we
-*  use recurrsion to implement this algorithm and tried to implement killer
+*  use recursion to implement this algorithm and tried to implement killer
 *  heuristic. In order to speed up, we search and store killer moves using
-*  a two-dimentional array for every level since the game situation is similar
+*  a two-dimensional array for every level since the game situation is similar
 *  when it has the same level. Moreover, we set a few rules to get move before
 *  alpha-beta searching. For example, if the agent have a winning more, then
 *  move it and if the opponent has a winning move and this move wouldn't lead
@@ -92,7 +92,6 @@ public class Agent {
     }
 
     public static int parse(String line) {
-
         if(line.contains("init")) {
             // initialize the Agent
             agentMove = AgentMove.getAgent();
@@ -135,12 +134,8 @@ public class Agent {
 
             int argsStart = line.indexOf("(");
             int argsEnd = line.indexOf(")");
-
             String list = line.substring(argsStart+1, argsEnd);
 
-            // opponent = agentMove.opponent(player);
-
-            // update the agent board
             int opponentMove =  Integer.parseInt(list);
             System.out.println("Real Opponent Move: " + opponentMove);
 

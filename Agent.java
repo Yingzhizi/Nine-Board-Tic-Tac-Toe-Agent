@@ -1,4 +1,4 @@
-/*********************************************************************
+/*******************************************************************************
 *  Agent.java & AgentMove.java & AgentBoard.java
 *  Written for COMP3411/9414/9814 Artificial Intelligence
 *  Authors: Yingzhi Zhou(z5125679)  Qian Chen(z5222755)
@@ -34,8 +34,8 @@
 *  positions of the cell which the move went to could lead the opponent to win,
 *  then we award the move and increase the heuristic value. Moreover, we observed
 *  that the winning positions diversity which means winning positions are different 
-*  between cells may be a good heuristic through using the agent play with looket.
-*/
+*  between cells may be a good heuristic through using the agent play with lookt.
+************************************************************************************/
 
 
 import java.io.BufferedReader;

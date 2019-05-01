@@ -6,24 +6,18 @@ import java.util.Map;
 
 /**
  * class AgentMove
- * This class indicate the Agent
- * 
- * 
- * 
- * 
+ * This class indicate th agent
  */
 public class AgentMove {
-        /* current player */
+    /* current player */
     private char player = 'o';
     private int count = 0;
+
     /* default agent, modify at the beginning */
     private char agent = 'o';
     private char opponent = 'x';
     private int lastMove = 0;
     
-    /* store alpha value that have been searched */
-    private int search_alpha = Integer.MIN_VALUE;
-
     /* change agent to singleton design pattern
     *  set global entry for agent
     */
@@ -92,11 +86,18 @@ public class AgentMove {
         int bestMove = getBestMove(firstMove);
         board.setVal(firstMove, bestMove, agent);
         lastMove = bestMove;
-        board.displayBoard();
 
         return bestMove;
     }
 
+    /**
+     * IF receive the third_move() function, then call this
+     * set Agent to 'x' and opponent to 'o'
+     * @param first indicate the first move
+     * @param second 
+     * @param third
+     * @return the best move
+     */
     public int playThirdMove(int first, int second, int third){
         setAgent('x');
         board.setVal(first, second, agent);
@@ -107,6 +108,13 @@ public class AgentMove {
         return bestMove;
     }
 
+    /**
+     * IF find best move returns an illegal move or the move that lead to agent lose
+     * THEN find substitute move replace it, the substitute move has the highest 
+     * heuristic value.
+     * @param opponentMove
+     * @return the best move
+     */
     public int playNextMove(int opponentMove){
         count += 1;
         board.setVal(lastMove, opponentMove, opponent);
@@ -115,10 +123,11 @@ public class AgentMove {
             int substituteMove = findSubstituteMove(opponentMove);
             board.setVal(opponentMove, substituteMove, agent);
             lastMove = substituteMove;
-            System.out.println("Total count: " + count);
-            board.displayBoard();
             return substituteMove;
         }
+        /**
+         * set best move
+         */
         board.setVal(opponentMove, bestMove, agent);
         if(board.cellCheckPlayerWin(opponentMove, agent)){
             lastMove = bestMove;
@@ -133,18 +142,12 @@ public class AgentMove {
         if(board.cellGetTwo(bestMove, opponent).size()>0){
             int substituteMove = findSubstituteMove(opponentMove);
             board.undoSetVal(opponentMove, bestMove);
-            System.out.println("Substitute move and board");
-            board.displayBoard();
             board.setVal(opponentMove, substituteMove, agent);
             lastMove = substituteMove;
-            System.out.println("Total count: " + count);
-            board.displayBoard();
 
             return substituteMove;
         }
         lastMove = bestMove;
-        board.displayBoard();
-        System.out.println("Total count: " + count);
         return bestMove;
     }
     /* deals when agent find the move which is illegal or could make opponent win,
@@ -199,14 +202,13 @@ public class AgentMove {
     
     
     /* Rule 3: IF Agent can play on the central of the cell, then move to 5 */
+    /* This might be a prior knowledge since central of the cell have more winning chance*/
         ArrayList<Integer> cellFiveMoves = board.cellGetTwo(5, opponent);
         printArray("cellFiveMoves:", cellFiveMoves);
         if (cellFiveMoves.size() == 0){
             ArrayList<Integer> canMoves = board.canMove(opponentMove);
             if (canMoves.contains(5)){
                 Integer moveFive = 5;
-                // board.setVal(opponentMove, moveFive, agent);
-                // lastMove = moveFive;
                 System.out.println("from cellFiveMoves");
                 return moveFive;
             }
@@ -342,21 +344,25 @@ public class AgentMove {
     }
 
     /**
-     * 
-     * @param board
-     * @param cell
-     * @param player
+     * Alpha-Beta pruning algorithm, using recurrsion to implement and use killer heuristic, to sotre
+     * killer move in the same level and try to search killer move first in order to speed up.
+     * @param board 3d array, the game board
+     * @param cell [target cell] int between 1-9 from left to the right and from top to the bottom
+     * @param player current player
      * @param alpha
      * @param beta
      * @param level
-     * @param killerMove
-     * @param from
-     * @return 
+     * @param killerMove since we consider game nodes in the same level have the similar situation
+     *        Due to the array is passed by reference.
+     * @param from [move cell] int between 1-9  move cell->move->target cell
+     * @return the score of the sum heuristic value of from cell and target cell & index of move
      */
     public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level, boolean [][] killerMove, int from){
 
         int move = 0;
-
+        /**
+         * this cell lead to a final state, returns
+         */
         if(board.cellCheckPlayerWin(cell, agent)){
             return new int[] {60, cell};
         }else if(board.cellCheckPlayerWin(cell, opponent)){
@@ -365,16 +371,28 @@ public class AgentMove {
             return new int[] {0, cell}; 
         }
 
-
+        /**
+         * IF search level is 0, returns the sum heuristic value of
+         * the from cell and the target cell. We want to maximise the
+         * move outcome, it should maximise both current cell(from cell)
+         * and the target cell.
+         */
         if (level == 0 || board.cellIsFull(cell)){
             return new int[] {cellHeuristic(cell) + cellHeuristic(from), cell};
         }
 
+        /**
+         * store killer move, make sure it has the same
+         * killer move in the same level.
+         */
         boolean[][] newKillerMove = getNewKillerMove();
         if (player == opponent){
             ArrayList locations = board.canMove(cell);
             int swapLoc = 0;
             for(int i=0; i<locations.size();i++){
+                /**
+                 * change the canMove arraylist to make sure traverse killer move first
+                 */
                 if(killerMove[(Integer)locations.get(i)][cell] == true){
                     Collections.swap(locations, swapLoc, i);
                     swapLoc += 1;
@@ -389,6 +407,9 @@ public class AgentMove {
                 if(score < beta){
                     move = (Integer)locations.get(i);
                     beta = score;
+                    /**
+                     * pruning and store killer move
+                     */
                     if (alpha >= beta){
                         killerMove[nextMove][cell] = true;                        
                         break;
@@ -416,7 +437,6 @@ public class AgentMove {
                     alpha = score;
                     move = nextMove;
                     if (alpha >= beta){
-                        // return new int[] {beta, move};
                         killerMove[nextMove][cell] = true;
                         break;
                     }

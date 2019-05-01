@@ -5,7 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * AgentMove
+ * class AgentMove
+ * This class indicate the Agent
+ * 
+ * 
+ * 
+ * 
  */
 public class AgentMove {
         /* current player */
@@ -212,7 +217,7 @@ public class AgentMove {
 
         boolean [][] killerMove = getNewKillerMove();
 
-        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 8, killerMove);
+        int[] score = alphaBeta(board, opponentMove, agent, alpha, beta, 8, killerMove, lastMove);
 
         return score[1];
 
@@ -254,7 +259,7 @@ public class AgentMove {
         */
         ArrayList<Integer> oppoTwo = board.cellGetTwo(cell, opponent);
         if (oppoTwo.size() >0){
-            sumHeuristic -= 10;
+            sumHeuristic -= 15;
         }
 
         /*
@@ -365,7 +370,7 @@ public class AgentMove {
     }
 
     /* alpha-beta pruning  */
-    public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level, boolean [][] killerMove){
+    public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level, boolean [][] killerMove, int from){
 
         int move = 0;
 
@@ -380,7 +385,7 @@ public class AgentMove {
 
         if (level == 0 || board.cellIsFull(cell)){
             // return new int[] {boardHeuristic(), cell};
-            return new int[] {cellHeuristic(cell), cell};
+            return new int[] {cellHeuristic(cell) + cellHeuristic(from), cell};
             // return new int[] {cellChainHeuristic(cell), cell};
             // return new int[] {chainHeuristic(cell, from)};
         }
@@ -397,25 +402,19 @@ public class AgentMove {
             }
 
             for(int i=0; i<locations.size(); i++){
-                // board.displayBoard();
-                // System.out.println();  
                 int nextMove = (Integer)locations.get(i);
                 board.setVal(cell,nextMove, opponent);
-                // moveBd.displayBoard();
-                // int score = alphaBeta(board, nextMove, agent, alpha, beta, level-1, killerMove)[0] - cellHeuristic((Integer)locations.get(i));
-                int score = alphaBeta(board, nextMove, agent, alpha, beta, level-1, newKillerMove)[0];
+                int score = alphaBeta(board, nextMove, agent, alpha, beta, level-1, newKillerMove, cell)[0];
                 board.undoSetVal(cell, nextMove);
                 if(score < beta){
                     move = (Integer)locations.get(i);
                     beta = score;
                     if (alpha >= beta){
-                        // return new int[] {alpha, move};
                         killerMove[nextMove][cell] = true;                        
                         break;
                     }
                 } 
             }
-            // System.out.println("player: " + player + " cell: "+ cell+" alpha: "+ alpha + " beta: "+beta+" level: "+ level);
             return new int[] {beta, move};
         }else{
             ArrayList locations = board.canMove(cell);
@@ -428,13 +427,9 @@ public class AgentMove {
             }
 
             for(int i=0; i<locations.size(); i++){
-                // board.displayBoard();
-                // System.out.println();
                 int nextMove = (Integer)locations.get(i);
                 board.setVal(cell, nextMove, agent);
-                // board.displayBoard();
-                // int score = alphaBeta(board, nextMove, opponent, alpha, beta, level-1, killerMove)[0]+ cellHeuristic((Integer) locations.get(i));
-                int score = alphaBeta(board, nextMove, opponent, alpha, beta, level-1, newKillerMove)[0];
+                int score = alphaBeta(board, nextMove, opponent, alpha, beta, level-1, newKillerMove, cell)[0];
                 board.undoSetVal(cell, nextMove);
 
                 if(score > alpha){

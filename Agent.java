@@ -23,8 +23,10 @@
 *  move it and if the opponent has a winning move and this move wouldn't lead
 *  to an opponent winning board, then this move may be blocked by the agent.
 *  After alpha-beta searching, if the move is illegal or lead to the opponent
-*  win, the agent will find a substitute move by evaluate the move outcome 
-*  which has the highest heuristic value. Furthermore, during alpha-beta pruning, 
+*  win, the agent will find a substitute move by evaluate the move outcome both
+*  in current cell and the target cell. Thus, our heuristic is the sum of the 
+*  current cell(sub-board)'s heuristic value and the target cell's heuristic 
+*  and find the highest heuristic value. Furthermore, during alpha-beta pruning, 
 *  if the search level equals to 0, we use heuristic function to evaluate the board. 
 *  We invented heuristic function and adjust heuristic parameters by analysing the 
 *  move outcome and observing the move the lookt made through the final board when 
@@ -100,9 +102,7 @@ public class Agent {
             int argsEnd = line.indexOf(")");
 
             String list = line.substring(argsStart+1, argsEnd);
-            // System.out.println(line);
             char type = list.charAt(0);
-            //  set the agent type and opponent type by setAgent
             agentMove.setAgent(type);
             System.out.println("Player is " + type);
             

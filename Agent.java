@@ -56,7 +56,7 @@ public class Agent {
 
     public static void main(String args[]) throws IOException {
 
-    AgentSubstitute newPlayer = new AgentSubstitute();
+    Agent newPlayer = new Agent();
 
 	if(args.length < 2) {
 	    System.out.println("Usage: java Agent -p (port)");
@@ -159,9 +159,6 @@ public class Agent {
 
         }else if(line.contains("last_move")) {
             //TODO
-            if (agentMove.checkWinner() != "draw"){
-                System.out.println("win win win");
-            }
         }else if(line.contains("win")) {
             //TODO
         }else if(line.contains("loss")) {

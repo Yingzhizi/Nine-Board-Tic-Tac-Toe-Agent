@@ -223,6 +223,11 @@ public class AgentMove {
 
     }
 
+    /** 
+    * since we consider game board in the same level are similar 
+    * This function helps to generate a new killermove 2d array.
+    * @return boolean[][]
+    */
     public boolean[][] getNewKillerMove(){
         boolean [][] killerMove = new boolean[10][10];
         for(int i=0; i<10; i++){
@@ -235,7 +240,7 @@ public class AgentMove {
 
     public int cellHeuristic(int cell){
         int sumHeuristic = 0;
-        /* 
+        /**
         * winCell heuristic is that if agent choose this move and lead to this cell,
         * the remain positions in this cell will lead agent to win. If lots of positions
         * in this cell when opponent choose to move, the heuristic could become very high.
@@ -252,7 +257,7 @@ public class AgentMove {
                 sumHeuristic += 5;
             }
         }
-        /* 
+        /**
         * oppoTwo heuristic is that if agent take a move that goes to this cell
         * and in this cell, the opponent already have two connected pieces. That
         * means this move is a bad move. Thus, the heuristic value should decrease
@@ -262,7 +267,7 @@ public class AgentMove {
             sumHeuristic -= 15;
         }
 
-        /*
+        /**
         * winLine heuristic is that if the opponent has many ways to win,
         * that is through rows, columns or diagonals. The more win ways the
         * opponent have, the heuristic value would decrease more. 
@@ -273,10 +278,16 @@ public class AgentMove {
         sumHeuristic += board.winLine(cell, agent) * 1;
 
         /*
-        * 
-        *
-        *
-        *
+        * diversityMoves heuristic is try to make agent win different positions
+        * in different cells. During the agent play games with lookt, we observed
+        * that the lookt usually have different winning positions in different cells,
+        * for example, x is the opponent, in cell 1, the opponent win position 8,
+        * and in cell 2, it wins position 1
+        * cell 1:        cell 2:
+        *    . x o          . x x
+        *    . x .          . . o
+        *    . . .          . . .
+        * Therefore, this may be a pattern that leads to win.
         */
         ArrayList<Integer> diversityMoves = new ArrayList<Integer>();
         for(int i=1; i<10;i++){
@@ -291,20 +302,6 @@ public class AgentMove {
                 sumHeuristic += 2;
             }
         }
-
-        // Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-        // for(Integer move: board.getPositionsCell(cell, agent)){
-        //     if (map.get(move) != null){
-        //         map.put(move, map.get(move)+1);
-        //     }else{
-        //         map.put(move, 0);
-        //     }
-        // }
-        // for(Integer key:map.keySet()){
-        //     if(key == cell){
-        //         sumHeuristic += map.get(key);
-        //     }
-        // }
 
         /*
         * Except the center of the cell, usually the corner moves have
@@ -331,27 +328,10 @@ public class AgentMove {
         return sumHeuristic;
     }
 
-
-    public int maxHeuristic(){
-        return 0;
-    }
-
-    public int chainHeuristic(int cellA, int cellB){
-        return 2*cellHeuristic(cellA) + cellHeuristic(cellB);
-    }
-
-    public int cellChainHeuristic(int cell){
-        int chainHeuristic = 0;
-        ArrayList<Integer> canMoves = board.canMove(cell);
-        for(Integer move: canMoves){
-            chainHeuristic += cellHeuristic(move);
-            for(Integer chainMove: board.canMove(move)){
-                chainHeuristic += cellHeuristic(chainMove);
-            }
-        }
-        return chainHeuristic;
-    }
-
+    /**
+     * 
+     * @return heuristic value of the whole 9x9 board
+     */
     public int boardHeuristic(){
         int sumHeuristic = 0;
         for(int cell=1; cell<10; cell++){
@@ -361,15 +341,18 @@ public class AgentMove {
         return sumHeuristic;
     }
 
-    public ArrayList<Integer> getTwo(int cell, char player){
-        ArrayList<Integer> moves = board.cellGetTwo(cell, player);
-
-
-
-        return moves;
-    }
-
-    /* alpha-beta pruning  */
+    /**
+     * 
+     * @param board
+     * @param cell
+     * @param player
+     * @param alpha
+     * @param beta
+     * @param level
+     * @param killerMove
+     * @param from
+     * @return 
+     */
     public int[] alphaBeta(AgentBoard board, int cell, char player, int alpha, int beta, int level, boolean [][] killerMove, int from){
 
         int move = 0;
@@ -384,10 +367,7 @@ public class AgentMove {
 
 
         if (level == 0 || board.cellIsFull(cell)){
-            // return new int[] {boardHeuristic(), cell};
             return new int[] {cellHeuristic(cell) + cellHeuristic(from), cell};
-            // return new int[] {cellChainHeuristic(cell), cell};
-            // return new int[] {chainHeuristic(cell, from)};
         }
 
         boolean[][] newKillerMove = getNewKillerMove();
@@ -443,37 +423,20 @@ public class AgentMove {
                 } 
                 
             }
-            ArrayList<Integer> c = new ArrayList<Integer>();
-            for (int i = 0; i<9; i++){
-                c.add(cellHeuristic(i+1));
-            }
-            // printArray("cell heuristics:", c);
-            // System.out.println("player: " + player + " cell: "+ cell+" alpha: "+ alpha + " beta: "+beta+" level: "+ level);
-            // printKillerMove("KillerMove:", killerMove);
+
             return new int[] {alpha, move};
         }
     }
 
-
+    /**
+     * @return the String of the winner
+     */
     public String checkWinner() {
         if (board.checkPlayerWin(agent)){
             return "agent";
         }else if(board.checkPlayerWin(opponent)){
             return "opponent";
         }
-
         return "draw";
     }
-
-
-    public static void main(String[] args) {
-        System.out.println("agent move!");
-        AgentMove mv = AgentMove.getAgent();
-        
-        mv.setVal(5, 5, 'o');
-        mv.setVal(5, 9, 'o');
-        mv.displayBoard();
-        mv.printArray("move:", mv.board.cellGetTwo(5, 'o'));
-    }
-
 }

@@ -303,7 +303,7 @@ public class AgentBoard implements Cloneable{
      * @return boolean
      */
     public boolean checkPlayerWin(char player){
-        for(int cell = 0; cell < 9; cell++){
+        for(int cell = 1; cell < 10; cell++){
             if (!cellCheckPlayerWin(cell, player)) {
                 return false;
             }

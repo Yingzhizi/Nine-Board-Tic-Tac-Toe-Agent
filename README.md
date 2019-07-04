@@ -7,4 +7,3 @@ This game is played on a 3 x 3 array of 3 x 3 Tic-Tac-Toe boards. The first move
 
 The game is won by getting three-in-a row either horizontally, vertically or diagonally in one of the nine boards. If a player is unable to make their move (because the relevant board is already full) the game ends in a draw.
 
-# Getting Started
